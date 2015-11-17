@@ -8,74 +8,93 @@ namespace Battleships
 {
     class GameEngine
     {
+        int chooseAction()
+        {
+            do
+            {
+                int action = 0;
+                Console.WriteLine("Choose an action \n (1): Fire \n (2): Place Ship \n (3): Print both boards \n (4): Quit");
+                action = int.Parse(Console.ReadLine());
 
-       static void GameLoop(Board p1, Board p2)
+                Console.WriteLine("action: " + action);
+
+                if (action == 1 || action == 2 || action == 3 || action == 4)
+                {
+                    Console.WriteLine("Breaking loop");
+                    return action;
+                }
+
+
+            } while (true);
+
+        }
+
+        void actionFire(Board p)
+        {
+            Console.WriteLine("Enter coordinates to fire at");
+            Console.Write("x: ");
+            int x = int.Parse(Console.ReadLine());
+            Console.Write("y: ");
+            int y = int.Parse(Console.ReadLine());
+            Console.WriteLine("Firing at" + x + ", " + y);
+            p.fire(x, y, p);         
+        }
+
+        void actionPlaceShip(Board p)
+        {
+            int x1, y1, x2, y2;
+            Console.WriteLine("Enter coordinates to place a ship at");
+            Console.Write("x: ");
+            x1 = int.Parse(Console.ReadLine());
+            Console.Write("y: ");
+            y1 = int.Parse(Console.ReadLine());
+
+            Console.Write("x: ");
+            x2 = int.Parse(Console.ReadLine());
+            Console.Write("y: ");
+            y2 = int.Parse(Console.ReadLine());
+
+            Tuple<int, int> posStart = new Tuple<int, int>(x1, y1);
+            Tuple<int, int> posEnd = new Tuple<int, int>(x2, y2);
+
+            Ship s = new Ship(posStart, posEnd);
+            p.placeShip(posStart, posEnd, s);
+
+        }
+
+       void GameLoop(Board p1, Board p2)
         {
 
             int turn = 1;
             int action = 0;
 
-            int x, y;
             //Gameloop starts here
             while (true)
             {
-
                 Console.WriteLine("Player " + turn);
-
-                //Reading action until valid action is entered
-                do{
-                    action = 0;
-                    Console.WriteLine("Choose an action \n (1): Fire \n (2): Place Ship \n (3): Quit");
-                    action = int.Parse(Console.ReadLine());
-
-                    Console.WriteLine("action: " + action);
-
-                    if (action == 1 || action == 2 || action == 3)
-                    {
-                        Console.WriteLine("Breaking loop");
-                        break;
-                    }
-                        
-
-                }while(true);
-
-                Console.WriteLine("Finished do-loop");
-
+                action = chooseAction();
+                //Player 1s turn         
                 if (turn == 1)
                 {
+                    //Fire at Player 2
                     if (action == 1)
                     {
-                        Console.WriteLine("Enter coordinates to fire at");
-                        Console.Write("x: ");
-                        x = int.Parse(Console.ReadLine());
-                        Console.Write("y: ");
-                        y = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Firing at"+x+", "+y);
-                        p2.fire(x, y);
+                        actionFire(p2);
                         turn = 2;
                     }
+                    //Place a ship on Player 1s board
                     else if(action == 2){
-                        int x1, y1, x2, y2;
-                        Console.WriteLine("Enter coordinates to place a ship at");
-                        Console.Write("x: ");
-                        x1 = int.Parse(Console.ReadLine());
-                        Console.Write("y: ");
-                        y1 = int.Parse(Console.ReadLine());
+                        actionPlaceShip(p1);
+                        turn = 1;
 
-                        Console.Write("x: ");
-                        x2 = int.Parse(Console.ReadLine());
-                        Console.Write("y: ");
-                        y2 = int.Parse(Console.ReadLine());
-
-                        Tuple<int, int> posStart = new Tuple<int, int>(x1, y1);
-                        Tuple<int, int> posEnd = new Tuple<int, int>(x2, y2);
-
-                        Ship s = new Ship(posStart, posEnd);
-
-                        p1.placeShip(posStart, posEnd, s);
-                        turn = 2;
-
-                    }else if (action == 3)
+                    }
+                    else if (action == 3)
+                    {
+                        p1.printBoard();
+                        Console.WriteLine("------------------------------");
+                        p2.printBoard();
+                    }
+                    else if (action == 4)
                     {
                         break;
                     }
@@ -84,39 +103,22 @@ namespace Battleships
                 {
                     if (action == 1)
                     {
-                        Console.WriteLine("Enter coordinates to fire at");
-                        Console.Write("x: ");
-                        x = int.Parse(Console.ReadLine());
-                        Console.Write("y: ");
-                        y = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Firing at" + x + ", " + y);
-                        p1.fire(x, y);
-                        turn = 2;
+                        actionFire(p1);
+                        turn = 1;
                     }
                     else if (action == 2)
                     {
-                        int x1, y1, x2, y2;
-                        Console.WriteLine("Enter coordinates to place a ship at");
-                        Console.Write("x: ");
-                        x1 = int.Parse(Console.ReadLine());
-                        Console.Write("y: ");
-                        y1 = int.Parse(Console.ReadLine());
-
-                        Console.Write("x: ");
-                        x2 = int.Parse(Console.ReadLine());
-                        Console.Write("y: ");
-                        y2 = int.Parse(Console.ReadLine());
-
-                        Tuple<int, int> posStart = new Tuple<int, int>(x1, y1);
-                        Tuple<int, int> posEnd = new Tuple<int, int>(x2, y2);
-
-                        Ship s = new Ship(posStart, posEnd);
-
-                        p2.placeShip(posStart, posEnd, s);
-                        turn = 1;
+                        actionPlaceShip(p2);
+                        turn = 2;
 
                     }
                     else if (action == 3)
+                    {
+                        p1.printBoard();
+                        Console.WriteLine("------------------------------");
+                        p2.printBoard();
+                    }
+                    else if (action == 4)
                     {
                         break;
                     }
@@ -138,8 +140,8 @@ namespace Battleships
         {
             Board p1 = new Board();
             Board p2 = new Board();
-
-            GameLoop(p1, p2);
+            GameEngine GE = new GameEngine();
+            GE.GameLoop(p1, p2);
             
         }
     }
@@ -230,11 +232,18 @@ namespace Battleships
                Console.WriteLine("Not a valid placement! Try again!");
            }
        }
-       public void fire(int x, int y)
+       public void fire(int x, int y, Board b)
        {
-           GameBoard.ElementAt(y).ElementAt(x).setHit();
-           Console.WriteLine(x+", "+y+" is hit");
-           printBoard();
+           if (rulebook.validFire(x, y, b))
+           {
+               b.GameBoard.ElementAt(y).ElementAt(x).setHit();
+               Console.WriteLine(x + ", " + y + " is hit");
+               printBoard();
+           }
+           else
+           {
+               Console.WriteLine("Not a valid coordinate! Try again!");
+           }
        }
 
        public bool isShip(int x, int y)
@@ -324,11 +333,11 @@ namespace Battleships
 
         public bool validFire(int x, int y, Board b)
         {
-            if(x < 0 || x > b.getSize() || y < 0 || y > b.getSize()){
-                return true;
+            if(x < 0 || x > 10 || y < 0 || y > 10){
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         public bool validPlacement(Tuple<int, int> start, Tuple<int, int> end, Ship s)
