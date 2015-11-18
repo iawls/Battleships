@@ -8,6 +8,8 @@ namespace Battleships
 {
     class GameEngine
     {
+        Rules rulebook = new Rules();
+
         int chooseAction()
         {
             do
@@ -29,7 +31,7 @@ namespace Battleships
 
         }
 
-        void actionFire(Board p)
+        bool actionFire(Board p)
         {
             Console.WriteLine("Enter coordinates to fire at");
             Console.Write("x: ");
@@ -37,28 +39,28 @@ namespace Battleships
             Console.Write("y: ");
             int y = int.Parse(Console.ReadLine());
             Console.WriteLine("Firing at" + x + ", " + y);
-            p.fire(x, y, p);         
+            return rulebook.validFire(x, y, p);         
         }
 
-        void actionPlaceShip(Board p)
+        bool actionPlaceShip(Board p)
         {
-            int x1, y1, x2, y2;
-            Console.WriteLine("Enter coordinates to place a ship at");
-            Console.Write("x: ");
-            x1 = int.Parse(Console.ReadLine());
-            Console.Write("y: ");
-            y1 = int.Parse(Console.ReadLine());
+                int x1, y1, x2, y2;
+                Console.WriteLine("Enter coordinates to place a ship at");
+                Console.Write("x: ");
+                x1 = int.Parse(Console.ReadLine());
+                Console.Write("y: ");
+                y1 = int.Parse(Console.ReadLine());
 
-            Console.Write("x: ");
-            x2 = int.Parse(Console.ReadLine());
-            Console.Write("y: ");
-            y2 = int.Parse(Console.ReadLine());
+                Console.Write("x: ");
+                x2 = int.Parse(Console.ReadLine());
+                Console.Write("y: ");
+                y2 = int.Parse(Console.ReadLine());
 
-            Tuple<int, int> posStart = new Tuple<int, int>(x1, y1);
-            Tuple<int, int> posEnd = new Tuple<int, int>(x2, y2);
+                Tuple<int, int> posStart = new Tuple<int, int>(x1, y1);
+                Tuple<int, int> posEnd = new Tuple<int, int>(x2, y2);
 
-            Ship s = new Ship(posStart, posEnd);
-            p.placeShip(posStart, posEnd, s);
+                Ship s = new Ship(posStart, posEnd);
+                return rulebook.validPlacement(posStart, posEnd, s, p);
 
         }
 
@@ -79,13 +81,13 @@ namespace Battleships
                     //Fire at Player 2
                     if (action == 1)
                     {
-                        actionFire(p2);
-                        turn = 2;
+                        if(actionFire(p2))
+                            turn = 2;
                     }
                     //Place a ship on Player 1s board
                     else if(action == 2){
-                        actionPlaceShip(p1);
-                        turn = 1;
+                        if(actionPlaceShip(p1))
+                            turn = 1;  
 
                     }
                     else if (action == 3)
@@ -103,13 +105,13 @@ namespace Battleships
                 {
                     if (action == 1)
                     {
-                        actionFire(p1);
-                        turn = 1;
+                        if(actionFire(p1))
+                            turn = 1;
                     }
                     else if (action == 2)
                     {
-                        actionPlaceShip(p2);
-                        turn = 2;
+                        if(actionPlaceShip(p2))
+                            turn = 2;
 
                     }
                     else if (action == 3)
@@ -149,8 +151,6 @@ namespace Battleships
     class Board
     {
         List<List<Node>> GameBoard = new List<List<Node>>();
-
-        Rules rulebook = new Rules();
 
         int boardSize;
 
@@ -216,8 +216,6 @@ namespace Battleships
        
        public void placeShip(Tuple<int, int> start, Tuple<int, int> end, Ship s)
        {
-           if(rulebook.validPlacement(start, end, s)){
-
               for (int y = start.Item1; y <= end.Item1; y++)
               {
                   for (int x = start.Item2; x <= end.Item2; x++)
@@ -226,24 +224,25 @@ namespace Battleships
                   }
                }
                printBoard();
-           }
-           else
-           {
-               Console.WriteLine("Not a valid placement! Try again!");
-           }
        }
+
+       public void removeShip(Ship s)
+       {
+           for (int y = s.getStart().Item1; y <= s.getEnd().Item1; y++)
+           {
+               for (int x = s.getStart().Item2; x <= s.getEnd().Item2; x++)
+               {
+                   GameBoard.ElementAt(x).ElementAt(y).setShip(null);
+               }
+           }
+
+       }
+
        public void fire(int x, int y, Board b)
        {
-           if (rulebook.validFire(x, y, b))
-           {
                b.GameBoard.ElementAt(y).ElementAt(x).setHit();
                Console.WriteLine(x + ", " + y + " is hit");
-               printBoard();
-           }
-           else
-           {
-               Console.WriteLine("Not a valid coordinate! Try again!");
-           }
+               printBoard();   
        }
 
        public bool isShip(int x, int y)
@@ -259,7 +258,6 @@ namespace Battleships
 
        }
 
-
     }
 
     class Node
@@ -272,7 +270,6 @@ namespace Battleships
         }
         public void setShip(Ship s)
         {
-            Console.WriteLine("setShip");
             this.ship = s;
         }
 
@@ -321,6 +318,15 @@ namespace Battleships
             hits++;
         }
 
+        public Tuple<int, int> getStart()
+        {
+            return start;
+        }
+        public Tuple<int, int> getEnd()
+        {
+            return end;
+        }
+
         Tuple<int, int> start;
         Tuple<int, int> end;
 
@@ -328,24 +334,28 @@ namespace Battleships
         int hits = 0;
 
     }
+
     class Rules
     {
-
         public bool validFire(int x, int y, Board b)
         {
-            if(x < 0 || x > 10 || y < 0 || y > 10){
+            if(x < b.getSize() || x > b.getSize() || y < b.getSize() || y > b.getSize()){
+                Console.WriteLine("Not a valid coordinate, try again!");
                 return false;
             }
-
+            Console.WriteLine("Firing at: " + x + ", " + y);
+            b.fire(x, y, b);
             return true;
         }
 
-        public bool validPlacement(Tuple<int, int> start, Tuple<int, int> end, Ship s)
+        public bool validPlacement(Tuple<int, int> start, Tuple<int, int> end, Ship s, Board b)
         {
             if((start.Item1 == end.Item1) || (start.Item2 == end.Item2)){
+                Console.WriteLine("Placing ship at the given coordinates");
+                b.placeShip(start, end, s);
                 return true;
             }
-
+            Console.WriteLine("Notn a valid placement, try again!");
             return false;
         }
 
