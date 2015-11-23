@@ -8,11 +8,23 @@ namespace Battleships
 {
     class GameEngine
     {
+        int turn = 1;
+        int action = 0;
+
+        public int getTurn()
+        {
+            return this.turn;
+        }
+
+        public int getAction()
+        {
+            return this.action;
+        }
+
         int chooseAction()
         {
             do
             {
-                int action = 0;
                 Console.WriteLine("Choose an action \n (1): Fire \n (2): Place Ship \n (3): Print both boards \n (4): Quit");
                 action = int.Parse(Console.ReadLine());
 
@@ -23,7 +35,10 @@ namespace Battleships
                     Console.WriteLine("Breaking loop");
                     return action;
                 }
-
+                else
+                {
+                    Console.WriteLine("Not a valid number, try again");
+                }
 
             } while (true);
 
@@ -64,10 +79,6 @@ namespace Battleships
 
        void GameLoop(Board p1, Board p2)
         {
-
-            int turn = 1;
-            int action = 0;
-
             //Gameloop starts here
             while (true)
             {
@@ -211,6 +222,9 @@ namespace Battleships
 
             Console.WriteLine("Gameboard initialized");
 
+           //init Rules
+            rulebook.init();
+
         }
 
        
@@ -311,6 +325,9 @@ namespace Battleships
             this.end = end;
         }
 
+        //do nothing, ships initiated like this will get values from the GUI
+        public Ship(){} 
+
         public bool dead()
         {
             return hits == size;
@@ -319,6 +336,16 @@ namespace Battleships
         public void hit()
         {
             hits++;
+        }
+
+        public void setSize(int size)
+        {
+            this.size = size;
+        }
+
+        public int getSize()
+        {
+            return this.size;
         }
 
         Tuple<int, int> start;
@@ -330,6 +357,48 @@ namespace Battleships
     }
     class Rules
     {
+        List<Ship> shipList = new List<Ship>();
+
+        public void init()
+        {
+            for (int i = 0; i < 10; ++i)
+            {
+                Ship s = new Ship();
+                shipList.Add(s);
+            }
+
+            shipList.ElementAt(0).setSize(6);
+            shipList.ElementAt(1).setSize(4);
+            shipList.ElementAt(2).setSize(4);
+            shipList.ElementAt(3).setSize(3);
+            shipList.ElementAt(4).setSize(3);
+            shipList.ElementAt(5).setSize(3);
+            shipList.ElementAt(6).setSize(2);
+            shipList.ElementAt(7).setSize(2);
+            shipList.ElementAt(8).setSize(2);
+            shipList.ElementAt(9).setSize(2);
+
+            Console.WriteLine("Rules initiated");
+
+        }
+
+        //c# doesn't seem to support passing by reference, so it's passed by value. 
+        public List<Ship> getShipList()
+        {
+            return this.shipList; 
+        }
+
+        //call this method when done with GUI initiation to tell the rules where the ships are placed and where they are located (this is a workaround the "no reference passing" problem from getShipList())
+        public void setShipList(List<Ship> s)
+        {
+            this.shipList = s; 
+        }
+
+        //find the ship that needs to be removed, and removes it. No need to keep track of indexes =)
+        public void removeShips(Ship s)
+        {
+            shipList.Remove(s);
+        }
 
         public bool validFire(int x, int y, Board b)
         {
@@ -349,13 +418,17 @@ namespace Battleships
             return false;
         }
 
-        public bool win()
+        public bool lost()
         {
-            //TODO: Fix a neat way to check win conditions
-            return false;
+            if (shipList.Count() == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-
     }
-
 }
 
