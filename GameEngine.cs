@@ -217,8 +217,8 @@ namespace Battleships
 
         static void Main()
         {
-            Board p1 = new Board();
-            Board p2 = new Board();
+            Board p1 = new Board(true); //Player 1 is human
+            Board p2 = new Board(true); //PLayer 2 is human
             GameEngine GE = new GameEngine();
             Console.WriteLine("Player 1, place your ships");
             GE.placeShipsPhase(p1);
@@ -238,16 +238,20 @@ namespace Battleships
 
         int boardSize;
 
+        bool isHuman = false;
+
         //default constructor, defaults to a boardsize of 10x10
-        public Board()
+        public Board(bool human)
         {
             this.boardSize = 10;
+            this.isHuman = human;
             init();
         }
         //Construct a board with a boardsize of size x size
-        public Board(int size)
+        public Board(int size, bool human)
         {
             this.boardSize = size;
+            this.isHuman = human;
             init();
 
         }
@@ -521,6 +525,89 @@ namespace Battleships
                 return false;
             }
         }
+    }
+    /*
+     * A simple AI, if there's no known "targets" it will choose one at random.
+     * If there's a better option (3 in the known board), it will choose one of those at random
+     * to avoid predictability. 
+     * */
+    class AI
+    {
+        List<List<int>> knownBoard; /* Will have integers as identifiers.
+                                     * 0 - unknown
+                                     * 1 - hit
+                                     * 2 - hit and ship
+                                     * 3 - next to ship (might also be ship)
+                                     * 4 - dead ship
+                                     * */
+        int targetX;
+        int targetY;
+
+        List<Tuple<int, int>> targetList = new List<Tuple<int, int>>();
+
+        public AI()
+        {
+            initKnownBoard();
+        }
+
+        void initKnownBoard()
+        {
+            for (int y = 0; y < 10; ++y)
+            {
+                List<int> tmpList = new List<int>();
+                for (int x = 0; x < 10; ++x)
+                {
+                    tmpList.Add(0);
+                }
+                knownBoard.Add(tmpList);                    //add the inner List to the outer List
+            }
+        }
+
+        void updateKnownBoard(int x, int y, int newValue)
+        {
+            this.knownBoard[y][x] = newValue;
+        }
+
+        Tuple<int, int> chooseFireCoords()
+        {
+            Random random = new Random();
+
+            if (searchForTarget(3) == true)
+            {
+                int randomNumber = random.Next(0, targetList.Count + 1);
+                Tuple<int, int> target = new Tuple<int, int>(targetList.ElementAt(randomNumber).Item1, targetList.ElementAt(randomNumber).Item2);
+                return target;
+            }
+            else
+            {
+                int x = random.Next(0, 10);
+                int y = random.Next(0, 10);
+                Tuple<int, int> target = new Tuple<int, int>(x, y);
+                return target;
+            }
+
+        }
+
+        bool searchForTarget(int value)
+        {
+            bool foundTargets = false;
+
+            for (int y = 0; y < 10; ++y)
+            {
+                for (int x = 0; x < 10; ++x)
+                {
+                    if (knownBoard[y][x] == value)
+                    {
+                        Tuple<int, int> target = new Tuple<int, int>(x, y);
+                        targetList.Add(target);
+                        foundTargets = true;
+                    }
+                }
+            }
+
+                return foundTargets;
+        }
+
     }
 }
 
