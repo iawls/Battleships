@@ -5,7 +5,7 @@ ehthumbs.db
 # Folder config file
 Desktop.ini
 
-#Folders
+#Folders to ignore
 bin/
 obj/
 
