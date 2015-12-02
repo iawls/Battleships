@@ -138,15 +138,27 @@ namespace Battleships
 
         }
 
+        void splashScreenStart()
+        {
+            Form splashScreen = new SplashScreen();
+            splashScreen.Show();
+            Thread.Sleep(1000);
+            splashScreen.Close();
+        }
+
+        void menu()
+        {
+            Application.Run(new Menu());
+        }
+
         static void Main()
         {
             Board p1 = new Board();
             Board p2 = new Board();
             GameEngine GE = new GameEngine();
-            Form splashScreen = new SplashScreen();
-            splashScreen.Show();
-            Thread.Sleep(1000);
-            splashScreen.Close();
+            GE.splashScreenStart();
+            Thread t = new Thread(new ThreadStart(GE.menu));
+            t.Start();
             GE.GameLoop(p1, p2);
             
         }

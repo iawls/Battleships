@@ -7,3 +7,4 @@ C:\Users\Filip\Documents\GitHub\Battleships\obj\Debug\Battleships.SplashScreen.r
 C:\Users\Filip\Documents\GitHub\Battleships\obj\Debug\Battleships.csproj.GenerateResource.Cache
 C:\Users\Filip\Documents\GitHub\Battleships\obj\Debug\Battleships.exe
 C:\Users\Filip\Documents\GitHub\Battleships\obj\Debug\Battleships.pdb
+C:\Users\Filip\Documents\GitHub\Battleships\obj\Debug\Battleships.Menu.resources
