@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Battleships
 {
@@ -141,6 +143,10 @@ namespace Battleships
             Board p1 = new Board();
             Board p2 = new Board();
             GameEngine GE = new GameEngine();
+            Form splashScreen = new SplashScreen();
+            splashScreen.Show();
+            Thread.Sleep(1000);
+            splashScreen.Close();
             GE.GameLoop(p1, p2);
             
         }
