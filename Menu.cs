@@ -17,19 +17,35 @@ namespace Battleships
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        public int buttonValue { get; set; }
 
         private void Menu_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonPlayerVsPlayer_Click(object sender, EventArgs e)
+        {
+            buttonValue = 1;
+            Close();
+        }
+
+        private void buttonPlayerVsPc_Click(object sender, EventArgs e)
+        {
+            buttonValue = 2;
+            Close();
+        }
+
+        private void buttonAbout_Click(object sender, EventArgs e)
+        {
+            buttonValue = 3;
+            Close();
+        }
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            buttonValue = 4;
+            Close();
         }
     }
 }

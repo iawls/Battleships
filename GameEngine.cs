@@ -157,9 +157,12 @@ namespace Battleships
             Board p2 = new Board();
             GameEngine GE = new GameEngine();
             GE.splashScreenStart();
-            Thread t = new Thread(new ThreadStart(GE.menu));
-            t.Start();
-            GE.GameLoop(p1, p2);
+            Menu menu = new Menu();
+            menu.ShowDialog();
+            int menuButtonValue = menu.buttonValue;
+
+            if(menuButtonValue != 4)
+                GE.GameLoop(p1, p2);
             
         }
     }
