@@ -116,7 +116,7 @@ namespace Battleships
             {
                 p.placeShip(s.getStart(), s.getEnd(), s);
             }
-
+            p.printBoard();
             Console.WriteLine("All ships placed, leaving phase");
 
 
@@ -176,11 +176,22 @@ namespace Battleships
 
                 Console.WriteLine("Removing dead ships");
                 //Remove the dead ships (if any) from the boards
-                foreach (Ship s in p1.rulebook.getShipList())
+
+                /* ??-Operator returns the left hand operand as long as it's not null.
+                 * It returns the right hand operand in that case.
+                 * This is done to prevent the foreach-loop from crashing, since it can't handle it when the list is empty
+                 */
+
+                
+                List<Ship> p1NewList = p1.rulebook.getShipList();
+                List<Ship> p2NewList = p1.rulebook.getShipList();
+
+                foreach (Ship s in p1NewList ?? Enumerable.Empty<Ship>())
                 {
-                    if (s.dead())
+                    if (s.getDead())
                     {
                         p1.rulebook.removeShips(s);
+                        Console.WriteLine("removed a dead ship");
                     }
                     else
                     {
@@ -188,11 +199,13 @@ namespace Battleships
                     }
                 }
 
-                foreach (Ship s in p2.rulebook.getShipList())
+                foreach (Ship s in p2NewList ?? Enumerable.Empty<Ship>())
                 {
-                    if (s.dead())
+
+                    if (s.getDead())
                     {
                         p2.rulebook.removeShips(s);
+                        Console.WriteLine("removed a dead ship");
                     }
                     else
                     {
@@ -200,6 +213,7 @@ namespace Battleships
                     }
                 }
 
+                Console.WriteLine("Checking Win coniditions");
                 //check win-conditions
                 if (p1.rulebook.lost())
                 {
@@ -226,6 +240,8 @@ namespace Battleships
             GE.placeShipsPhase(p2);
             Console.WriteLine("Starting GameLoop");
             GE.GameLoop(p1, p2);
+            Console.WriteLine("Press ENTER to close window");
+            String stop = Console.ReadLine();
             
         }
     }
@@ -316,7 +332,7 @@ namespace Battleships
                       GameBoard.ElementAt(x).ElementAt(y).setShip(s);
                   }
                }
-               printBoard();
+             //  printBoard();
            }
            else
            {
@@ -328,6 +344,18 @@ namespace Battleships
            if (rulebook.validFire(x, y, b))
            {
                b.GameBoard.ElementAt(y).ElementAt(x).setHit();
+
+               if (b.GameBoard[y][x].getShip() != null)
+               {
+                   List<Ship> newList = b.rulebook.getShipList();
+
+                   Ship target = newList.Find(s => s.getStart() == b.GameBoard[y][x].getShip().getStart());
+                   target.hit();
+                   b.rulebook.setShipList(newList);
+                   b.GameBoard[y][x].getShip().hit();
+
+               }
+
                Console.WriteLine(x + ", " + y + " is hit");
                printBoard();
            }
@@ -408,14 +436,18 @@ namespace Battleships
         //do nothing, ships initiated like this will get values from the GUI
         public Ship(){} 
 
-        public bool dead()
+        public bool getDead()
         {
-            return hits == size;
+            return dead;
         }
 
         public void hit()
         {
             hits++;
+            if (hits == size)
+            {
+                this.dead = true;
+            }
         }
 
         public void setSize(int size)
@@ -445,7 +477,7 @@ namespace Battleships
 
         Tuple<int, int> start;
         Tuple<int, int> end;
-
+        bool dead = false;
         int size = 1;
         int hits = 0;
 
@@ -457,7 +489,7 @@ namespace Battleships
         public void init()
         {
             //Make it 10 for final version, this is only for debug
-            for (int i = 0; i < 1; ++i)
+            for (int i = 0; i < 2; ++i)
             {
                 Ship s = new Ship();
                 shipList.Add(s);
@@ -470,9 +502,9 @@ namespace Battleships
             shipList.ElementAt(4).setSize(3);
             shipList.ElementAt(5).setSize(3);
             shipList.ElementAt(6).setSize(2);
-            shipList.ElementAt(7).setSize(2);
-            shipList.ElementAt(8).setSize(2);*/
-            shipList.ElementAt(0).setSize(2);
+            shipList.ElementAt(7).setSize(2);*/
+            shipList.ElementAt(0).setSize(1);
+            shipList.ElementAt(1).setSize(1);
             
             Console.WriteLine("Rules initiated");
 
