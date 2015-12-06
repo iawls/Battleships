@@ -183,11 +183,13 @@ namespace Battleships
                  */
 
                 
-                List<Ship> p1NewList = p1.rulebook.getShipList();
-                List<Ship> p2NewList = p1.rulebook.getShipList();
+                var p1NewList = p1.rulebook.getShipList().ToList<Ship>(); //makes a copy of the list, since you cant remove elements from a list in a foreach-loop
+                var p2NewList = p2.rulebook.getShipList().ToList<Ship>();
+
 
                 foreach (Ship s in p1NewList ?? Enumerable.Empty<Ship>())
                 {
+                    Console.WriteLine("Hits: "+s.getHits());
                     if (s.getDead())
                     {
                         p1.rulebook.removeShips(s);
@@ -332,7 +334,6 @@ namespace Battleships
                       GameBoard.ElementAt(x).ElementAt(y).setShip(s);
                   }
                }
-             //  printBoard();
            }
            else
            {
@@ -347,13 +348,7 @@ namespace Battleships
 
                if (b.GameBoard[y][x].getShip() != null)
                {
-                   List<Ship> newList = b.rulebook.getShipList();
-
-                   Ship target = newList.Find(s => s.getStart() == b.GameBoard[y][x].getShip().getStart());
-                   target.hit();
-                   b.rulebook.setShipList(newList);
                    b.GameBoard[y][x].getShip().hit();
-
                }
 
                Console.WriteLine(x + ", " + y + " is hit");
@@ -402,11 +397,6 @@ namespace Battleships
         public void setHit()
         {
             this.hit = true;
-            if(this.ship != null){
-
-                this.ship.hit();
-
-            }
         }
         public bool getHit()
         {
@@ -428,7 +418,7 @@ namespace Battleships
 
         public Ship(Tuple<int, int> start, Tuple<int, int> end)
         {
-            this.size = Math.Max(start.Item1 - end.Item1, start.Item2 - end.Item2);
+            this.size = Math.Max(end.Item1 - start.Item1, end.Item2 - start.Item2) + 1;
             this.start = start;
             this.end = end;
         }
@@ -444,8 +434,10 @@ namespace Battleships
         public void hit()
         {
             hits++;
+            Console.WriteLine("Ship hit!"+this.hits+ " "+ this.size);
             if (hits == size)
             {
+                Console.WriteLine("Killed a ship");
                 this.dead = true;
             }
         }
@@ -464,6 +456,8 @@ namespace Battleships
         {
             this.start = start;
             this.end = end;
+            this.size = Math.Max(end.Item1 - start.Item1, end.Item2 - start.Item2)+1;
+            Console.WriteLine("Size: " + this.size);
         }
 
         public Tuple<int, int> getStart()
@@ -474,6 +468,10 @@ namespace Battleships
         {
             return end;
         }
+        public int getHits()
+        {
+            return this.hits;
+        }
 
         Tuple<int, int> start;
         Tuple<int, int> end;
@@ -481,6 +479,8 @@ namespace Battleships
         int size = 1;
         int hits = 0;
 
+
+       
     }
     class Rules
     {
@@ -488,23 +488,24 @@ namespace Battleships
 
         public void init()
         {
-            //Make it 10 for final version, this is only for debug
-            for (int i = 0; i < 2; ++i)
+            //Change to lower number for easier debug
+            for (int i = 0; i < 10; ++i)
             {
                 Ship s = new Ship();
                 shipList.Add(s);
             }
-
-           // shipList.ElementAt(0).setSize(6);
-           // shipList.ElementAt(1).setSize(4);
-            /*shipList.ElementAt(2).setSize(4);
+            
+            //Remove some ships if you want easier debug with the console
+            shipList.ElementAt(0).setSize(6);
+            shipList.ElementAt(1).setSize(4);
+            shipList.ElementAt(2).setSize(4);
             shipList.ElementAt(3).setSize(3);
             shipList.ElementAt(4).setSize(3);
             shipList.ElementAt(5).setSize(3);
             shipList.ElementAt(6).setSize(2);
-            shipList.ElementAt(7).setSize(2);*/
-            shipList.ElementAt(0).setSize(1);
-            shipList.ElementAt(1).setSize(1);
+            shipList.ElementAt(7).setSize(2);
+            shipList.ElementAt(0).setSize(2);
+            shipList.ElementAt(1).setSize(2);
             
             Console.WriteLine("Rules initiated");
 
