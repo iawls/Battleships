@@ -48,9 +48,9 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel1.Controls.Add(this.buttonAbout, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.buttonExit, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.buttonPlayerVsPc, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.buttonPlayerVsPlayer, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.buttonLoadGame, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonPlayerVsPc, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 195);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -69,6 +69,7 @@
             this.buttonAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAbout.Enabled = false;
             this.buttonAbout.Location = new System.Drawing.Point(243, 141);
             this.buttonAbout.Name = "buttonAbout";
             this.buttonAbout.Size = new System.Drawing.Size(200, 40);
@@ -95,6 +96,7 @@
             this.buttonPlayerVsPc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonPlayerVsPc.Enabled = false;
             this.buttonPlayerVsPc.Location = new System.Drawing.Point(243, 95);
             this.buttonPlayerVsPc.Name = "buttonPlayerVsPc";
             this.buttonPlayerVsPc.Size = new System.Drawing.Size(200, 40);

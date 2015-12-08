@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Battleships
 {
-    class GameEngine
+    public class GameEngine
     {
         int turn = 1;
         int action = 0;
@@ -76,7 +76,6 @@ namespace Battleships
 
             Ship s = new Ship(posStart, posEnd);
             p.placeShip(posStart, posEnd, s);
-
         }
 
         //Place each ship
@@ -243,8 +242,6 @@ namespace Battleships
 
         static void Main()
         {
-            Board p1 = new Board(true); //Player 1 is human
-            Board p2 = new Board(true); //PLayer 2 is human
             GameEngine GE = new GameEngine();
             GE.splashScreenStart();
             Menu menu = new Menu();
@@ -253,8 +250,22 @@ namespace Battleships
 
             if (menuChoice != "EXIT")
             {
-                GameScreen gameScreen = new GameScreen();
-                gameScreen.ShowDialog();
+               
+                if (menuChoice == "PLAYER_VS_PLAYER")
+                {
+                    Board p1 = new Board(true); //Player 1 is human
+                    Board p2 = new Board(true); //PLayer 2 is human
+                    GameScreen gameScreen = new GameScreen(GE, p1, p2);
+                    gameScreen.ShowDialog();
+                }
+                else if (menuChoice == "PLAYER_VS_PC")
+                {
+                    Board p1 = new Board(true); //Player 1 is human
+                    Board p2 = new Board(false); //PLayer 2 is PC
+                    GameScreen gameScreen = new GameScreen(GE, p1, p2);
+                    gameScreen.ShowDialog();
+                }
+                /*
                 Console.WriteLine("Player 1, place your ships");
                 GE.placeShipsPhase(p1);
                 Console.WriteLine("Player 2, place your ships");
@@ -263,12 +274,13 @@ namespace Battleships
                 GE.GameLoop(p1, p2);
                 Console.WriteLine("Press ENTER to close window");
                 String stop = Console.ReadLine();
+                */
             }
             
         }
     }
 
-    class Board
+    public class Board
     {
         List<List<Node>> GameBoard = new List<List<Node>>();
 
@@ -433,7 +445,7 @@ namespace Battleships
         int id;
 
     }
-    class Ship
+    public class Ship
     {
 
         public Ship(Tuple<int, int> start, Tuple<int, int> end)
@@ -502,7 +514,7 @@ namespace Battleships
 
        
     }
-    class Rules
+    public class Rules
     {
         List<Ship> shipList = new List<Ship>();
 
@@ -524,8 +536,8 @@ namespace Battleships
             shipList.ElementAt(5).setSize(3);
             shipList.ElementAt(6).setSize(2);
             shipList.ElementAt(7).setSize(2);
-            shipList.ElementAt(0).setSize(2);
-            shipList.ElementAt(1).setSize(2);
+            //shipList.ElementAt(0).setSize(2);
+            //shipList.ElementAt(1).setSize(2);
             
             Console.WriteLine("Rules initiated");
 
