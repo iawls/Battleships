@@ -241,11 +241,6 @@ namespace Battleships
             splashScreen.Close();
         }
 
-        void menu()
-        {
-            Application.Run(new Menu());
-        }
-
         static void Main()
         {
             Board p1 = new Board(true); //Player 1 is human
@@ -254,10 +249,12 @@ namespace Battleships
             GE.splashScreenStart();
             Menu menu = new Menu();
             menu.ShowDialog();
-            int menuButtonValue = menu.buttonValue;
+            string menuChoice = menu.buttonEvent;
 
-            if (menuButtonValue != 4)
+            if (menuChoice != "EXIT")
             {
+                GameScreen gameScreen = new GameScreen();
+                gameScreen.ShowDialog();
                 Console.WriteLine("Player 1, place your ships");
                 GE.placeShipsPhase(p1);
                 Console.WriteLine("Player 2, place your ships");

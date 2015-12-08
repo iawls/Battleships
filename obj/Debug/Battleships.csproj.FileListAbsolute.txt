@@ -8,3 +8,4 @@ C:\Users\Filip\Documents\GitHub\Battleships\obj\Debug\Battleships.csproj.Generat
 C:\Users\Filip\Documents\GitHub\Battleships\obj\Debug\Battleships.exe
 C:\Users\Filip\Documents\GitHub\Battleships\obj\Debug\Battleships.pdb
 C:\Users\Filip\Documents\GitHub\Battleships\obj\Debug\Battleships.Menu.resources
+C:\Users\Filip\Documents\GitHub\Battleships\obj\Debug\Battleships.GameScreen.resources

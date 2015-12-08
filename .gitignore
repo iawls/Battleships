@@ -9,6 +9,9 @@ Desktop.ini
 bin/
 obj/
 
+#files to ignore
+*.sln
+
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 

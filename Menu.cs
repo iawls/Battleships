@@ -17,34 +17,40 @@ namespace Battleships
             InitializeComponent();
         }
 
-        public int buttonValue { get; set; }
+        public string buttonEvent { get; set; }
 
         private void Menu_Load(object sender, EventArgs e)
         {
 
         }
 
+        private void buttonLoadGame_Click(object sender, EventArgs e)
+        {
+            buttonEvent = "LOAD_SAVED_GAME";
+            Close();
+        }
+
         private void buttonPlayerVsPlayer_Click(object sender, EventArgs e)
         {
-            buttonValue = 1;
+            buttonEvent = "PLAYER_VS_PLAYER";
             Close();
         }
 
         private void buttonPlayerVsPc_Click(object sender, EventArgs e)
         {
-            buttonValue = 2;
+            buttonEvent = "PLAYER_VS_PC";
             Close();
         }
 
         private void buttonAbout_Click(object sender, EventArgs e)
         {
-            buttonValue = 3;
+            buttonEvent = "ABOUT";
             Close();
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
-            buttonValue = 4;
+            buttonEvent = "EXIT";
             Close();
         }
     }

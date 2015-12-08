@@ -29,10 +29,11 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonPlayerVsPc = new System.Windows.Forms.Button();
             this.buttonAbout = new System.Windows.Forms.Button();
             this.buttonExit = new System.Windows.Forms.Button();
+            this.buttonPlayerVsPc = new System.Windows.Forms.Button();
             this.buttonPlayerVsPlayer = new System.Windows.Forms.Button();
+            this.buttonLoadGame = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -40,47 +41,37 @@
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
-            this.tableLayoutPanel1.Controls.Add(this.buttonPlayerVsPc, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.buttonAbout, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.buttonExit, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.buttonPlayerVsPlayer, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonAbout, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.buttonExit, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.buttonPlayerVsPc, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.buttonPlayerVsPlayer, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonLoadGame, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 195);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(688, 330);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // buttonPlayerVsPc
-            // 
-            this.buttonPlayerVsPc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonPlayerVsPc.Location = new System.Drawing.Point(243, 58);
-            this.buttonPlayerVsPc.Name = "buttonPlayerVsPc";
-            this.buttonPlayerVsPc.Size = new System.Drawing.Size(200, 49);
-            this.buttonPlayerVsPc.TabIndex = 1;
-            this.buttonPlayerVsPc.Text = "Player VS PC";
-            this.buttonPlayerVsPc.UseVisualStyleBackColor = true;
-            this.buttonPlayerVsPc.Click += new System.EventHandler(this.buttonPlayerVsPc_Click);
             // 
             // buttonAbout
             // 
             this.buttonAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAbout.Location = new System.Drawing.Point(243, 113);
+            this.buttonAbout.Location = new System.Drawing.Point(243, 141);
             this.buttonAbout.Name = "buttonAbout";
-            this.buttonAbout.Size = new System.Drawing.Size(200, 49);
+            this.buttonAbout.Size = new System.Drawing.Size(200, 40);
             this.buttonAbout.TabIndex = 2;
             this.buttonAbout.Text = "About";
             this.buttonAbout.UseVisualStyleBackColor = true;
@@ -91,30 +82,57 @@
             this.buttonExit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonExit.Location = new System.Drawing.Point(243, 168);
+            this.buttonExit.Location = new System.Drawing.Point(243, 187);
             this.buttonExit.Name = "buttonExit";
-            this.buttonExit.Size = new System.Drawing.Size(200, 49);
+            this.buttonExit.Size = new System.Drawing.Size(200, 40);
             this.buttonExit.TabIndex = 3;
             this.buttonExit.Text = "Exit";
             this.buttonExit.UseVisualStyleBackColor = true;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
+            // 
+            // buttonPlayerVsPc
+            // 
+            this.buttonPlayerVsPc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonPlayerVsPc.Location = new System.Drawing.Point(243, 95);
+            this.buttonPlayerVsPc.Name = "buttonPlayerVsPc";
+            this.buttonPlayerVsPc.Size = new System.Drawing.Size(200, 40);
+            this.buttonPlayerVsPc.TabIndex = 1;
+            this.buttonPlayerVsPc.Text = "Player VS PC";
+            this.buttonPlayerVsPc.UseVisualStyleBackColor = true;
+            this.buttonPlayerVsPc.Click += new System.EventHandler(this.buttonPlayerVsPc_Click);
             // 
             // buttonPlayerVsPlayer
             // 
             this.buttonPlayerVsPlayer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonPlayerVsPlayer.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.buttonPlayerVsPlayer.Location = new System.Drawing.Point(243, 3);
+            this.buttonPlayerVsPlayer.Location = new System.Drawing.Point(243, 49);
             this.buttonPlayerVsPlayer.Name = "buttonPlayerVsPlayer";
-            this.buttonPlayerVsPlayer.Size = new System.Drawing.Size(200, 49);
+            this.buttonPlayerVsPlayer.Size = new System.Drawing.Size(200, 40);
             this.buttonPlayerVsPlayer.TabIndex = 0;
             this.buttonPlayerVsPlayer.Text = "Player VS Player";
             this.buttonPlayerVsPlayer.UseVisualStyleBackColor = true;
             this.buttonPlayerVsPlayer.Click += new System.EventHandler(this.buttonPlayerVsPlayer_Click);
             // 
+            // buttonLoadGame
+            // 
+            this.buttonLoadGame.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonLoadGame.Enabled = false;
+            this.buttonLoadGame.Location = new System.Drawing.Point(243, 3);
+            this.buttonLoadGame.Name = "buttonLoadGame";
+            this.buttonLoadGame.Size = new System.Drawing.Size(200, 40);
+            this.buttonLoadGame.TabIndex = 4;
+            this.buttonLoadGame.Text = "Load saved game";
+            this.buttonLoadGame.UseVisualStyleBackColor = true;
+            this.buttonLoadGame.Click += new System.EventHandler(this.buttonLoadGame_Click);
+            // 
             // tableLayoutPanel2
             // 
+            this.tableLayoutPanel2.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel1, 0, 1);
@@ -153,5 +171,6 @@
         private System.Windows.Forms.Button buttonAbout;
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Button buttonLoadGame;
     }
 }
