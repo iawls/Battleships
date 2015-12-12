@@ -16,6 +16,11 @@ namespace Battleships
             return this.turn;
         }
 
+        public void setTurn(int turn)
+        {
+            this.turn = turn;
+        }
+
         public int getAction()
         {
             return this.action;
@@ -246,6 +251,10 @@ namespace Battleships
             String stop = Console.ReadLine();
             
         }
+
+        //---------------------------Attempt to move Rules into the game engine---------------------------------
+
+
     }
 
     class Board
@@ -256,7 +265,7 @@ namespace Battleships
 
         int boardSize;
 
-        bool isHuman = false;
+        bool isHuman;
 
         //default constructor, defaults to a boardsize of 10x10
         public Board(bool human)
