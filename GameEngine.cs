@@ -11,6 +11,9 @@ namespace Battleships
         int turn = 1;
         int action = 0;
 
+        public Rules rulebook = new Rules();
+
+
         public int getTurn()
         {
             return this.turn;
@@ -49,7 +52,7 @@ namespace Battleships
 
         }
 
-        void actionFire(Board p)
+        bool actionFire(Board p)
         {
             Console.WriteLine("Enter coordinates to fire at");
             Console.Write("x: ");
@@ -57,13 +60,14 @@ namespace Battleships
             Console.Write("y: ");
             int y = int.Parse(Console.ReadLine());
             Console.WriteLine("Firing at" + x + ", " + y);
-            p.fire(x, y, p);         
+            bool success = p.fire(x, y, p);
+            return success;
         }
 
-        void actionPlaceShip(Board p)
+        bool actionPlaceShip(Board p, Ship s)
         {
             int x1, y1, x2, y2;
-            Console.WriteLine("Enter coordinates to place a ship at");
+            Console.WriteLine("Enter coordinates to place a ship at, cant be longer or shorter than " + s.getSize());
             Console.Write("x: ");
             x1 = int.Parse(Console.ReadLine());
             Console.Write("y: ");
@@ -76,9 +80,17 @@ namespace Battleships
 
             Tuple<int, int> posStart = new Tuple<int, int>(x1, y1);
             Tuple<int, int> posEnd = new Tuple<int, int>(x2, y2);
-
-            Ship s = new Ship(posStart, posEnd);
-            p.placeShip(posStart, posEnd, s);
+            if (rulebook.validPlacement(posStart, posEnd, p))
+            {
+                s.setStartEnd(posStart, posEnd);
+                p.placeShip(posStart, posEnd, s);
+                Console.WriteLine("Ship Placed!");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 
         }
 
@@ -86,13 +98,22 @@ namespace Battleships
         void placeShipsPhase(Board p)
         {
 
-            List<Ship> newShipList = new List<Ship>(p.rulebook.getShipList());
+            List<Ship> newShipList = new List<Ship>(p.getShipList());
 
             foreach (Ship s in newShipList)
             {
-                Console.WriteLine("Place your size " + s.getSize() + " ship");
-                int x1, y1, x2, y2;
+                
+            }
 
+            for (int i = 0; i < newShipList.Count; ++i)
+            {
+                if (!actionPlaceShip(p, newShipList.ElementAt(i)))
+                {
+                    --i;
+                }
+            }
+
+                /*
                 do
                 {
                     Console.WriteLine("Enter coordinates to place a ship at, cant be longer or shorter than " + s.getSize());
@@ -106,7 +127,7 @@ namespace Battleships
                     Console.Write("endy: ");
                     y2 = int.Parse(Console.ReadLine());
 
-                } while ((x2 - x1 + 1 != s.getSize() && y2 == y1) || (y2 - y1 + 1 != s.getSize() && x2 == x1));
+                } while (rulebook.validPlacement(x1, y1, x2, y2, p)); //(x2 - x1 + 1 != s.getSize() && y2 == y1) || (y2 - y1 + 1 != s.getSize() && x2 == x1)
 
                 Tuple<int, int> posStart = new Tuple<int, int>(x1, y1);
                 Tuple<int, int> posEnd = new Tuple<int, int>(x2, y2);
@@ -115,15 +136,16 @@ namespace Battleships
 
                 s.setStartEnd(posStart, posEnd);
             }
-            p.rulebook.setShipList(newShipList);
+            p.setShipList(newShipList);
 
-            foreach (Ship s in p.rulebook.getShipList())
+            foreach (Ship s in p.getShipList())
             {
                 p.placeShip(s.getStart(), s.getEnd(), s);
             }
-            p.printBoard();
+            */
+                p.printBoard();
             Console.WriteLine("All ships placed, leaving phase");
-
+            
 
         }
 
@@ -140,8 +162,8 @@ namespace Battleships
                     //Fire at Player 2
                     if (action == 1)
                     {
-                        actionFire(p2);
-                        turn = 2;
+                        if(actionFire(p2))
+                            turn = 2;
                     }
                     else if (action == 2)
                     {
@@ -158,8 +180,8 @@ namespace Battleships
                 {
                     if (action == 1)
                     {
-                        actionFire(p1);
-                        turn = 1;
+                        if(actionFire(p1))
+                            turn = 1;
                     }
                     else if (action == 2)
                     {
@@ -187,17 +209,15 @@ namespace Battleships
                  * This is done to prevent the foreach-loop from crashing, since it can't handle it when the list is empty
                  */
 
-                
-                var p1NewList = p1.rulebook.getShipList().ToList<Ship>(); //makes a copy of the list, since you cant remove elements from a list in a foreach-loop
-                var p2NewList = p2.rulebook.getShipList().ToList<Ship>();
+                var p1NewList = p1.getShipList().ToList<Ship>(); //makes a copy of the list, since you cant remove elements from a list in a foreach-loop
+                var p2NewList = p2.getShipList().ToList<Ship>();
 
 
                 foreach (Ship s in p1NewList ?? Enumerable.Empty<Ship>())
                 {
-                    Console.WriteLine("Hits: "+s.getHits());
                     if (s.getDead())
                     {
-                        p1.rulebook.removeShips(s);
+                        p1.removeShips(s);
                         Console.WriteLine("removed a dead ship");
                     }
                     else
@@ -211,7 +231,7 @@ namespace Battleships
 
                     if (s.getDead())
                     {
-                        p2.rulebook.removeShips(s);
+                        p2.removeShips(s);
                         Console.WriteLine("removed a dead ship");
                     }
                     else
@@ -222,12 +242,12 @@ namespace Battleships
 
                 Console.WriteLine("Checking Win coniditions");
                 //check win-conditions
-                if (p1.rulebook.lost())
+                if (rulebook.lost(p1))
                 {
                     Console.WriteLine("Player 2 Wins! Shutting down");
                     break;
                 }
-                else if (p2.rulebook.lost())
+                else if (rulebook.lost(p2))
                 {
                     Console.WriteLine("Player 1 Wins! Shutting down");
                     break;
@@ -252,19 +272,15 @@ namespace Battleships
             
         }
 
-        //---------------------------Attempt to move Rules into the game engine---------------------------------
-
 
     }
 
     class Board
     {
         List<List<Node>> GameBoard = new List<List<Node>>();
-
         public Rules rulebook = new Rules();
-
+        List<Ship> shipList = new List<Ship>();
         int boardSize;
-
         bool isHuman;
 
         //default constructor, defaults to a boardsize of 10x10
@@ -326,15 +342,15 @@ namespace Battleships
 
             Console.WriteLine("Gameboard initialized");
 
-           //init Rules
-            rulebook.init();
+           //init shiplist
+            initShipList();
 
         }
 
        
-       public void placeShip(Tuple<int, int> start, Tuple<int, int> end, Ship s)
+       public bool placeShip(Tuple<int, int> start, Tuple<int, int> end, Ship s)
        {
-           if(rulebook.validPlacement(start, end, s)){
+           if(rulebook.validPlacement(start, end, this)){
 
               for (int y = start.Item1; y <= end.Item1; y++)
               {
@@ -343,13 +359,15 @@ namespace Battleships
                       GameBoard.ElementAt(x).ElementAt(y).setShip(s);
                   }
                }
+              return true;
            }
            else
            {
                Console.WriteLine("Not a valid placement! Try again!");
+               return false;
            }
        }
-       public void fire(int x, int y, Board b)
+       public bool fire(int x, int y, Board b)
        {
            if (rulebook.validFire(x, y, b))
            {
@@ -362,10 +380,13 @@ namespace Battleships
 
                Console.WriteLine(x + ", " + y + " is hit");
                printBoard();
+               return true;
+
            }
            else
            {
                Console.WriteLine("Not a valid coordinate! Try again!");
+               return false;
            }
        }
 
@@ -383,10 +404,67 @@ namespace Battleships
        }
 
 
+       public void initShipList()
+       {
+           //Change to lower number for easier debug
+           for (int i = 0; i < 10; ++i)
+           {
+               Ship s = new Ship();
+               shipList.Add(s);
+           }
+
+           //Remove some ships if you want easier debug with the console
+           shipList.ElementAt(0).setSize(6);
+           shipList.ElementAt(1).setSize(4);
+           shipList.ElementAt(2).setSize(4);
+           shipList.ElementAt(3).setSize(3);
+           shipList.ElementAt(4).setSize(3);
+           shipList.ElementAt(5).setSize(3);
+           shipList.ElementAt(6).setSize(2);
+           shipList.ElementAt(7).setSize(2);
+           shipList.ElementAt(8).setSize(2);
+           shipList.ElementAt(9).setSize(6);
+           //shipList.ElementAt(1).setSize(6);
+
+           Console.WriteLine("Rules initiated");
+
+       }
+
+       //c# doesn't seem to support passing by reference, so it's passed by value. 
+       public List<Ship> getShipList()
+       {
+           return this.shipList;
+       }
+
+       //call this method when done with GUI initiation to tell the rules where the ships are placed and where they are located (this is a workaround the "no reference passing" problem from getShipList())
+       public void setShipList(List<Ship> s)
+       {
+           this.shipList = s;
+       }
+
+       //find the ship that needs to be removed, and removes it. No need to keep track of indexes =)
+       public void removeShips(Ship s)
+       {
+           try
+           {
+               shipList.Remove(s);
+           }
+           catch
+           {
+               Console.WriteLine("ERROR: [Board.removeShips] Couldn't remove ship s");
+           }
+       }
+
+
+
     }
 
     class Node
     {
+        bool hit;
+        Ship ship;
+        int id;
+
         public Node(bool h, Ship s, int id)
         {
             this.hit = h;
@@ -417,13 +495,17 @@ namespace Battleships
             return this.id;
         }
 
-        bool hit;
-        Ship ship;
-        int id;
 
     }
     class Ship
     {
+
+        Tuple<int, int> start;
+        Tuple<int, int> end;
+        bool dead = false;
+        bool placed;
+        int size = 1;
+        int hits = 0;
 
         public Ship(Tuple<int, int> start, Tuple<int, int> end)
         {
@@ -467,6 +549,7 @@ namespace Battleships
             this.end = end;
             this.size = Math.Max(end.Item1 - start.Item1, end.Item2 - start.Item2)+1;
             Console.WriteLine("Size: " + this.size);
+            this.placed = true;
         }
 
         public Tuple<int, int> getStart()
@@ -482,83 +565,68 @@ namespace Battleships
             return this.hits;
         }
 
-        Tuple<int, int> start;
-        Tuple<int, int> end;
-        bool dead = false;
-        int size = 1;
-        int hits = 0;
-
-
+        public bool getPlaced()
+        {
+            return this.placed;
+        }
        
     }
     class Rules
     {
-        List<Ship> shipList = new List<Ship>();
-
-        public void init()
-        {
-            //Change to lower number for easier debug
-            for (int i = 0; i < 10; ++i)
-            {
-                Ship s = new Ship();
-                shipList.Add(s);
-            }
-            
-            //Remove some ships if you want easier debug with the console
-            shipList.ElementAt(0).setSize(6);
-            shipList.ElementAt(1).setSize(4);
-            shipList.ElementAt(2).setSize(4);
-            shipList.ElementAt(3).setSize(3);
-            shipList.ElementAt(4).setSize(3);
-            shipList.ElementAt(5).setSize(3);
-            shipList.ElementAt(6).setSize(2);
-            shipList.ElementAt(7).setSize(2);
-            shipList.ElementAt(0).setSize(2);
-            shipList.ElementAt(1).setSize(2);
-            
-            Console.WriteLine("Rules initiated");
-
-        }
-
-        //c# doesn't seem to support passing by reference, so it's passed by value. 
-        public List<Ship> getShipList()
-        {
-            return this.shipList; 
-        }
-
-        //call this method when done with GUI initiation to tell the rules where the ships are placed and where they are located (this is a workaround the "no reference passing" problem from getShipList())
-        public void setShipList(List<Ship> s)
-        {
-            this.shipList = s; 
-        }
-
-        //find the ship that needs to be removed, and removes it. No need to keep track of indexes =)
-        public void removeShips(Ship s)
-        {
-            shipList.Remove(s);
-        }
-
         public bool validFire(int x, int y, Board b)
         {
-            if(x < 0 || x > 10 || y < 0 || y > 10){
+            if((x < 0 || x > 10 || y < 0 || y > 10) || (b.isHit(x, y))){
                 return false;
             }
 
             return true;
         }
 
-        public bool validPlacement(Tuple<int, int> start, Tuple<int, int> end, Ship s)
+        public bool validPlacement(Tuple<int, int> start, Tuple<int, int> end, Board p)
         {
-            if((start.Item1 == end.Item1) || (start.Item2 == end.Item2)){
-                return true;
-            }
+            if ((start.Item1 == end.Item1) && (start.Item2 != end.Item2) || (start.Item1 != end.Item1) && (start.Item2 == end.Item2))
+            {
+                for (int y = start.Item1; y <= end.Item1; y++)
+                {
+                    for (int x = start.Item2; x <= end.Item2; x++)
+                    {
+                        if(p.isShip(y, x)){
+                            Console.WriteLine("validPlacement inner false");
+                            return false;
+                        }
+                    }
+                }
 
+
+                    return true;
+            }
+            Console.WriteLine("validPLacement outer false");
             return false;
         }
-
-        public bool lost()
+        public bool validPlacement(int startX, int startY, int endX, int endY, Board p)
         {
-            if (shipList.Count() == 0)
+            if ((startX == endX) && (startY != endY) || (startX != endX) && (startY == endY))
+            {
+                for (int y = startX; y <= endX; y++)
+                {
+                    for (int x = startY; x <= endY; x++)
+                    {
+                        if (p.isShip(x, y))
+                        {
+                            Console.WriteLine("something fucked up");
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            Console.WriteLine("something is messed up");
+            return false;
+        }
+        public bool lost(Board p)
+        {
+            if (p.getShipList().Count() == 0)
             {
                 return true;
             }
