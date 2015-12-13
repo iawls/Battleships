@@ -45,7 +45,7 @@
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(763, 528);
             this.Name = "GameScreen";
-            this.Text = "GameScreen";
+            this.Text = "Battleship";
             this.ResumeLayout(false);
 
         }
