@@ -10,6 +10,7 @@ namespace Battleships
     {
         int turn = 1;
         int action = 0;
+        bool placeShipPhase = true;
 
         public Rules rulebook = new Rules();
 
@@ -23,6 +24,11 @@ namespace Battleships
         public int getTurn()
         {
             return this.turn;
+        }
+
+        public bool getPhase()
+        {
+            return this.placeShipPhase;
         }
 
         public void setTurn(int turn)
@@ -119,40 +125,9 @@ namespace Battleships
                 }
             }
 
-                /*
-                do
-                {
-                    Console.WriteLine("Enter coordinates to place a ship at, cant be longer or shorter than " + s.getSize());
-                    Console.Write("startx: ");
-                    x1 = int.Parse(Console.ReadLine());
-                    Console.Write("starty: ");
-                    y1 = int.Parse(Console.ReadLine());
-
-                    Console.Write("endx: ");
-                    x2 = int.Parse(Console.ReadLine());
-                    Console.Write("endy: ");
-                    y2 = int.Parse(Console.ReadLine());
-
-                } while (rulebook.validPlacement(x1, y1, x2, y2, p)); //(x2 - x1 + 1 != s.getSize() && y2 == y1) || (y2 - y1 + 1 != s.getSize() && x2 == x1)
-
-                Tuple<int, int> posStart = new Tuple<int, int>(x1, y1);
-                Tuple<int, int> posEnd = new Tuple<int, int>(x2, y2);
-
-                Console.WriteLine("Ship position accepted");
-
-                s.setStartEnd(posStart, posEnd);
-            }
-            p.setShipList(newShipList);
-
-            foreach (Ship s in p.getShipList())
-            {
-                p.placeShip(s.getStart(), s.getEnd(), s);
-            }
-            */
-                p.printBoard();
+            p.printBoard();
             Console.WriteLine("All ships placed, leaving phase");
-            
-
+            placeShipPhase = false;
         }
 
         void GameLoop(Board p1, Board p2)
