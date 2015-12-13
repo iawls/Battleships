@@ -233,6 +233,8 @@ namespace Battleships
 
         static void Main()
         {
+            GameScreen gameScreen = new GameScreen();
+            gameScreen.ShowDialog();
             Board p1 = new Board(true); //Player 1 is human
             Board p2 = new Board(true); //PLayer 2 is human
             GameEngine GE = new GameEngine();
