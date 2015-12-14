@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Battleships
 {
-    class GameEngine
+    public class GameEngine
     {
         int turn = 1;
         int action = 0;
@@ -394,11 +394,11 @@ namespace Battleships
 
         static void Main()
         {
-            GameScreen gameScreen = new GameScreen();
-            gameScreen.ShowDialog();
             Board p1 = new Board(true); //Player 1 is human
             Board p2 = new Board(false); //PLayer 2 is human
             GameEngine GE = new GameEngine(p1, p2);
+            GameScreen gameScreen = new GameScreen(GE, p1, p2);
+            gameScreen.ShowDialog();
             Console.WriteLine("Player 1, place your ships");
             GE.placeShipsPhase(p1);
             Console.WriteLine("Player 2, place your ships");
@@ -413,7 +413,7 @@ namespace Battleships
 
     }
 
-    class Board
+    public class Board
     {
         List<List<Node>> GameBoard = new List<List<Node>>();
         public Rules rulebook = new Rules();
@@ -548,14 +548,14 @@ namespace Battleships
        public void initShipList()
        {
            //Change to lower number for easier debug
-           for (int i = 0; i < 1; ++i)
+           for (int i = 0; i < 10; ++i)
            {
                Ship s = new Ship();
                shipList.Add(s);
            }
 
            //Remove some ships if you want easier debug with the console
-         /*  shipList.ElementAt(0).setSize(6);
+           shipList.ElementAt(0).setSize(6);
            shipList.ElementAt(1).setSize(4);
            shipList.ElementAt(2).setSize(4);
            shipList.ElementAt(3).setSize(3);
@@ -564,8 +564,8 @@ namespace Battleships
            shipList.ElementAt(6).setSize(2);
            shipList.ElementAt(7).setSize(2);
            shipList.ElementAt(8).setSize(2);
-           shipList.ElementAt(9).setSize(6);*/
-           shipList.ElementAt(0).setSize(6);
+           shipList.ElementAt(9).setSize(2);
+           //shipList.ElementAt(0).setSize(6);
 
            Console.WriteLine("Rules initiated");
 
@@ -600,7 +600,7 @@ namespace Battleships
 
     }
 
-    class Node
+    public class Node
     {
         bool hit;
         Ship ship;
@@ -638,13 +638,13 @@ namespace Battleships
 
 
     }
-    class Ship
+    public class Ship
     {
 
         Tuple<int, int> start;
         Tuple<int, int> end;
         bool dead = false;
-        bool placed;
+        bool placed = false;
         int size = 1;
         int hits = 0;
 
@@ -712,7 +712,7 @@ namespace Battleships
         }
        
     }
-    class Rules
+    public class Rules
     {
         public bool validFire(int x, int y, Board b)
         {
@@ -782,7 +782,7 @@ namespace Battleships
      * If there's a better option (3 in the known board), it will choose one of those at random
      * to avoid predictability. 
      * */
-    class AI
+    public class AI
     {
         List<List<int>> knownBoard = new List<List<int>>(); /* Will have integers as identifiers.
                                      * 0 - unknown

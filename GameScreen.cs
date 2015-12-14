@@ -21,40 +21,125 @@ namespace Battleships
         private int posX = 0;
         private int posY = 0;
         private bool cursorVisible = true;
-        private List<Ship> shipListOne;
-        private List<Ship> shipListTwo;
         private int turn;
-        private int phase; //int?
+        private int phase;
         private int shipSelected = -1; //no ship selected
+        private int shipRotation = 0; //Horizontal = 0, Vertical = 1
+        private int[] shipSizes = new int[10];
+        private int shipModels;
+        private List<Ship> shipListOne, shipListTwo;
+        private GameEngine ge;
+        private Board p1, p2;
 
-        public GameScreen()
+        public GameScreen(GameEngine ge, Board p1, Board p2)
         {
             InitializeComponent();
             this.DoubleBuffered = true;
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(Form_MouseMove);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(Form_MouseClick);
 
-            //load ship lists
+            this.ge = ge;
+            this.p1 = p1;
+            this.p2 = p2;
+            boardSize = p1.getSize();
+            shipListOne = p1.getShipList();
+            shipListTwo = p2.getShipList();
+            turn = 1;//ge.getTurn();
+            phase = 1;
         }
 
-        private void Form_MouseClick(object sender, MouseEventArgs e)
+        private int get_ship_size_from_click(int shipWidth)
         {
+            if(posY > boardOffset && posY < (boardOffset + shipWidth))
+            {
+                return shipSizes[0]; 
+            }else if (posY > (boardOffset+shipWidth*2) && posY < (boardOffset + shipWidth * 3))
+            {
+                return shipSizes[1];
+            }
+            else if (posY > (boardOffset + shipWidth * 4) && posY < (boardOffset + shipWidth * 5))
+            {
+                return shipSizes[2];
+            }
+            else if (posY > (boardOffset + shipWidth * 6) && posY < (boardOffset + shipWidth * 7))
+            {
+                return shipSizes[3];
+            }
+            else if (posY > (boardOffset + shipWidth * 8) && posY < (boardOffset + shipWidth * 9))
+            {
+                return shipSizes[4];
+            }
+
+            return 0;
+        }
+
+        private void right_click()
+        {
+            if (shipRotation == 0)
+                shipRotation = 1;
+            else
+                shipRotation = 0;
+        }
+
+        private void left_click()
+        {
+            int shipListOffset = listWindowWidth / 10;
+            int shipWidth = (listWindowWidth - shipListOffset * 2) / 6;
             /*
             * ship list click
             * left board click
             * right board click
             */
-            if(posX < listWindowWidth && posY < boardWindowHeight)
+            if (posX < listWindowWidth && posY < boardWindowHeight)
             {
+                if (phase == 1)
+                {
+                    if (posY < (boardOffset + (shipWidth * 2 * (shipModels - 1))) && posY > shipWidth)
+                    {
 
-            }else if (posX > (listWindowWidth+boardOffset) && posX < (listWindowWidth + boardOffset+cellWidth*boardSize) && posY > boardOffset && posY < (boardOffset+cellWidth*boardSize))
+                        int shipSize = get_ship_size_from_click(shipWidth);
+                        if (turn == 1)
+                        {
+                            for (int i = 0; i < shipListOne.Count; i++)
+                            {
+                                if (shipListOne.ElementAt(i).getSize() == shipSize && shipListOne.ElementAt(i).getPlaced() == false)
+                                {
+                                    shipSelected = i;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < shipListTwo.Count; i++)
+                            {
+                                if (shipListTwo.ElementAt(i).getSize() == shipSize && shipListTwo.ElementAt(i).getPlaced() == false)
+                                {
+                                    shipSelected = i;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (posX > (listWindowWidth + boardOffset) && posX < (listWindowWidth + boardOffset + cellWidth * boardSize) && posY > boardOffset && posY < (boardOffset + cellWidth * boardSize))
             {
 
             }
-            else if (posX > (listWindowWidth + boardWindowWidth + boardOffset) && posX < (listWindowWidth + boardWindowWidth + boardOffset + cellWidth*boardSize) && posY > boardOffset && posY < (boardOffset + cellWidth * boardSize))
+            else if (posX > (listWindowWidth + boardWindowWidth + boardOffset) && posX < (listWindowWidth + boardWindowWidth + boardOffset + cellWidth * boardSize) && posY > boardOffset && posY < (boardOffset + cellWidth * boardSize))
             {
 
             }
+        }
+
+        private void Form_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                left_click();
+            else
+                right_click();
+            
         }
 
         private void Form_MouseMove(object sender, MouseEventArgs e)
@@ -63,12 +148,76 @@ namespace Battleships
             posY = e.Y;
         }
 
+        private void draw_ship_list(PaintEventArgs pe)
+        {
+            System.Drawing.Pen black = new System.Drawing.Pen(Color.Black, 2);
+            int shipSize = 0;
+            int row = 0;
+            int copies = 0;
+            int shipListOffset = listWindowWidth / 10;
+            int shipWidth = (listWindowWidth - shipListOffset*2)/6;
+   
+            if (turn == 1)
+            {
+                for (int i = 0; i < shipListOne.Count; i++)
+                {
+                    if (shipSize != shipListOne.ElementAt(i).getSize())
+                    {
+                        if (copies != 0)
+                            //Controls.Add(new Label { Location = new Point(100, 100), AutoSize = true, Text = copies + "x" });
+
+                        copies = 1;
+                        shipSize = shipListOne.ElementAt(i).getSize();
+                        for (int x = 0; x < shipSize; x++)
+                        {
+                            pe.Graphics.DrawRectangle(black, shipListOffset + shipWidth * x, boardOffset + (shipWidth * 2 * row), shipWidth, shipWidth);
+                        }
+                        shipSizes[row] = shipSize;
+                        row++;
+                    }
+                    else
+                    {
+                        copies++;
+                    }
+                    shipSize = shipListOne.ElementAt(i).getSize();
+                }
+                shipModels = row + 1;
+            }
+            else
+            {
+                for (int i = 0; i < shipListTwo.Count; i++)
+                {
+                    if (shipSize != shipListOne.ElementAt(i).getSize())
+                    {
+                        if (copies != 0)
+                            //Controls.Add(new Label { Location = new Point(100, 100), AutoSize = true, Text = copies + "x" });
+
+                        copies = 1;
+                        shipSize = shipListTwo.ElementAt(i).getSize();
+                        for (int x = 0; x < shipSize; x++)
+                        {
+                            pe.Graphics.DrawRectangle(black, shipListOffset + shipWidth * x, boardOffset + (shipWidth * 2 * row), shipWidth, shipWidth);
+                        }
+                        shipSizes[row] = shipSize;
+                        row++;
+                    }
+                    else
+                    {
+                        copies++;
+                    }
+                    shipSize = shipListTwo.ElementAt(i).getSize();
+                }
+            }
+            shipModels = row + 1;
+        }
+
         protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
             System.Drawing.Pen black = new System.Drawing.Pen(Color.Black, 2);
             System.Drawing.Pen green = new System.Drawing.Pen(Color.LightGreen, 3);
             System.Drawing.SolidBrush fillBlue = new System.Drawing.SolidBrush(System.Drawing.Color.LightSkyBlue);
+            System.Drawing.SolidBrush fillGray = new System.Drawing.SolidBrush(System.Drawing.Color.LightGray);
 
             //draw windows
             pe.Graphics.DrawRectangle(black, 0, 0, listWindowWidth, boardWindowHeight);
@@ -77,6 +226,8 @@ namespace Battleships
 
             int leftBoardStartX = listWindowWidth + boardOffset;
             int rightBoardStartX = listWindowWidth + boardWindowWidth + boardOffset;
+
+            draw_ship_list(pe);
 
             //board to the left
             pe.Graphics.FillRectangle(fillBlue, leftBoardStartX, boardOffset, cellWidth*10, cellWidth * 10);
@@ -99,25 +250,72 @@ namespace Battleships
             }
 
             //draw crosshair
-            //if(phase != placeShip)
-            if (posX > listWindowWidth && posX < listWindowWidth + boardWindowWidth && posY > 0 && posY < boardWindowHeight)
+            if(phase != 1)
             {
-                if (cursorVisible)
+                if (posX > listWindowWidth && posX < listWindowWidth + boardWindowWidth && posY > 0 && posY < boardWindowHeight)
                 {
-                    Cursor.Hide();
-                    cursorVisible = false;
-                }
+                    if (cursorVisible)
+                    {
+                        Cursor.Hide();
+                        cursorVisible = false;
+                    }
 
-                pe.Graphics.DrawEllipse(green, posX - (cellWidth), posY - (cellWidth), cellWidth * 2, cellWidth * 2);
-                pe.Graphics.DrawLine(green, listWindowWidth, posY, listWindowWidth + boardWindowWidth, posY);
-                pe.Graphics.DrawLine(green, posX, 0, posX, boardWindowHeight);
-            }
-            else
-            {
-                if (!cursorVisible)
+                    pe.Graphics.DrawEllipse(green, posX - (cellWidth), posY - (cellWidth), cellWidth * 2, cellWidth * 2);
+                    pe.Graphics.DrawLine(green, listWindowWidth, posY, listWindowWidth + boardWindowWidth, posY);
+                    pe.Graphics.DrawLine(green, posX, 0, posX, boardWindowHeight);
+                }
+                else
                 {
-                    Cursor.Show();
-                    cursorVisible = true;
+                    if (!cursorVisible)
+                    {
+                        Cursor.Show();
+                        cursorVisible = true;
+                    }
+                }
+            }
+            else if(shipSelected != -1)
+            {
+                int shipSize;
+                if (turn == 1)
+                    shipSize = shipListOne.ElementAt(shipSelected).getSize();
+                else
+                    shipSize = shipListTwo.ElementAt(shipSelected).getSize();
+
+                if (posX > (listWindowWidth + boardOffset) && posX < (listWindowWidth + boardOffset + cellWidth * boardSize) && posY > boardOffset && posY < (boardOffset + cellWidth * boardSize))
+                {
+                    int boardCol = (posX - (listWindowWidth + boardOffset)) / cellWidth;
+                    int boardRow = (posY - boardOffset) / cellWidth;
+
+                    for (int x = 0; x < shipSize; x++)
+                    {
+                        if (shipRotation == 0)
+                        {
+                            pe.Graphics.DrawRectangle(black, leftBoardStartX + (cellWidth * boardCol) + (cellWidth * x), boardOffset + (cellWidth * boardRow), cellWidth, cellWidth);
+                            pe.Graphics.FillRectangle(fillGray, leftBoardStartX + (cellWidth * boardCol) + (cellWidth * x), boardOffset + (cellWidth * boardRow), cellWidth, cellWidth);
+                        }
+                        else
+                        {
+                            pe.Graphics.DrawRectangle(black, leftBoardStartX + (cellWidth * boardCol), boardOffset + (cellWidth * boardRow) + (cellWidth * x), cellWidth, cellWidth);
+                            pe.Graphics.FillRectangle(fillGray, leftBoardStartX + (cellWidth * boardCol), boardOffset + (cellWidth * boardRow) + (cellWidth * x), cellWidth, cellWidth);
+                        }
+ 
+                    }
+                }
+                else
+                {
+                    for (int x = 0; x < shipSize; x++)
+                    {
+                        if(shipRotation == 0)
+                        {
+                            pe.Graphics.DrawRectangle(black, posX + cellWidth * x, posY, cellWidth, cellWidth);
+                            pe.Graphics.FillRectangle(fillGray, posX + cellWidth * x, posY, cellWidth, cellWidth);
+                        }
+                        else
+                        {
+                            pe.Graphics.DrawRectangle(black, posX, posY + cellWidth*x, cellWidth, cellWidth);
+                            pe.Graphics.FillRectangle(fillGray, posX, posY + cellWidth*x, cellWidth, cellWidth);
+                        }
+                    }
                 }
             }
 
