@@ -812,7 +812,7 @@ namespace Battleships
                 knownBoard.Add(tmpList);                    //add the inner List to the outer List
             }
             this.knownBoard[1][1] = 3;
-            this.knownBoard[2][1] = 3;
+            this.knownBoard[1][2] = 3;
 
 
         }
@@ -874,25 +874,84 @@ namespace Battleships
 
                         if (t.Item1 >= 0 && t.Item2 >= 0 && t.Item1 < 10 && t.Item2 < 10)   //Update the surrounding areas to 5 for "nothing here" since a ship cant be next to another ship
                         {
-                            if (this.knownBoard[t.Item2][t.Item1 - 1] != 4)
+                            if (t.Item1 > 0)
                             {
-                                updateKnownBoard(t.Item1-1, t.Item2, 5);
+                                if (this.knownBoard[t.Item2][t.Item1 - 1] != 4)
+                                {
+                                    updateKnownBoard(t.Item1 - 1, t.Item2, 5);
+                                }
                             }
-                            if (this.knownBoard[t.Item2-1][t.Item1] != 4)
+                            if (t.Item2 > 0)
                             {
-                                updateKnownBoard(t.Item1, t.Item2 - 1, 5);
+                                if (this.knownBoard[t.Item2 - 1][t.Item1] != 4)
+                                {
+                                    updateKnownBoard(t.Item1, t.Item2 - 1, 5);
+                                }
                             }
-                            if (this.knownBoard[t.Item2+1][t.Item1] != 4)
+                            if (t.Item2 < 9)
                             {
-                                updateKnownBoard(t.Item1, t.Item2 + 1, 5);
+                                if (this.knownBoard[t.Item2 + 1][t.Item1] != 4)
+                                {
+                                    updateKnownBoard(t.Item1, t.Item2 + 1, 5);
+                                }
                             }
-                            if (this.knownBoard[t.Item2][t.Item1+1] != 4)
+                            if (t.Item1 < 9)
                             {
-                                updateKnownBoard(t.Item1 + 1, t.Item2, 5);
+                                if (this.knownBoard[t.Item2][t.Item1 + 1] != 4)
+                                {
+                                    updateKnownBoard(t.Item1 + 1, t.Item2, 5);
+                                }
                             }
                         }
                     }
                 }
+
+                if (newValue == 2)
+                {
+                    if (y < 9)
+                    {
+                        if (knownBoard[y + 1][x] == 2)
+                        {
+                            updateKnownBoard(x + 1, y + 1, 5);
+                            updateKnownBoard(x - 1, y + 1, 5);
+                            updateKnownBoard(x + 1, y, 5);
+                            updateKnownBoard(x - 1, y, 5);
+                        }
+                    }
+                    if (y > 0)
+                    {
+                        if (knownBoard[y - 1][x] == 2)
+                        {
+                            updateKnownBoard(x + 1, y - 1, 5);
+                            updateKnownBoard(x - 1, y - 1, 5);
+                            updateKnownBoard(x + 1, y, 5);
+                            updateKnownBoard(x - 1, y, 5);
+                        }
+                    }
+                    if (x < 9)
+                    {
+                        if (knownBoard[y][x + 1] == 2)
+                        {
+                            updateKnownBoard(x + 1, y - 1, 5);
+                            updateKnownBoard(x + 1, y + 1, 5);
+                            updateKnownBoard(x, y - 1, 5);
+                            updateKnownBoard(x, y + 1, 5);
+                        }
+                    }
+                    if (x > 0)
+                    {
+                        if (knownBoard[y][x - 1] == 2)
+                        {
+                            updateKnownBoard(x - 1, y - 1, 5);
+                            updateKnownBoard(x - 1, y + 1, 5);
+                            updateKnownBoard(x, y - 1, 5);
+                            updateKnownBoard(x, y + 1, 5);
+
+                        }
+                    }
+
+                }
+
             }
             Console.WriteLine("[AI.updateKnownBoard] Board updated");
         }
@@ -922,6 +981,7 @@ namespace Battleships
                 {
                     Console.WriteLine("[AI.findDeadShips] hitShipFound!");
                     hitShipFound = true;
+                    hitFound = false;
                     shipLengthCounter++;
                     Tuple<int, int> tmpPos = new Tuple<int, int>(x_, y);
                     deadShipCoords.Add(tmpPos);
