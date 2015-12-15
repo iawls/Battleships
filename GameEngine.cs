@@ -521,7 +521,7 @@ namespace Battleships
        public void initShipList()
        {
            //Change to lower number for easier debug
-           for (int i = 0; i < 1; ++i)
+           for (int i = 0; i < 2; ++i)
            {
                Ship s = new Ship();
                shipList.Add(s);
@@ -538,7 +538,8 @@ namespace Battleships
            shipList.ElementAt(7).setSize(2);
            shipList.ElementAt(8).setSize(2);
            shipList.ElementAt(9).setSize(6);*/
-           shipList.ElementAt(0).setSize(6);
+           shipList.ElementAt(0).setSize(2);
+           shipList.ElementAt(1).setSize(2);
 
            Console.WriteLine("Rules initiated");
 
@@ -763,6 +764,7 @@ namespace Battleships
                                      * 2 - hit and ship
                                      * 3 - next to ship (might also be ship)
                                      * 4 - dead ship
+                                     * 5 - next to dead ship, aka nothing
                                      * */
         //int targetX;
         //int targetY;
@@ -809,26 +811,47 @@ namespace Battleships
                 }
                 knownBoard.Add(tmpList);                    //add the inner List to the outer List
             }
-            this.knownBoard[0][0] = 3;
+            this.knownBoard[1][1] = 3;
+            this.knownBoard[2][1] = 3;
+
 
         }
 
         void updateKnownBoard(int x, int y, int newValue)
         {
-            Console.WriteLine("Updating x: " + x + ", y: " + y + " to " + newValue);
+
             //If hit, update the node to show hit ship, and update surrounding nodes to "next to ship"
-            if (x < 10 && x >= 0 && y < 10 && y >= 0)
+            if (x < 10 && x >= 0 && y < 10 && y >= 0 && newValue <= 5 && newValue >= 0)
             {
                 switch (this.knownBoard[y][x])
                 {
                     case 0:
                         this.knownBoard[y][x] = newValue;
+                        Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
                         break;
-                    case 3:
-                        if (this.knownBoard[y][x] != 4 && this.knownBoard[y][x] != 2)   //Dont update with info that's "worse" than what we already know
+                    case 1:
+                        if (newValue == 4 || newValue == 5)
+                        {
                             this.knownBoard[y][x] = newValue;
+                            Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
+                        }
+                        break;
+                    case 2:
+                        if (newValue == 4 || newValue == 5)
+                        {
+                            this.knownBoard[y][x] = newValue;
+                            Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
+                        }
+                        break; 
+                    case 3:
+                        if (newValue != 0)
+                        {
+                            this.knownBoard[y][x] = newValue;
+                            Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
+                        }
                         break;
                     default:
+                        Console.WriteLine("[AI.updateKnownBoard] Nothing updated");
                         break;
                 }
             }
@@ -838,67 +861,138 @@ namespace Battleships
             }
             
             //identify dead ships
-            //if (findDeadShips(x, y))
-            //{
-                /*TODO
-                 * Mark the ship as dead
-                 * */
-            //}
-            //update with dead ships position if found
+            if (newValue == 2 || newValue == 1)
+            {
+                List<Tuple<int, int>> deadShip = new List<Tuple<int, int>>(findDeadShips(x, y));
 
+                if (deadShip.Count > 0)
+                {
+                    Console.WriteLine("[AI.updateKnownBoard] deadShip.Count > 0 start: "+deadShip.ElementAt(0)+" end: "+deadShip.ElementAt(deadShip.Count-1));
+                    foreach (Tuple<int, int> t in deadShip ?? Enumerable.Empty<Tuple<int, int>>())
+                    {
+                        updateKnownBoard(t.Item1, t.Item2, 4);
+
+                        if (t.Item1 >= 0 && t.Item2 >= 0 && t.Item1 < 10 && t.Item2 < 10)   //Update the surrounding areas to 5 for "nothing here" since a ship cant be next to another ship
+                        {
+                            if (this.knownBoard[t.Item2][t.Item1 - 1] != 4)
+                            {
+                                updateKnownBoard(t.Item1-1, t.Item2, 5);
+                            }
+                            if (this.knownBoard[t.Item2-1][t.Item1] != 4)
+                            {
+                                updateKnownBoard(t.Item1, t.Item2 - 1, 5);
+                            }
+                            if (this.knownBoard[t.Item2+1][t.Item1] != 4)
+                            {
+                                updateKnownBoard(t.Item1, t.Item2 + 1, 5);
+                            }
+                            if (this.knownBoard[t.Item2][t.Item1+1] != 4)
+                            {
+                                updateKnownBoard(t.Item1 + 1, t.Item2, 5);
+                            }
+                        }
+                    }
+                }
+            }
+            Console.WriteLine("[AI.updateKnownBoard] Board updated");
         }
 
-        /*TODO
-         * FINISH THIS =D
-         * 
+        /*
+         * Works both horizontally and vertically! 
          * */
-        bool findDeadShips(int x, int y) 
+        List<Tuple<int, int>> findDeadShips(int x, int y) 
         {
-            //Check the horizontal row for dead ships
-
+            Console.WriteLine("[AI.findDeadShips] Entering function");
             bool hitShipFound = false;
             int shipLengthCounter = 0;
             bool deadShipFound = false;
+            bool hitFound = false;
 
-            for (int i = 0; i < 10; ++i)
+            List<Tuple<int, int>> deadShipCoords = new List<Tuple<int, int>>();
+
+            //Check the horizontal row for dead ships
+            for (int x_ = 0; x_ < 10; ++x_)
             {
-                if (knownBoard[y][i] == 1)
+                if (knownBoard[y][x_] == 1)
                 {
-
+                    Console.WriteLine("[AI.findDeadShips] hitFound!");
+                    hitFound = true;
                 }
-                if (knownBoard[y][i] == 2)
+                if (knownBoard[y][x_] == 2 && (hitFound || x_ == 0 || hitShipFound))
                 {
+                    Console.WriteLine("[AI.findDeadShips] hitShipFound!");
                     hitShipFound = true;
                     shipLengthCounter++;
-                }else if (hitShipFound && knownBoard[y][i] == 3 && shipLengthCounter > 1)
+                    Tuple<int, int> tmpPos = new Tuple<int, int>(x_, y);
+                    deadShipCoords.Add(tmpPos);
+                }
+                if (hitShipFound && shipLengthCounter > 1 && hitFound)
                 {
                     deadShipFound = true;
+                    Console.WriteLine("[AI.findDeadShips] Found a dead ship!");
+                    return deadShipCoords;
                 }
             }
 
+            //Check vertically for dead ships
+            Console.WriteLine("Checking vertically for dead ships!");
+            hitShipFound = false;
+            shipLengthCounter = 0;
+            deadShipFound = false;
+            hitFound = false;
 
-            return deadShipFound;
+            for (int y_ = 0; y_ < 10; ++y_)
+            {
+                if (knownBoard[y_][x] == 1)
+                {
+                    Console.WriteLine("[AI.findDeadShips] hitFound!");
+                    hitFound = true;
+                }
+                if (knownBoard[y_][x] == 2 && (hitFound || y_ == 0 || hitShipFound))
+                {
+                    Console.WriteLine("[AI.findDeadShips] hitShipFound!");
+                    hitShipFound = true;
+                    shipLengthCounter++;
+                    Tuple<int, int> tmpPos = new Tuple<int, int>(y_, x);
+                    deadShipCoords.Add(tmpPos);
+                }
+                if (hitShipFound && knownBoard[y_][x] == 1 && shipLengthCounter > 1 && hitFound)
+                {
+                    deadShipFound = true;
+                    Console.WriteLine("[AI.findDeadShips] Found a dead ship!");
+                    break;
+                }
+            }
+
+            if (!deadShipFound)
+                deadShipCoords.Clear();
+
+            return deadShipCoords;
         }
-
 
         Tuple<int, int> chooseFireCoords()
         {
             Random random = new Random();
-
-            if (searchForTarget(3) == true)
+            do
             {
-                int randomNumber = random.Next(0, targetList.Count - 1);
-                Tuple<int, int> target = new Tuple<int, int>(targetList.ElementAt(randomNumber).Item1, targetList.ElementAt(randomNumber).Item2);
-                return target;
-            }
-            else
-            {
-                int x = random.Next(0, 10);
-                int y = random.Next(0, 10);
-                Tuple<int, int> target = new Tuple<int, int>(x, y);
-                return target;
-            }
-
+                if (searchForTarget(3) == true)
+                {
+                    int randomNumber = random.Next(0, targetList.Count - 1);
+                    Tuple<int, int> target = new Tuple<int, int>(targetList.ElementAt(randomNumber).Item1, targetList.ElementAt(randomNumber).Item2);
+                    targetList.Clear();
+                    return target;
+                }
+                else
+                {
+                    if (searchForTarget(0))
+                    {
+                        int randomNumber = random.Next(0, targetList.Count - 1);
+                        Tuple<int, int> target = new Tuple<int, int>(targetList.ElementAt(randomNumber).Item1, targetList.ElementAt(randomNumber).Item2);
+                        targetList.Clear();
+                        return target;
+                    }
+                }
+            } while (true);
         }
 
         bool searchForTarget(int value)
