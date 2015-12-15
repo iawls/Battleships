@@ -10,6 +10,7 @@ namespace Battleships
     {
         int turn = 1;
         int action = 0;
+        bool placeShipPhase = true;
 
         public Rules rulebook = new Rules();
 
@@ -23,6 +24,11 @@ namespace Battleships
         public int getTurn()
         {
             return this.turn;
+        }
+
+        public bool getPhase()
+        {
+            return this.placeShipPhase;
         }
 
         public void setTurn(int turn)
@@ -119,40 +125,9 @@ namespace Battleships
                 }
             }
 
-                /*
-                do
-                {
-                    Console.WriteLine("Enter coordinates to place a ship at, cant be longer or shorter than " + s.getSize());
-                    Console.Write("startx: ");
-                    x1 = int.Parse(Console.ReadLine());
-                    Console.Write("starty: ");
-                    y1 = int.Parse(Console.ReadLine());
-
-                    Console.Write("endx: ");
-                    x2 = int.Parse(Console.ReadLine());
-                    Console.Write("endy: ");
-                    y2 = int.Parse(Console.ReadLine());
-
-                } while (rulebook.validPlacement(x1, y1, x2, y2, p)); //(x2 - x1 + 1 != s.getSize() && y2 == y1) || (y2 - y1 + 1 != s.getSize() && x2 == x1)
-
-                Tuple<int, int> posStart = new Tuple<int, int>(x1, y1);
-                Tuple<int, int> posEnd = new Tuple<int, int>(x2, y2);
-
-                Console.WriteLine("Ship position accepted");
-
-                s.setStartEnd(posStart, posEnd);
-            }
-            p.setShipList(newShipList);
-
-            foreach (Ship s in p.getShipList())
-            {
-                p.placeShip(s.getStart(), s.getEnd(), s);
-            }
-            */
-                p.printBoard();
+            p.printBoard();
             Console.WriteLine("All ships placed, leaving phase");
-            
-
+            placeShipPhase = false;
         }
 
         void GameLoop(Board p1, Board p2)
@@ -789,8 +764,8 @@ namespace Battleships
                                      * 3 - next to ship (might also be ship)
                                      * 4 - dead ship
                                      * */
-        int targetX;
-        int targetY;
+        //int targetX;
+        //int targetY;
 
         List<Tuple<int, int>> targetList = new List<Tuple<int, int>>();
 
@@ -841,6 +816,7 @@ namespace Battleships
         void updateKnownBoard(int x, int y, int newValue)
         {
             Console.WriteLine("Updating x: " + x + ", y: " + y + " to " + newValue);
+            //If hit, update the node to show hit ship, and update surrounding nodes to "next to ship"
             if (x < 10 && x >= 0 && y < 10 && y >= 0)
             {
                 switch (this.knownBoard[y][x])
@@ -849,7 +825,7 @@ namespace Battleships
                         this.knownBoard[y][x] = newValue;
                         break;
                     case 3:
-                        if (this.knownBoard[y][x] != 4 && this.knownBoard[y][x] != 2)
+                        if (this.knownBoard[y][x] != 4 && this.knownBoard[y][x] != 2)   //Dont update with info that's "worse" than what we already know
                             this.knownBoard[y][x] = newValue;
                         break;
                     default:
@@ -860,7 +836,50 @@ namespace Battleships
             {
                 Console.WriteLine("[AI.updateKnownBoard] Coords out of range");
             }
+            
+            //identify dead ships
+            //if (findDeadShips(x, y))
+            //{
+                /*TODO
+                 * Mark the ship as dead
+                 * */
+            //}
+            //update with dead ships position if found
+
         }
+
+        /*TODO
+         * FINISH THIS =D
+         * 
+         * */
+        bool findDeadShips(int x, int y) 
+        {
+            //Check the horizontal row for dead ships
+
+            bool hitShipFound = false;
+            int shipLengthCounter = 0;
+            bool deadShipFound = false;
+
+            for (int i = 0; i < 10; ++i)
+            {
+                if (knownBoard[y][i] == 1)
+                {
+
+                }
+                if (knownBoard[y][i] == 2)
+                {
+                    hitShipFound = true;
+                    shipLengthCounter++;
+                }else if (hitShipFound && knownBoard[y][i] == 3 && shipLengthCounter > 1)
+                {
+                    deadShipFound = true;
+                }
+            }
+
+
+            return deadShipFound;
+        }
+
 
         Tuple<int, int> chooseFireCoords()
         {
