@@ -166,14 +166,17 @@ namespace Battleships
                 {
                     if (shipSize != shipListOne.ElementAt(i).getSize())
                     {
-                        copies = 1;
-                        shipSize = shipListOne.ElementAt(i).getSize();
-                        for (int x = 0; x < shipSize; x++)
+                        if(shipListOne.ElementAt(i).getPlaced() == false)
                         {
-                            pe.Graphics.DrawRectangle(black, shipListOffset + shipWidth * x, boardOffset + (shipWidth * 2 * row), shipWidth, shipWidth);
+                            copies = 1;
+                            shipSize = shipListOne.ElementAt(i).getSize();
+                            for (int x = 0; x < shipSize; x++)
+                            {
+                                pe.Graphics.DrawRectangle(black, shipListOffset + shipWidth * x, boardOffset + (shipWidth * 2 * row), shipWidth, shipWidth);
+                            }
+                            shipSizes[row] = shipSize;
+                            row++;
                         }
-                        shipSizes[row] = shipSize;
-                        row++;
                     }
                     else
                     {
@@ -231,22 +234,65 @@ namespace Battleships
                 {
                     if (shipSize != shipListTwo.ElementAt(i).getSize())
                     {
-                        if (copies != 0)
-                            //Controls.Add(new Label { Location = new Point(100, 100), AutoSize = true, Text = copies + "x" });
 
-                        copies = 1;
-                        shipSize = shipListTwo.ElementAt(i).getSize();
-                        for (int x = 0; x < shipSize; x++)
+                        if (shipListTwo.ElementAt(i).getPlaced() == false)
                         {
-                            pe.Graphics.DrawRectangle(black, shipListOffset + shipWidth * x, boardOffset + (shipWidth * 2 * row), shipWidth, shipWidth);
+                            copies = 1;
+                            shipSize = shipListTwo.ElementAt(i).getSize();
+                            for (int x = 0; x < shipSize; x++)
+                            {
+                                pe.Graphics.DrawRectangle(black, shipListOffset + shipWidth * x, boardOffset + (shipWidth * 2 * row), shipWidth, shipWidth);
+                            }
+                            shipSizes[row] = shipSize;
+                            row++;
                         }
-                        shipSizes[row] = shipSize;
-                        row++;
                     }
                     else
                     {
                         copies++;
                     }
+
+
+                    if (i < shipListTwo.Count - 1)
+                    {
+                        if (shipSize != shipListTwo.ElementAt(i + 1).getSize())
+                        {
+                            RectangleF textRect = new RectangleF(0, boardOffset + (shipWidth * 2 * (row - 1)), shipListOffset, shipWidth);
+                            float textSize = shipListOffset / 2;
+                            Font textFont;
+                            try
+                            {
+                                textFont = new Font("Arial", textSize);
+                            }
+                            catch (ArgumentException e)
+                            {
+                                textFont = new Font("Arial", 20);
+                            }
+                            StringFormat stringFormat = new StringFormat();
+                            stringFormat.Alignment = StringAlignment.Center;
+                            stringFormat.LineAlignment = StringAlignment.Center;
+                            pe.Graphics.DrawString(copies + "x", textFont, fillBlack, textRect, stringFormat);
+                        }
+                    }
+                    else
+                    {
+                        RectangleF textRect = new RectangleF(0, boardOffset + (shipWidth * 2 * (row - 1)), shipListOffset, shipWidth);
+                        float textSize = shipListOffset;
+                        Font textFont;
+                        try
+                        {
+                            textFont = new Font("Arial", textSize / 2);
+                        }
+                        catch (ArgumentException e)
+                        {
+                            textFont = new Font("Arial", 20);
+                        }
+                        StringFormat stringFormat = new StringFormat();
+                        stringFormat.Alignment = StringAlignment.Center;
+                        stringFormat.LineAlignment = StringAlignment.Center;
+                        pe.Graphics.DrawString(copies + "x", textFont, fillBlack, textRect, stringFormat);
+                    }
+
                     shipSize = shipListTwo.ElementAt(i).getSize();
                 }
                 shipModels = row + 1;
