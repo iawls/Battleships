@@ -400,7 +400,10 @@ namespace Battleships
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
-            pe.Graphics.DrawString("Turn done", textFont, fillBlack, textRect, stringFormat);
+            if(hidePlayerBoards == false)
+                pe.Graphics.DrawString("Turn done", textFont, fillBlack, textRect, stringFormat);
+            else
+                pe.Graphics.DrawString("Enter turn", textFont, fillBlack, textRect, stringFormat);
 
             //board to the left
             pe.Graphics.FillRectangle(fillBlue, leftBoardStartX, boardOffset, cellWidth*10, cellWidth * 10);
