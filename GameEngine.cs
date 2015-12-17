@@ -525,6 +525,12 @@ namespace Battleships
                return false;
            }
        }
+
+       public Ship getShip(int x, int y)
+       {
+           return GameBoard[y][x].getShip();
+       }
+
        public bool fire(int x, int y)
        {
            if (rulebook.validFire(x, y, this))
@@ -867,7 +873,8 @@ namespace Battleships
      * */
     class AI
     {
-        List<List<int>> knownBoard = new List<List<int>>(); /* Will have integers as identifiers.
+        List<List<int>> knownBoard = new List<List<int>>(); 
+                                    /* Will have integers as identifiers.
                                      * 0 - unknown
                                      * 1 - hit
                                      * 2 - hit and ship
@@ -875,9 +882,6 @@ namespace Battleships
                                      * 4 - dead ship
                                      * 5 - next to ship, aka nothing
                                      * */
-        //int targetX;
-        //int targetY;
-
         List<Tuple<int, int>> targetList = new List<Tuple<int, int>>();
 
         public AI()
@@ -901,12 +905,78 @@ namespace Battleships
                     updateKnownBoard(target.Item1, target.Item2+1, 3);
                     updateKnownBoard(target.Item1, target.Item2-1, 3);
 
+                    if (targetBoard.getShip(target.Item1, target.Item2).getDead())
+                    {
+                        deadShipAt(targetBoard.getShip(target.Item1, target.Item2).getStart(), targetBoard.getShip(target.Item1, target.Item2).getEnd());
+                        updateKnownBoard(target.Item1, target.Item2, 4);
+                    }
+
+
                 }
                 else
                 {
                     updateKnownBoard(target.Item1, target.Item2, 1);
                 }
             
+        }
+
+        private void deadShipAt(Tuple<int, int> start, Tuple<int, int> end)
+        {
+            int xMin = Math.Min(start.Item1, end.Item1);
+            int yMin = Math.Min(start.Item2, end.Item2);
+            int xMax = Math.Max(start.Item1, end.Item1);
+            int yMax = Math.Max(start.Item2, end.Item2);
+            if (start.Item1 == end.Item1)
+            {
+                for (int i = yMin; i <= yMax; ++i)
+                {
+                    updateKnownBoard(xMin, i, 4);
+
+                    if (xMin < 9)
+                    {
+                        updateKnownBoard(xMin+1, i, 5);
+                    }
+                    if (xMin > 0)
+                    {
+                        updateKnownBoard(xMin-1, i, 5);
+                    }
+                    if (i < 9)
+                    {
+                        updateKnownBoard(xMin, i + 1, 5);
+                    }
+                    if (i > 0)
+                    {
+                        updateKnownBoard(xMin, i - 1, 5);
+                    }
+
+                }
+            }
+            else if(start.Item2 == end.Item2)
+            {
+                for (int i = xMin; i <= xMax; ++i)
+                {
+                    updateKnownBoard(i, yMin, 4);
+
+                    if (yMin < 9)
+                    {
+                        updateKnownBoard(i, yMin + 1, 5);
+                    }
+                    if (yMin > 0)
+                    {
+                        updateKnownBoard(i, yMin - 1, 5);
+                    }
+                    if (i < 9)
+                    {
+                        updateKnownBoard(i + 1, yMin, 5);
+                    }
+                    if (i > 0)
+                    {
+                        updateKnownBoard(i - 1, yMin, 5);
+                    }
+                }
+            }
+            
+
         }
 
         void initKnownBoard()
@@ -935,14 +1005,6 @@ namespace Battleships
                         Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
                         printBoard();
                         break;
-                    case 1:
-                        if (newValue == 4)
-                        {
-                            this.knownBoard[y][x] = newValue;
-                            Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
-                            printBoard();
-                        }
-                        break;
                     case 2:
                         if (newValue == 4)
                         {
@@ -959,8 +1021,13 @@ namespace Battleships
                             printBoard();
                         }
                         break;
-                    case 4:
-                        Console.WriteLine("[AI.updateKnownBoard] Nothing updated");
+                    case 5:
+                        if (newValue == 4)
+                        {
+                            this.knownBoard[y][x] = newValue;
+                            Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
+
+                        }
                         break;
                     default:
                         Console.WriteLine("[AI.updateKnownBoard] Nothing updated");
@@ -970,100 +1037,6 @@ namespace Battleships
             else
             {
                 Console.WriteLine("[AI.updateKnownBoard] Coords out of range");
-            }
-            
-            //identify dead ships
-            if (newValue == 2 || newValue == 1)
-            {
-                List<Tuple<int, int>> deadShip = new List<Tuple<int, int>>(findDeadShips(x, y));
-
-                if (deadShip.Count > 0)
-                {
-                    Console.WriteLine("[AI.updateKnownBoard] deadShip.Count > 0 start: "+deadShip.ElementAt(0)+" end: "+deadShip.ElementAt(deadShip.Count-1));
-                    foreach (Tuple<int, int> t in deadShip ?? Enumerable.Empty<Tuple<int, int>>())
-                    {
-                        updateKnownBoard(t.Item1, t.Item2, 4);
-
-                        if (t.Item1 >= 0 && t.Item2 >= 0 && t.Item1 < 10 && t.Item2 < 10)   //Update the surrounding areas to 5 for "nothing here" since a ship cant be next to another ship
-                        {
-                            if (t.Item1 > 0)
-                            {
-                                if (this.knownBoard[t.Item2][t.Item1 - 1] != 4)
-                                {
-                                    updateKnownBoard(t.Item1 - 1, t.Item2, 5);
-                                }
-                            }
-                            if (t.Item2 > 0)
-                            {
-                                if (this.knownBoard[t.Item2 - 1][t.Item1] != 4)
-                                {
-                                    updateKnownBoard(t.Item1, t.Item2 - 1, 5);
-                                }
-                            }
-                            if (t.Item2 < 9)
-                            {
-                                if (this.knownBoard[t.Item2 + 1][t.Item1] != 4)
-                                {
-                                    updateKnownBoard(t.Item1, t.Item2 + 1, 5);
-                                }
-                            }
-                            if (t.Item1 < 9)
-                            {
-                                if (this.knownBoard[t.Item2][t.Item1 + 1] != 4)
-                                {
-                                    updateKnownBoard(t.Item1 + 1, t.Item2, 5);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (newValue == 2)
-                {
-                    if (y < 9)
-                    {
-                        if (knownBoard[y + 1][x] == 2)
-                        {
-                            updateKnownBoard(x + 1, y + 1, 5);
-                            updateKnownBoard(x - 1, y + 1, 5);
-                            updateKnownBoard(x + 1, y, 5);
-                            updateKnownBoard(x - 1, y, 5);
-                        }
-                    }
-                    if (y > 0)
-                    {
-                        if (knownBoard[y - 1][x] == 2)
-                        {
-                            updateKnownBoard(x + 1, y - 1, 5);
-                            updateKnownBoard(x - 1, y - 1, 5);
-                            updateKnownBoard(x + 1, y, 5);
-                            updateKnownBoard(x - 1, y, 5);
-                        }
-                    }
-                    if (x < 9)
-                    {
-                        if (knownBoard[y][x + 1] == 2)
-                        {
-                            updateKnownBoard(x + 1, y - 1, 5);
-                            updateKnownBoard(x + 1, y + 1, 5);
-                            updateKnownBoard(x, y - 1, 5);
-                            updateKnownBoard(x, y + 1, 5);
-                        }
-                    }
-                    if (x > 0)
-                    {
-                        if (knownBoard[y][x - 1] == 2)
-                        {
-                            updateKnownBoard(x - 1, y - 1, 5);
-                            updateKnownBoard(x - 1, y + 1, 5);
-                            updateKnownBoard(x, y - 1, 5);
-                            updateKnownBoard(x, y + 1, 5);
-
-                        }
-                    }
-
-                }
-
             }
             Console.WriteLine("[AI.updateKnownBoard] Board updated");
         }
@@ -1177,15 +1150,6 @@ namespace Battleships
                     {
                         int randomNumber = random.Next(0, targetList.Count - 1);
                         Tuple<int, int> target = new Tuple<int, int>(targetList.ElementAt(randomNumber).Item1, targetList.ElementAt(randomNumber).Item2);
-                        targetList.Clear();
-                        return target;
-                    }
-                   else
-                    {
-                        printBoard();
-                        int randomX = random.Next(0, 10);
-                        int randomY = random.Next(0, 10);
-                        Tuple<int, int> target = new Tuple<int, int>(randomX, randomY);
                         targetList.Clear();
                         return target;
                     }
