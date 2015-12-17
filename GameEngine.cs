@@ -246,107 +246,47 @@ namespace Battleships
 
         void playTurn()
         {
-            if (phase == 1)
+            
+            if(phase == 1)
             {
-                //Place ships
-                if (turn == 1)
+                if(turn == 1)
                 {
-
-                    //Place ships via GUI
-
                     turn = 2;
-                }
-                else if (turn == 2)
-                {
                     if (!p2.getIsHuman())
                     {
-                        //AI place ships
-                    }
-                    else
-                    {
-                        //Place ships via GUI
-                    }
-
-                    turn = 1;
-                }
-            }
-            else if (phase == 2)
-            {
-                if (turn == 1)
-                {
-                    if (p1.getIsHuman())
-                    {
-                        //Player 1 is Human
-                        Console.WriteLine("Player 1");
-                        action = chooseAction();
-                        if (action == 1)    //fire 
-                        {
-                            if (actionFire(p2)) //fire at p2
-                                turn = 2;
-                        }
-                        else if (action == 2)   //remove this for GUI
-                        {
-                            p1.printBoard();
-                            Console.WriteLine("------------------------------");
-                            p2.printBoard();
-                        }
-                        else if (action == 3)   //remove this aswell
-                        {
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        //Player 1 is AI
-                        AIAction(p2);
-                        turn = 2;
-
-                    }
-                }
-                else if (turn == 2)
-                {
-                    if (p2.getIsHuman())
-                    {
-                        //Player 2 is Human
-                        Console.WriteLine("Player 2");
-                        action = chooseAction();
-                        if (action == 1)
-                        {
-                            if (actionFire(p1))
-                                turn = 1;
-                        }
-                        else if (action == 2)
-                        {
-                            p1.printBoard();
-                            Console.WriteLine("------------------------------");
-                            p2.printBoard();
-                        }
-                        else if (action == 3)
-                        {
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        //Player 2 is AI
-                        AIAction(p1);
+                        //Run AI
                         turn = 1;
-
+                        phase = 2;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Something messed up with turn in the GameLoop");
+                    turn = 1;
+                    phase = 2;
                 }
-
-                Console.WriteLine("Removing dead ships");
-                //Remove the dead ships (if any) from the boards
-
+            }
+            else
+            {
+                if (turn == 1)
+                {
+                    turn = 2;
+                    if (!p2.getIsHuman())
+                    {
+                        //Run AI
+                        turn = 1;
+                    }
+                }
+                else
+                {
+                    turn = 1;
+                }
+            }
                 /* ??-Operator returns the left hand operand as long as it's not null.
                  * It returns the right hand operand in that case.
                  * This is done to prevent the foreach-loop from crashing, since it can't handle it when the list is empty
                  */
 
+            /*
                 var p1NewList = p1.getShipList().ToList<Ship>(); //makes a copy of the list, since you cant remove elements from a list in a foreach-loop
                 var p2NewList = p2.getShipList().ToList<Ship>();
 
@@ -392,7 +332,7 @@ namespace Battleships
                     return;
 
                 }
-            }
+                */
         }
 
         static void Main()
