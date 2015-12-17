@@ -187,10 +187,18 @@ namespace Battleships
                     if(hidePlayerBoards == false)
                     {
                         ge.nextTurn();
-                        if (turn != ge.getTurn())
-                            hidePlayerBoards = true;
+                        if(ge.getWin() != 0)
+                        {
+                            System.Windows.Forms.MessageBox.Show("Player " + ge.getWin() + " wins!");
+                            Close();
+                        }
                         else
-                            phase = ge.getPhase();
+                        {
+                            if (turn != ge.getTurn())
+                                hidePlayerBoards = true;
+                            else
+                                phase = ge.getPhase();
+                        }
                     }
                     else
                     {
@@ -227,6 +235,7 @@ namespace Battleships
             int copies = 0;
             int shipListOffset = listWindowWidth / 10;
             int shipWidth = (listWindowWidth - shipListOffset*2)/6;
+            bool last = true;
 
 
             RectangleF textRect = new RectangleF(0, 0, listWindowWidth, boardOffset);
@@ -415,7 +424,12 @@ namespace Battleships
 
                             if (i < shipListTwo.Count - 1)
                             {
-                                if (shipSize != shipListTwo.ElementAt(i + 1).getSize())
+                                for(int j = i+1; j < shipListTwo.Count; j++)
+                                {
+                                    if (shipListTwo.ElementAt(j).getSize() == shipSize && shipListTwo.ElementAt(j).getDead() == false)
+                                        last = false;
+                                }
+                                if (last)
                                 {
                                     textRect = new RectangleF(0, boardOffset + (shipWidth * 2 * (row - 1)), shipListOffset, shipWidth);
                                     float textSize = shipListOffset / 2;
@@ -432,6 +446,7 @@ namespace Battleships
                                     stringFormat.LineAlignment = StringAlignment.Center;
                                     pe.Graphics.DrawString(copies + "x", textFont, fillBlack, textRect, stringFormat);
                                 }
+                                last = true;
                             }
                             else
                             {
@@ -467,18 +482,14 @@ namespace Battleships
 
                             if (shipSize != shipListOne.ElementAt(i).getSize())
                             {
-
-                                if (shipListOne.ElementAt(i).getPlaced() == false)
+                                copies = 1;
+                                shipSize = shipListOne.ElementAt(i).getSize();
+                                for (int x = 0; x < shipSize; x++)
                                 {
-                                    copies = 1;
-                                    shipSize = shipListOne.ElementAt(i).getSize();
-                                    for (int x = 0; x < shipSize; x++)
-                                    {
-                                        pe.Graphics.DrawRectangle(black, shipListOffset + shipWidth * x, boardOffset + (shipWidth * 2 * row), shipWidth, shipWidth);
-                                    }
-                                    shipSizes[row] = shipSize;
-                                    row++;
+                                    pe.Graphics.DrawRectangle(black, shipListOffset + shipWidth * x, boardOffset + (shipWidth * 2 * row), shipWidth, shipWidth);
                                 }
+                                shipSizes[row] = shipSize;
+                                row++;
                             }
                             else
                             {

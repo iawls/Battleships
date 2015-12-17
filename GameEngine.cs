@@ -11,7 +11,7 @@ namespace Battleships
         int turn= 1;
         int action = 0;
         int phase = 1;
-        bool win = false;
+        int win = 0;
 
         public Rules rulebook = new Rules();
 
@@ -40,6 +40,11 @@ namespace Battleships
         public int getAction()
         {
             return this.action;
+        }
+
+        public int getWin()
+        {
+            return this.win;
         }
 
         int chooseAction()
@@ -274,14 +279,14 @@ namespace Battleships
                 {
                     turn = 2;
                     if (!p2.getIsHuman())
-
-                        if (!win)
+                        ; ;
+                       /* if (!win)
                             playTurn();
                         else
                         {
                             Console.WriteLine("WE HAVE A WINNER");
                             String stop = Console.ReadLine();
-                        }
+                        }*/
                 }
             }
         }
@@ -339,7 +344,6 @@ namespace Battleships
                  * This is done to prevent the foreach-loop from crashing, since it can't handle it when the list is empty
                  */
 
-            /*
                 var p1NewList = p1.getShipList().ToList<Ship>(); //makes a copy of the list, since you cant remove elements from a list in a foreach-loop
                 var p2NewList = p2.getShipList().ToList<Ship>();
 
@@ -368,30 +372,19 @@ namespace Battleships
                 //check win(lost)-conditions
                 if (rulebook.lost(p1))
                 {
+                    win = 2;
                     Console.WriteLine("Player 2 Wins! Shutting down");
-<<<<<<< HEAD
-=======
-                    win = true;
->>>>>>> refs/remotes/origin/master
-                    return;
-                }
-                else if (rulebook.lost(p2))
-                {
+                }else if (rulebook.lost(p2))
+            {
+                    win = 1;
                     Console.WriteLine("Player 1 Wins! Shutting down");
-<<<<<<< HEAD
-=======
-                    win = true;
->>>>>>> refs/remotes/origin/master
-                    return;
-
                 }
-                */
         }
 
         static void Main()
         {
             Board p1 = new Board(true); //Player 1 is human
-            Board p2 = new Board(true); //PLayer 2 is AI
+            Board p2 = new Board(false); //PLayer 2 is AI
             GameEngine GE = new GameEngine(p1, p2);
             GameScreen gameScreen = new GameScreen(GE, p1, p2);
             gameScreen.ShowDialog();     
