@@ -11,10 +11,7 @@ namespace Battleships
         int turn= 1;
         int action = 0;
         int phase = 1;
-<<<<<<< HEAD
-=======
         bool win = false;
->>>>>>> refs/remotes/origin/master
 
         public Rules rulebook = new Rules();
 
@@ -270,137 +267,61 @@ namespace Battleships
 
         void playTurn()
         {
-            
-            if(phase == 1)
+
+            if (phase == 1)
             {
-<<<<<<< HEAD
-                if(turn == 1)
+                if (turn == 1)
                 {
                     turn = 2;
                     if (!p2.getIsHuman())
-=======
-                if(!win)
-                    playTurn();
-                else
-                {
-                    Console.WriteLine("WE HAVE A WINNER");
-                    String stop = Console.ReadLine();
+
+                        if (!win)
+                            playTurn();
+                        else
+                        {
+                            Console.WriteLine("WE HAVE A WINNER");
+                            String stop = Console.ReadLine();
+                        }
                 }
             }
         }
 
-        void playTurn()
+        public void nextTurn()
         {
-            if (phase == 1)
-            {
-                //Place ships
-                if (turn == 1)
+                if (phase == 1)
                 {
-                   
-                    //Place ships via GUI
+                    //Place ships
+                    if (turn == 1)
+                    {
 
-                    turn = 2;
-                }
-                else if (turn == 2)
-                {
-                    if (!p2.getIsHuman())
-                    {
-                        //AI place ships
-                    }
-                    else
-                    {
                         //Place ships via GUI
-                    }
 
-                    turn = 1;
-                }
-            }
-            else if (phase == 2)
-            {
-                if (turn == 1)
-                {
-                    if (p1.getIsHuman())
-                    {
-                        //Player 1 is Human
-                        Console.WriteLine("Player 1");
-                        action = chooseAction();
-                        if (action == 1)    //fire 
-                        {
-                            if (actionFire(p2)) //fire at p2
-                                turn = 2;
-                        }
-                        else if (action == 2)   //remove this for GUI
-                        {
-                            p1.printBoard();
-                            Console.WriteLine("------------------------------");
-                            p2.printBoard();
-                        }
-                        else if (action == 3)   //remove this aswell
-                        {
-                            return;
-                        }
+                        turn = 2;
                     }
-                    else
->>>>>>> refs/remotes/origin/master
+                    else if (turn == 2)
                     {
-                        //Run AI
-                        turn = 1;
-                        phase = 2;
-                    }
-                }
-                else
-                {
-<<<<<<< HEAD
-                    turn = 1;
-                    phase = 2;
-                }
-            }
-            else
-            {
-                if (turn == 1)
-                {
-                    turn = 2;
-                    if (!p2.getIsHuman())
-=======
-                    if (p2.getIsHuman())
-                    {
-                        //Player 2 is Human
-                        Console.WriteLine("Player 2");
-                        action = chooseAction();
-                        if (action == 1)
+                        if (!p2.getIsHuman())
                         {
-                            if (actionFire(p1))
-                                turn = 1;
+                            //AI place ships
                         }
-                        else if (action == 2)
+                        else
                         {
-                            p1.printBoard();
-                            Console.WriteLine("------------------------------");
-                            p2.printBoard();
+                            //Place ships via GUI
                         }
-                        else if (action == 3)
-                        {
-                            return;
-                        }
-                    }
-                    else
->>>>>>> refs/remotes/origin/master
-                    {
-                        //Run AI
+
                         turn = 1;
                     }
                 }
-                else
+                else if (phase == 2)
                 {
-                    turn = 1;
+                    if (turn == 1)
+                    {
+
+                    }
                 }
-<<<<<<< HEAD
-            }
-=======
 
                 //Remove the dead ships (if any) from the boards
 
->>>>>>> refs/remotes/origin/master
                 /* ??-Operator returns the left hand operand as long as it's not null.
                  * It returns the right hand operand in that case.
                  * This is done to prevent the foreach-loop from crashing, since it can't handle it when the list is empty
@@ -460,22 +381,8 @@ namespace Battleships
             Board p1 = new Board(true); //Player 1 is human
             Board p2 = new Board(false); //PLayer 2 is AI
             GameEngine GE = new GameEngine(p1, p2);
-<<<<<<< HEAD
             GameScreen gameScreen = new GameScreen(GE, p1, p2);
             gameScreen.ShowDialog();     
-=======
-
-            //Remove this!
-            Console.WriteLine("Player 1, place your ships");
-            GE.placeShipsPhase(p1);     
-            Console.WriteLine("Player 2, place your ships");
-            GE.placeShipsPhase(p2);  
-            Console.WriteLine("Starting GameLoop");
-            GE.newGameLoop();
-            Console.WriteLine("Press ENTER to close window");
-            String stop = Console.ReadLine();
-            
->>>>>>> refs/remotes/origin/master
         }
 
 
@@ -634,11 +541,7 @@ namespace Battleships
            shipList.ElementAt(7).setSize(2);
            shipList.ElementAt(8).setSize(2);
            shipList.ElementAt(9).setSize(2);
-<<<<<<< HEAD
            //shipList.ElementAt(0).setSize(6);
-=======
-
->>>>>>> refs/remotes/origin/master
 
            Console.WriteLine("Rules initiated");
 
