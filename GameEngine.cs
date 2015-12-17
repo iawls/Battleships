@@ -292,14 +292,21 @@ namespace Battleships
                 {
                     if (turn == 1)
                     {
+                        turn = 2;
                         if (!p2.getIsHuman())
-                        {
-                            //AI place ships
+                        {   
+
+                            List<Ship> newShipList = new List<Ship>(p2.getShipList());
+
+                            for (int i = 0; i < newShipList.Count; ++i)
+                            {
+                                if (!actionPlaceShip(p2, newShipList.ElementAt(i)))
+                                {
+                                    --i;
+                                }
+                            }
                             phase = 2;
-                        }
-                        else
-                        {
-                            turn = 2;
+                            turn = 1;
                         }
                     }
                     else if (turn == 2)
@@ -312,19 +319,16 @@ namespace Battleships
                 {
                     if (turn == 1)
                     {
+                    turn = 2;
                         if (!p2.getIsHuman())
                         {
-                            //AI place ships
-                        }
-                        else
-                        {
-                            turn = 2;
+                            p2.ai.playTurn(p1);
+                            turn = 1;
                         }
                     }
                     else if (turn == 2)
                     {
                         turn = 1;
-                        phase = 2;
                     }
                 }
 
