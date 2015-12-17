@@ -417,7 +417,7 @@ namespace Battleships
 
         static void Main()
         {
-            Board p1 = new Board(true); //Player 1 is human
+            Board p1 = new Board(true); //Player 1 is AI
             Board p2 = new Board(false); //PLayer 2 is AI
             GameEngine GE = new GameEngine(p1, p2);
 
@@ -918,7 +918,7 @@ namespace Battleships
                 {
                     tmpList.Add(0);
                 }
-                knownBoard.Add(tmpList);                    //add the inner List to the outer List
+                knownBoard.Add(tmpList);    //add the inner List to the outer List
             }
 
         }
@@ -1090,6 +1090,7 @@ namespace Battleships
                     shipLengthCounter = 0;
                     deadShipFound = false;
                     hitFound = false;
+                    deadShipCoords.Clear();
                 }
                 if (knownBoard[y][x_] == 1)
                 {
@@ -1128,6 +1129,7 @@ namespace Battleships
                     shipLengthCounter = 0;
                     deadShipFound = false;
                     hitFound = false;
+                    deadShipCoords.Clear();
                 }
                 if (knownBoard[y_][x] == 1)
                 {
@@ -1178,7 +1180,7 @@ namespace Battleships
                         targetList.Clear();
                         return target;
                     }
-                   /* else
+                   else
                     {
                         printBoard();
                         int randomX = random.Next(0, 10);
@@ -1186,7 +1188,7 @@ namespace Battleships
                         Tuple<int, int> target = new Tuple<int, int>(randomX, randomY);
                         targetList.Clear();
                         return target;
-                    }*/
+                    }
                 }
             } while (true);
         }
