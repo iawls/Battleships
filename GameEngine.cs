@@ -8,9 +8,13 @@ namespace Battleships
 {
     public class GameEngine
     {
-        int turn = 1;
+        int turn= 1;
         int action = 0;
         int phase = 1;
+<<<<<<< HEAD
+=======
+        bool win = false;
+>>>>>>> refs/remotes/origin/master
 
         public Rules rulebook = new Rules();
 
@@ -78,32 +82,52 @@ namespace Battleships
 
         bool actionPlaceShip(Board p, Ship s)
         {
-            int x1, y1, x2, y2;
-            Console.WriteLine("Enter coordinates to place a ship at, cant be longer or shorter than " + s.getSize());
-            Console.Write("x: ");
-            x1 = int.Parse(Console.ReadLine());
-            Console.Write("y: ");
-            y1 = int.Parse(Console.ReadLine());
-
-            Console.Write("x: ");
-            x2 = int.Parse(Console.ReadLine());
-            Console.Write("y: ");
-            y2 = int.Parse(Console.ReadLine());
-
-            Tuple<int, int> posStart = new Tuple<int, int>(x1, y1);
-            Tuple<int, int> posEnd = new Tuple<int, int>(x2, y2);
-            if (rulebook.validPlacement(posStart, posEnd, p))
+            if (p.getIsHuman())
             {
-                s.setStartEnd(posStart, posEnd);
-                p.placeShip(posStart, posEnd, s);
-                Console.WriteLine("Ship Placed!");
-                return true;
+                int x1, y1, x2, y2;
+                Console.WriteLine("Enter coordinates to place a ship at, cant be longer or shorter than " + s.getSize());
+                Console.Write("x: ");
+                x1 = int.Parse(Console.ReadLine());
+                Console.Write("y: ");
+                y1 = int.Parse(Console.ReadLine());
+
+                Console.Write("x: ");
+                x2 = int.Parse(Console.ReadLine());
+                Console.Write("y: ");
+                y2 = int.Parse(Console.ReadLine());
+
+                Tuple<int, int> posStart = new Tuple<int, int>(x1, y1);
+                Tuple<int, int> posEnd = new Tuple<int, int>(x2, y2);
+                if (rulebook.validPlacement(posStart, posEnd, p))
+                {
+                    s.setStartEnd(posStart, posEnd);
+                    p.placeShip(posStart, posEnd, s);
+                    Console.WriteLine("Ship Placed!");
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return false;
-            }
+                Tuple<Tuple<int, int>, Tuple<int, int>> startEnd = p.ai.placeShip(s);
+                Tuple<int, int> posStart = new Tuple<int, int>(startEnd.Item1.Item1, startEnd.Item1.Item2);
+                Tuple<int, int> posEnd = new Tuple<int, int>(startEnd.Item2.Item1, startEnd.Item2.Item2);
 
+                if (rulebook.validPlacement(posStart, posEnd, p))
+                {
+                    s.setStartEnd(posStart, posEnd);
+                    p.placeShip(posStart, posEnd, s);
+                    Console.WriteLine("Ship Placed!");
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         //Place each ship
@@ -249,10 +273,75 @@ namespace Battleships
             
             if(phase == 1)
             {
+<<<<<<< HEAD
                 if(turn == 1)
                 {
                     turn = 2;
                     if (!p2.getIsHuman())
+=======
+                if(!win)
+                    playTurn();
+                else
+                {
+                    Console.WriteLine("WE HAVE A WINNER");
+                    String stop = Console.ReadLine();
+                }
+            }
+        }
+
+        void playTurn()
+        {
+            if (phase == 1)
+            {
+                //Place ships
+                if (turn == 1)
+                {
+                   
+                    //Place ships via GUI
+
+                    turn = 2;
+                }
+                else if (turn == 2)
+                {
+                    if (!p2.getIsHuman())
+                    {
+                        //AI place ships
+                    }
+                    else
+                    {
+                        //Place ships via GUI
+                    }
+
+                    turn = 1;
+                }
+            }
+            else if (phase == 2)
+            {
+                if (turn == 1)
+                {
+                    if (p1.getIsHuman())
+                    {
+                        //Player 1 is Human
+                        Console.WriteLine("Player 1");
+                        action = chooseAction();
+                        if (action == 1)    //fire 
+                        {
+                            if (actionFire(p2)) //fire at p2
+                                turn = 2;
+                        }
+                        else if (action == 2)   //remove this for GUI
+                        {
+                            p1.printBoard();
+                            Console.WriteLine("------------------------------");
+                            p2.printBoard();
+                        }
+                        else if (action == 3)   //remove this aswell
+                        {
+                            return;
+                        }
+                    }
+                    else
+>>>>>>> refs/remotes/origin/master
                     {
                         //Run AI
                         turn = 1;
@@ -261,6 +350,7 @@ namespace Battleships
                 }
                 else
                 {
+<<<<<<< HEAD
                     turn = 1;
                     phase = 2;
                 }
@@ -271,6 +361,30 @@ namespace Battleships
                 {
                     turn = 2;
                     if (!p2.getIsHuman())
+=======
+                    if (p2.getIsHuman())
+                    {
+                        //Player 2 is Human
+                        Console.WriteLine("Player 2");
+                        action = chooseAction();
+                        if (action == 1)
+                        {
+                            if (actionFire(p1))
+                                turn = 1;
+                        }
+                        else if (action == 2)
+                        {
+                            p1.printBoard();
+                            Console.WriteLine("------------------------------");
+                            p2.printBoard();
+                        }
+                        else if (action == 3)
+                        {
+                            return;
+                        }
+                    }
+                    else
+>>>>>>> refs/remotes/origin/master
                     {
                         //Run AI
                         turn = 1;
@@ -280,7 +394,13 @@ namespace Battleships
                 {
                     turn = 1;
                 }
+<<<<<<< HEAD
             }
+=======
+
+                //Remove the dead ships (if any) from the boards
+
+>>>>>>> refs/remotes/origin/master
                 /* ??-Operator returns the left hand operand as long as it's not null.
                  * It returns the right hand operand in that case.
                  * This is done to prevent the foreach-loop from crashing, since it can't handle it when the list is empty
@@ -298,10 +418,6 @@ namespace Battleships
                         p1.removeShips(s);
                         Console.WriteLine("removed a dead ship");
                     }
-                    else
-                    {
-                        Console.WriteLine("No dead ships in p1 board");
-                    }
                 }
 
                 foreach (Ship s in p2NewList ?? Enumerable.Empty<Ship>())
@@ -312,10 +428,6 @@ namespace Battleships
                         p2.removeShips(s);
                         Console.WriteLine("removed a dead ship");
                     }
-                    else
-                    {
-                        Console.WriteLine("No dead ships in p2 board");
-                    }
                 }
                 //Removed the dead ships, stop ignoring here!
 
@@ -324,11 +436,19 @@ namespace Battleships
                 if (rulebook.lost(p1))
                 {
                     Console.WriteLine("Player 2 Wins! Shutting down");
+<<<<<<< HEAD
+=======
+                    win = true;
+>>>>>>> refs/remotes/origin/master
                     return;
                 }
                 else if (rulebook.lost(p2))
                 {
                     Console.WriteLine("Player 1 Wins! Shutting down");
+<<<<<<< HEAD
+=======
+                    win = true;
+>>>>>>> refs/remotes/origin/master
                     return;
 
                 }
@@ -338,10 +458,24 @@ namespace Battleships
         static void Main()
         {
             Board p1 = new Board(true); //Player 1 is human
-            Board p2 = new Board(false); //PLayer 2 is human
+            Board p2 = new Board(false); //PLayer 2 is AI
             GameEngine GE = new GameEngine(p1, p2);
+<<<<<<< HEAD
             GameScreen gameScreen = new GameScreen(GE, p1, p2);
             gameScreen.ShowDialog();     
+=======
+
+            //Remove this!
+            Console.WriteLine("Player 1, place your ships");
+            GE.placeShipsPhase(p1);     
+            Console.WriteLine("Player 2, place your ships");
+            GE.placeShipsPhase(p2);  
+            Console.WriteLine("Starting GameLoop");
+            GE.newGameLoop();
+            Console.WriteLine("Press ENTER to close window");
+            String stop = Console.ReadLine();
+            
+>>>>>>> refs/remotes/origin/master
         }
 
 
@@ -427,6 +561,7 @@ namespace Battleships
                       GameBoard.ElementAt(x).ElementAt(y).setShip(s);
                   }
                }
+              printBoard();
               return true;
            }
            else
@@ -499,7 +634,11 @@ namespace Battleships
            shipList.ElementAt(7).setSize(2);
            shipList.ElementAt(8).setSize(2);
            shipList.ElementAt(9).setSize(2);
+<<<<<<< HEAD
            //shipList.ElementAt(0).setSize(6);
+=======
+
+>>>>>>> refs/remotes/origin/master
 
            Console.WriteLine("Rules initiated");
 
@@ -549,6 +688,7 @@ namespace Battleships
         public void setShip(Ship s)
         {
             this.ship = s;
+            this.ship.setPlaced(true);
         }
 
         public Ship getShip()
@@ -644,6 +784,10 @@ namespace Battleships
         {
             return this.placed;
         }
+        public void setPlaced(bool b)
+        {
+            this.placed = b;
+        }
        
     }
     public class Rules
@@ -659,44 +803,98 @@ namespace Battleships
 
         public bool validPlacement(Tuple<int, int> start, Tuple<int, int> end, Board p)
         {
-            if ((start.Item1 == end.Item1) && (start.Item2 != end.Item2) || (start.Item1 != end.Item1) && (start.Item2 == end.Item2))
+            if (start.Item1 < 10 && start.Item1 >= 0 && start.Item2 >= 0 && start.Item2 < 10 && end.Item1 < 10 && end.Item1 >= 0 && end.Item2 < 10 && end.Item1 >= 0)
             {
-                for (int y = start.Item1; y <= end.Item1; y++)
+                if ((start.Item1 == end.Item1) && (start.Item2 != end.Item2) || (start.Item1 != end.Item1) && (start.Item2 == end.Item2))
                 {
-                    for (int x = start.Item2; x <= end.Item2; x++)
+                    for (int y = start.Item1; y <= end.Item1; y++)
                     {
-                        if(p.isShip(y, x)){
-                            Console.WriteLine("validPlacement inner false");
-                            return false;
-                        }
-                    }
-                }
-
-
-                    return true;
-            }
-            Console.WriteLine("validPLacement outer false");
-            return false;
-        }
-        public bool validPlacement(int startX, int startY, int endX, int endY, Board p)
-        {
-            if ((startX == endX) && (startY != endY) || (startX != endX) && (startY == endY))
-            {
-                for (int y = startX; y <= endX; y++)
-                {
-                    for (int x = startY; x <= endY; x++)
-                    {
-                        if (p.isShip(x, y))
+                        for (int x = start.Item2; x <= end.Item2; x++)
                         {
-                            Console.WriteLine("something fucked up");
-                            return false;
+                            if (p.isShip(y, x))
+                            {
+                                return false;
+                            }
                         }
                     }
+                    if (start.Item1 == end.Item1)
+                    {
+                        //Check above ship
+                        if (start.Item2 > 0)
+                        {
+                            if (p.isShip(start.Item1, start.Item2 - 1))
+                            {
+                                return false;
+                            }
+                        }
+                        //Check below ship
+                        if (start.Item2 < 9)
+                        {
+                            if (p.isShip(end.Item1, end.Item2 + 1))
+                            {
+                                return false;
+                            }
+                        }
+                        //Check at either side of ship
+                        for (int i = start.Item2; i <= end.Item2; ++i)
+                        {
+                            if (start.Item1 < 9)
+                            {
+                                if (p.isShip(start.Item1 + 1, i))
+                                {
+                                    return false;
+                                }
+                            }
+                            if (start.Item1 > 0)
+                            {
+                                if (p.isShip(start.Item1 - 1, i))
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    else if (start.Item2 == end.Item2)
+                    {
+                        //Check left of ship
+                        if (start.Item1 > 0)
+                        {
+                            if (p.isShip(start.Item1 - 1, start.Item2))
+                            {
+                                return false;
+                            }
+                        }
+                        //Check right of ship
+                        if (start.Item1 < 9)
+                        {
+                            if (p.isShip(end.Item1 + 1, end.Item2))
+                            {
+                                return false;
+                            }
+                        }
+                        //Check above and below ship
+                        for (int i = start.Item1; i <= end.Item1; ++i)
+                        {
+                            if (start.Item2 < 9)
+                            {
+                                //Console.WriteLine("Checking below ship at ["+i+", "+end.Item2+"]");
+                                if (p.isShip(i, start.Item2 + 1))
+                                {
+                                    return false;
+                                }
+                            }
+                            if (start.Item2 > 0)
+                            {
+                                if (p.isShip(i, start.Item2 - 1))
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    return true;
                 }
-
-                return true;
             }
-            Console.WriteLine("something is messed up");
             return false;
         }
         public bool lost(Board p)
@@ -724,9 +922,10 @@ namespace Battleships
                                      * 2 - hit and ship
                                      * 3 - next to ship (might also be ship)
                                      * 4 - dead ship
+                                     * 5 - next to ship, aka nothing
                                      * */
-        int targetX;
-        int targetY;
+        //int targetX;
+        //int targetY;
 
         List<Tuple<int, int>> targetList = new List<Tuple<int, int>>();
 
@@ -770,25 +969,50 @@ namespace Battleships
                 }
                 knownBoard.Add(tmpList);                    //add the inner List to the outer List
             }
-            this.knownBoard[0][0] = 3;
 
         }
 
         void updateKnownBoard(int x, int y, int newValue)
         {
-            Console.WriteLine("Updating x: " + x + ", y: " + y + " to " + newValue);
-            if (x < 10 && x >= 0 && y < 10 && y >= 0)
+            //If hit, update the node to show hit ship, and update surrounding nodes to "next to ship"
+            if (x < 10 && x >= 0 && y < 10 && y >= 0 && newValue <= 5 && newValue >= 0)
             {
                 switch (this.knownBoard[y][x])
                 {
                     case 0:
                         this.knownBoard[y][x] = newValue;
+                        Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
+                        printBoard();
                         break;
-                    case 3:
-                        if (this.knownBoard[y][x] != 4 && this.knownBoard[y][x] != 2)
+                    case 1:
+                        if (newValue == 4)
+                        {
                             this.knownBoard[y][x] = newValue;
+                            Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
+                            printBoard();
+                        }
+                        break;
+                    case 2:
+                        if (newValue == 4)
+                        {
+                            this.knownBoard[y][x] = newValue;
+                            Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
+                            printBoard();
+                        }
+                        break; 
+                    case 3:
+                        if (newValue != 0)
+                        {
+                            this.knownBoard[y][x] = newValue;
+                            Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
+                            printBoard();
+                        }
+                        break;
+                    case 4:
+                        Console.WriteLine("[AI.updateKnownBoard] Nothing updated");
                         break;
                     default:
+                        Console.WriteLine("[AI.updateKnownBoard] Nothing updated");
                         break;
                 }
             }
@@ -796,24 +1020,238 @@ namespace Battleships
             {
                 Console.WriteLine("[AI.updateKnownBoard] Coords out of range");
             }
+            
+            //identify dead ships
+            if (newValue == 2 || newValue == 1)
+            {
+                List<Tuple<int, int>> deadShip = new List<Tuple<int, int>>(findDeadShips(x, y));
+
+                if (deadShip.Count > 0)
+                {
+                    Console.WriteLine("[AI.updateKnownBoard] deadShip.Count > 0 start: "+deadShip.ElementAt(0)+" end: "+deadShip.ElementAt(deadShip.Count-1));
+                    foreach (Tuple<int, int> t in deadShip ?? Enumerable.Empty<Tuple<int, int>>())
+                    {
+                        updateKnownBoard(t.Item1, t.Item2, 4);
+
+                        if (t.Item1 >= 0 && t.Item2 >= 0 && t.Item1 < 10 && t.Item2 < 10)   //Update the surrounding areas to 5 for "nothing here" since a ship cant be next to another ship
+                        {
+                            if (t.Item1 > 0)
+                            {
+                                if (this.knownBoard[t.Item2][t.Item1 - 1] != 4)
+                                {
+                                    updateKnownBoard(t.Item1 - 1, t.Item2, 5);
+                                }
+                            }
+                            if (t.Item2 > 0)
+                            {
+                                if (this.knownBoard[t.Item2 - 1][t.Item1] != 4)
+                                {
+                                    updateKnownBoard(t.Item1, t.Item2 - 1, 5);
+                                }
+                            }
+                            if (t.Item2 < 9)
+                            {
+                                if (this.knownBoard[t.Item2 + 1][t.Item1] != 4)
+                                {
+                                    updateKnownBoard(t.Item1, t.Item2 + 1, 5);
+                                }
+                            }
+                            if (t.Item1 < 9)
+                            {
+                                if (this.knownBoard[t.Item2][t.Item1 + 1] != 4)
+                                {
+                                    updateKnownBoard(t.Item1 + 1, t.Item2, 5);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (newValue == 2)
+                {
+                    if (y < 9)
+                    {
+                        if (knownBoard[y + 1][x] == 2)
+                        {
+                            updateKnownBoard(x + 1, y + 1, 5);
+                            updateKnownBoard(x - 1, y + 1, 5);
+                            updateKnownBoard(x + 1, y, 5);
+                            updateKnownBoard(x - 1, y, 5);
+                        }
+                    }
+                    if (y > 0)
+                    {
+                        if (knownBoard[y - 1][x] == 2)
+                        {
+                            updateKnownBoard(x + 1, y - 1, 5);
+                            updateKnownBoard(x - 1, y - 1, 5);
+                            updateKnownBoard(x + 1, y, 5);
+                            updateKnownBoard(x - 1, y, 5);
+                        }
+                    }
+                    if (x < 9)
+                    {
+                        if (knownBoard[y][x + 1] == 2)
+                        {
+                            updateKnownBoard(x + 1, y - 1, 5);
+                            updateKnownBoard(x + 1, y + 1, 5);
+                            updateKnownBoard(x, y - 1, 5);
+                            updateKnownBoard(x, y + 1, 5);
+                        }
+                    }
+                    if (x > 0)
+                    {
+                        if (knownBoard[y][x - 1] == 2)
+                        {
+                            updateKnownBoard(x - 1, y - 1, 5);
+                            updateKnownBoard(x - 1, y + 1, 5);
+                            updateKnownBoard(x, y - 1, 5);
+                            updateKnownBoard(x, y + 1, 5);
+
+                        }
+                    }
+
+                }
+
+            }
+            Console.WriteLine("[AI.updateKnownBoard] Board updated");
+        }
+
+        /*
+         * Works both horizontally and vertically! 
+         * */
+        List<Tuple<int, int>> findDeadShips(int x, int y) 
+        {
+            Console.WriteLine("[AI.findDeadShips] Entering function");
+            bool hitShipFound = false;
+            int shipLengthCounter = 0;
+            bool deadShipFound = false;
+            bool hitFound = false;
+
+            List<Tuple<int, int>> deadShipCoords = new List<Tuple<int, int>>();
+
+            //Check the horizontal row for dead ships
+            for (int x_ = 0; x_ < 10; ++x_)
+            {
+                if (knownBoard[y][x_] == 0)
+                {
+                    hitShipFound = false;
+                    shipLengthCounter = 0;
+                    deadShipFound = false;
+                    hitFound = false;
+                }
+                if (knownBoard[y][x_] == 1)
+                {
+                    Console.WriteLine("[AI.findDeadShips] hitFound!");
+                    hitFound = true;
+                }
+                if (knownBoard[y][x_] == 2 && (hitFound || x_ == 0 || hitShipFound))
+                {
+                    Console.WriteLine("[AI.findDeadShips] hitShipFound!");
+                    hitShipFound = true;
+                    hitFound = false;
+                    shipLengthCounter++;
+                    Tuple<int, int> tmpPos = new Tuple<int, int>(x_, y);
+                    deadShipCoords.Add(tmpPos);
+                }
+                if (hitShipFound && shipLengthCounter > 1 && hitFound)
+                {
+                    deadShipFound = true;
+                    Console.WriteLine("[AI.findDeadShips] Found a dead ship!");
+                    return deadShipCoords;
+                }
+            }
+
+            //Check vertically for dead ships
+            Console.WriteLine("Checking vertically for dead ships!");
+            hitShipFound = false;
+            shipLengthCounter = 0;
+            deadShipFound = false;
+            hitFound = false;
+
+            for (int y_ = 0; y_ < 10; ++y_)
+            {
+                if (knownBoard[y_][x] == 0)
+                {
+                    hitShipFound = false;
+                    shipLengthCounter = 0;
+                    deadShipFound = false;
+                    hitFound = false;
+                }
+                if (knownBoard[y_][x] == 1)
+                {
+                    Console.WriteLine("[AI.findDeadShips] hitFound!");
+                    hitFound = true;
+                }
+                if (knownBoard[y_][x] == 2 && (hitFound || y_ == 0 || hitShipFound))
+                {
+                    Console.WriteLine("[AI.findDeadShips] hitShipFound!");
+                    hitShipFound = true;
+                    hitFound = false;
+                    shipLengthCounter++;
+                    Tuple<int, int> tmpPos = new Tuple<int, int>(x, y_);
+                    deadShipCoords.Add(tmpPos);
+                }
+                if (hitShipFound && knownBoard[y_][x] == 1 && shipLengthCounter > 1 && hitFound)
+                {
+                    deadShipFound = true;
+                    Console.WriteLine("[AI.findDeadShips] Found a dead ship!");
+                    break;
+                }
+            }
+
+            if (!deadShipFound)
+                deadShipCoords.Clear();
+
+            return deadShipCoords;
         }
 
         Tuple<int, int> chooseFireCoords()
         {
             Random random = new Random();
+            do
+            {
+                if (searchForTarget(3))
+                {
+                    int randomNumber = random.Next(0, targetList.Count - 1);
+                    Tuple<int, int> target = new Tuple<int, int>(targetList.ElementAt(randomNumber).Item1, targetList.ElementAt(randomNumber).Item2);
+                    targetList.Clear();
+                    return target;
+                }
+                else
+                {
+                    if (searchForTarget(0))
+                    {
+                        int randomNumber = random.Next(0, targetList.Count - 1);
+                        Tuple<int, int> target = new Tuple<int, int>(targetList.ElementAt(randomNumber).Item1, targetList.ElementAt(randomNumber).Item2);
+                        targetList.Clear();
+                        return target;
+                    }
+                   /* else
+                    {
+                        printBoard();
+                        int randomX = random.Next(0, 10);
+                        int randomY = random.Next(0, 10);
+                        Tuple<int, int> target = new Tuple<int, int>(randomX, randomY);
+                        targetList.Clear();
+                        return target;
+                    }*/
+                }
+            } while (true);
+        }
 
-            if (searchForTarget(3) == true)
+        void printBoard()
+        {
+            for (int y = 0; y < 10; y++)
             {
-                int randomNumber = random.Next(0, targetList.Count - 1);
-                Tuple<int, int> target = new Tuple<int, int>(targetList.ElementAt(randomNumber).Item1, targetList.ElementAt(randomNumber).Item2);
-                return target;
-            }
-            else
-            {
-                int x = random.Next(0, 10);
-                int y = random.Next(0, 10);
-                Tuple<int, int> target = new Tuple<int, int>(x, y);
-                return target;
+                for (int x = 0; x < 10; x++)
+                {
+                    if (knownBoard[y][x] != 0)
+                        Console.Write("[" + knownBoard[y][x] + "]");
+                    else
+                        Console.Write("[ ]");
+                }
+                Console.Write("\n");
             }
 
         }
@@ -836,6 +1274,39 @@ namespace Battleships
             }
 
                 return foundTargets;
+        }
+
+        public Tuple<Tuple<int, int>, Tuple<int, int>> placeShip(Ship s){
+
+            Random random = new Random();
+            int randomX = random.Next(0, 10);
+            int randomY = random.Next(0, 10);
+            int randomDir = random.Next(0, 2);
+            //0 means horizontally
+            //1 means vertically
+
+            if (randomDir == 0)
+            {
+                Tuple<int, int> start = new Tuple<int, int>(randomX, randomY);
+                Tuple<int, int> end = new Tuple<int, int>(randomX + s.getSize() - 1, randomY);
+                Tuple<Tuple<int, int>, Tuple<int, int>> startEnd = new Tuple<Tuple<int, int>, Tuple<int, int>>(start, end);
+                return startEnd;
+            }
+            else if (randomDir == 1)
+            {
+                Tuple<int, int> start = new Tuple<int, int>(randomX, randomY);
+                Tuple<int, int> end = new Tuple<int, int>(randomX, randomY + s.getSize() - 1);
+                Tuple<Tuple<int, int>, Tuple<int, int>> startEnd = new Tuple<Tuple<int, int>, Tuple<int, int>>(start, end);
+                return startEnd;
+            }
+            else
+            {
+                Console.WriteLine("[AI.placeShip] randomDir not within bounds");
+            }
+
+            Console.WriteLine("[AI.placeShip] Something fucked up");
+            Tuple<Tuple<int, int>, Tuple<int, int>> tmp = new Tuple<Tuple<int, int>, Tuple<int, int>>(null, null);
+            return tmp;
         }
 
     }
