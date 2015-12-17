@@ -290,15 +290,27 @@ namespace Battleships
         {
                 if (phase == 1)
                 {
-                    //Place ships
                     if (turn == 1)
                     {
-
-                        //Place ships via GUI
-
-                        turn = 2;
+                        if (!p2.getIsHuman())
+                        {
+                            //AI place ships
+                            phase = 2;
+                        }
+                        else
+                        {
+                            turn = 2;
+                        }
                     }
                     else if (turn == 2)
+                    {
+                        turn = 1;
+                        phase = 2;
+                    }
+                }
+                else if (phase == 2)
+                {
+                    if (turn == 1)
                     {
                         if (!p2.getIsHuman())
                         {
@@ -306,17 +318,13 @@ namespace Battleships
                         }
                         else
                         {
-                            //Place ships via GUI
+                            turn = 2;
                         }
-
-                        turn = 1;
                     }
-                }
-                else if (phase == 2)
-                {
-                    if (turn == 1)
+                    else if (turn == 2)
                     {
-
+                        turn = 1;
+                        phase = 2;
                     }
                 }
 
@@ -379,7 +387,7 @@ namespace Battleships
         static void Main()
         {
             Board p1 = new Board(true); //Player 1 is human
-            Board p2 = new Board(false); //PLayer 2 is AI
+            Board p2 = new Board(true); //PLayer 2 is AI
             GameEngine GE = new GameEngine(p1, p2);
             GameScreen gameScreen = new GameScreen(GE, p1, p2);
             gameScreen.ShowDialog();     

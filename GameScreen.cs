@@ -90,7 +90,7 @@ namespace Battleships
             * ship list click
             * left board click
             * right board click
-            * bottom click
+            * bottom window click
             */
             if (posX < listWindowWidth && posY < boardWindowHeight)
             {
@@ -168,11 +168,35 @@ namespace Battleships
             }
             else if (posX > (listWindowWidth + boardWindowWidth + boardOffset) && posX < (listWindowWidth + boardWindowWidth + boardOffset + cellWidth * boardSize) && posY > boardOffset && posY < (boardOffset + cellWidth * boardSize))
             {
+                if (phase == 2)
+                {
+                    int boardCol = (posX - (listWindowWidth + boardWindowWidth + boardOffset)) / cellWidth;
+                    int boardRow = (posY - boardOffset) / cellWidth;
 
+                    if (turn == 1)
+                        p2.fire(boardCol, boardRow);
+                    else
+                        p1.fire(boardCol, boardRow);
+                }
             }
             else if (posY > boardWindowHeight)
             {
-
+                int buttonSize = (int)((this.Height - boardWindowHeight) * 0.5);
+                if(posX > this.Width - buttonSize - buttonSize / 2 && posY > boardWindowHeight + buttonSize / 2)
+                {
+                    if(hidePlayerBoards == false)
+                    {
+                        ge.nextTurn();
+                        if (turn != ge.getTurn())
+                            hidePlayerBoards = true;
+                    }
+                    else
+                    {
+                        hidePlayerBoards = false;
+                        turn = ge.getTurn();
+                        phase = ge.getPhase();
+                    }
+                }
             }
         }
 
@@ -275,7 +299,7 @@ namespace Battleships
             {
                 for (int i = 0; i < shipListTwo.Count; i++)
                 {
-                    if (shipListOne.ElementAt(i).getPlaced() == false)
+                    if (shipListTwo.ElementAt(i).getPlaced() == false)
                     {
 
                         if (shipSize != shipListTwo.ElementAt(i).getSize())
@@ -393,8 +417,8 @@ namespace Battleships
                         }
                         else if (p1.isHit(x, y) == true && p1.isShip(x, y) == false)
                         {
-                            pe.Graphics.DrawLine(red, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), leftBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y) + cellWidth);
-                            pe.Graphics.DrawLine(red, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y) + cellWidth, leftBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y));
+                            pe.Graphics.DrawLine(black, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), leftBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y) + cellWidth);
+                            pe.Graphics.DrawLine(black, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y) + cellWidth, leftBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y));
                         }else if (p1.isShip(x, y) == true)
                         {
                             pe.Graphics.DrawEllipse(black, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), cellWidth, cellWidth);
@@ -404,18 +428,18 @@ namespace Battleships
                     {
                         if (p2.isHit(x, y) == true && p2.isShip(x, y) == true)
                         {
-                            pe.Graphics.DrawEllipse(black, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), cellWidth, cellWidth);
+                            pe.Graphics.DrawEllipse(red, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), cellWidth, cellWidth);
                         }
                         else if (p2.isHit(x, y) == true && p2.isShip(x, y) == false)
                         {
-                            pe.Graphics.DrawLine(red, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), leftBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y) + cellWidth);
-                            pe.Graphics.DrawLine(red, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y) + cellWidth, leftBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y));
+                            pe.Graphics.DrawLine(black, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), leftBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y) + cellWidth);
+                            pe.Graphics.DrawLine(black, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y) + cellWidth, leftBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y));
                         }
                         else if (p2.isShip(x, y) == true)
                         {
                             pe.Graphics.DrawEllipse(black, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), cellWidth, cellWidth);
                         }
-                }
+                    }
                 }
             }
 
@@ -426,13 +450,37 @@ namespace Battleships
                 for (int x = 0; x < boardSize; x++)
                 {
                     pe.Graphics.DrawRectangle(black, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), cellWidth, cellWidth);
+                    if (turn == 1 && hidePlayerBoards == false)
+                    {
+                        if (p2.isHit(x, y) == true && p2.isShip(x, y) == true)
+                        {
+                            pe.Graphics.DrawEllipse(red, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), cellWidth, cellWidth);
+                        }
+                        else if (p2.isHit(x, y) == true && p2.isShip(x, y) == false)
+                        {
+                            pe.Graphics.DrawLine(black, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), rightBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y) + cellWidth);
+                            pe.Graphics.DrawLine(black, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y) + cellWidth, rightBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y));
+                        }
+                    }
+                    else if (turn == 2 && hidePlayerBoards == false)
+                    {
+                        if (p1.isHit(x, y) == true && p1.isShip(x, y) == true)
+                        {
+                            pe.Graphics.DrawEllipse(red, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), cellWidth, cellWidth);
+                        }
+                        else if (p1.isHit(x, y) == true && p1.isShip(x, y) == false)
+                        {
+                            pe.Graphics.DrawLine(black, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), rightBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y) + cellWidth);
+                            pe.Graphics.DrawLine(black, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y) + cellWidth, rightBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y));
+                        }
+                    }
                 }
             }
 
             //draw crosshair
-            if(phase != 1)
+            if(phase == 2)
             {
-                if (posX > listWindowWidth && posX < listWindowWidth + boardWindowWidth && posY > 0 && posY < boardWindowHeight)
+                if (posX > listWindowWidth+boardWindowWidth && posX < listWindowWidth + boardWindowWidth*2 && posY > 0 && posY < boardWindowHeight)
                 {
                     if (cursorVisible)
                     {
@@ -441,7 +489,7 @@ namespace Battleships
                     }
 
                     pe.Graphics.DrawEllipse(green, posX - (cellWidth), posY - (cellWidth), cellWidth * 2, cellWidth * 2);
-                    pe.Graphics.DrawLine(green, listWindowWidth, posY, listWindowWidth + boardWindowWidth, posY);
+                    pe.Graphics.DrawLine(green, listWindowWidth+boardWindowWidth, posY, listWindowWidth + boardWindowWidth*2, posY);
                     pe.Graphics.DrawLine(green, posX, 0, posX, boardWindowHeight);
                 }
                 else
