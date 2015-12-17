@@ -152,6 +152,8 @@ namespace Battleships
         private void draw_ship_list(PaintEventArgs pe)
         {
             System.Drawing.Pen black = new System.Drawing.Pen(Color.Black, 2);
+            System.Drawing.SolidBrush fillBlack = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
+
             int shipSize = 0;
             int row = 0;
             int copies = 0;
@@ -164,9 +166,6 @@ namespace Battleships
                 {
                     if (shipSize != shipListOne.ElementAt(i).getSize())
                     {
-                        if (copies != 0)
-                            //Controls.Add(new Label { Location = new Point(100, 100), AutoSize = true, Text = copies + "x" });
-
                         copies = 1;
                         shipSize = shipListOne.ElementAt(i).getSize();
                         for (int x = 0; x < shipSize; x++)
@@ -180,7 +179,49 @@ namespace Battleships
                     {
                         copies++;
                     }
+
+                    if(i < shipListOne.Count-1)
+                    {
+                        if (shipSize != shipListOne.ElementAt(i+1).getSize())
+                        {
+                            RectangleF textRect = new RectangleF(0, boardOffset + (shipWidth * 2 * (row-1)), shipListOffset, shipWidth);
+                            float textSize = shipListOffset/2;
+                            Font textFont;
+                            try
+                            {
+                                textFont = new Font("Arial", textSize);
+                            }
+                            catch (ArgumentException e)
+                            {
+                                textFont = new Font("Arial", 20);
+                            }
+                            StringFormat stringFormat = new StringFormat();
+                            stringFormat.Alignment = StringAlignment.Center;
+                            stringFormat.LineAlignment = StringAlignment.Center;
+                            pe.Graphics.DrawString(copies + "x", textFont, fillBlack, textRect, stringFormat);
+                        }
+                    }
+                    else
+                    {
+                        RectangleF textRect = new RectangleF(0, boardOffset + (shipWidth * 2 * (row - 1)), shipListOffset, shipWidth);
+                        float textSize = shipListOffset;
+                        Font textFont;
+                        try
+                        {
+                            textFont = new Font("Arial", textSize/2);
+                        }
+                        catch (ArgumentException e)
+                        {
+                            textFont = new Font("Arial", 20);
+                        }
+                        StringFormat stringFormat = new StringFormat();
+                        stringFormat.Alignment = StringAlignment.Center;
+                        stringFormat.LineAlignment = StringAlignment.Center;
+                        pe.Graphics.DrawString(copies + "x", textFont, fillBlack, textRect, stringFormat);
+                    }
+
                     shipSize = shipListOne.ElementAt(i).getSize();
+
                 }
                 shipModels = row + 1;
             }
@@ -188,7 +229,7 @@ namespace Battleships
             {
                 for (int i = 0; i < shipListTwo.Count; i++)
                 {
-                    if (shipSize != shipListOne.ElementAt(i).getSize())
+                    if (shipSize != shipListTwo.ElementAt(i).getSize())
                     {
                         if (copies != 0)
                             //Controls.Add(new Label { Location = new Point(100, 100), AutoSize = true, Text = copies + "x" });
@@ -208,8 +249,8 @@ namespace Battleships
                     }
                     shipSize = shipListTwo.ElementAt(i).getSize();
                 }
+                shipModels = row + 1;
             }
-            shipModels = row + 1;
         }
 
         protected override void OnPaint(PaintEventArgs pe)
@@ -324,6 +365,11 @@ namespace Battleships
                 {
                     int boardCol = (posX - (listWindowWidth + boardOffset)) / cellWidth;
                     int boardRow = (posY - boardOffset) / cellWidth;
+
+                    if (boardCol + shipSize > boardSize && shipRotation == 0)
+                        boardCol = boardCol + boardSize - (boardCol + shipSize);
+                    else if (boardRow + shipSize > boardSize && shipRotation == 1)
+                        boardRow = boardRow + boardSize - (boardRow + shipSize);
 
                     for (int x = 0; x < shipSize; x++)
                     {

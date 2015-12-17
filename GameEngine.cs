@@ -10,6 +10,7 @@ namespace Battleships
     {
         int turn = 1;
         int action = 0;
+        int phase = 1;
 
         public Rules rulebook = new Rules();
 
@@ -23,6 +24,11 @@ namespace Battleships
         public int getTurn()
         {
             return this.turn;
+        }
+
+        public int getPhase()
+        {
+            return this.phase;
         }
 
         public void setTurn(int turn)
@@ -66,7 +72,7 @@ namespace Battleships
             Console.Write("y: ");
             int y = int.Parse(Console.ReadLine());
             Console.WriteLine("Firing at" + x + ", " + y);
-            bool success = p.fire(x, y, p);
+            bool success = p.fire(x, y);
             return success;
         }
 
@@ -106,11 +112,6 @@ namespace Battleships
 
             List<Ship> newShipList = new List<Ship>(p.getShipList());
 
-            foreach (Ship s in newShipList)
-            {
-                
-            }
-
             for (int i = 0; i < newShipList.Count; ++i)
             {
                 if (!actionPlaceShip(p, newShipList.ElementAt(i)))
@@ -119,40 +120,9 @@ namespace Battleships
                 }
             }
 
-                /*
-                do
-                {
-                    Console.WriteLine("Enter coordinates to place a ship at, cant be longer or shorter than " + s.getSize());
-                    Console.Write("startx: ");
-                    x1 = int.Parse(Console.ReadLine());
-                    Console.Write("starty: ");
-                    y1 = int.Parse(Console.ReadLine());
-
-                    Console.Write("endx: ");
-                    x2 = int.Parse(Console.ReadLine());
-                    Console.Write("endy: ");
-                    y2 = int.Parse(Console.ReadLine());
-
-                } while (rulebook.validPlacement(x1, y1, x2, y2, p)); //(x2 - x1 + 1 != s.getSize() && y2 == y1) || (y2 - y1 + 1 != s.getSize() && x2 == x1)
-
-                Tuple<int, int> posStart = new Tuple<int, int>(x1, y1);
-                Tuple<int, int> posEnd = new Tuple<int, int>(x2, y2);
-
-                Console.WriteLine("Ship position accepted");
-
-                s.setStartEnd(posStart, posEnd);
-            }
-            p.setShipList(newShipList);
-
-            foreach (Ship s in p.getShipList())
-            {
-                p.placeShip(s.getStart(), s.getEnd(), s);
-            }
-            */
-                p.printBoard();
+            p.printBoard();
             Console.WriteLine("All ships placed, leaving phase");
-            
-
+            phase = 2;
         }
 
         void GameLoop(Board p1, Board p2)
@@ -262,13 +232,45 @@ namespace Battleships
             }
         }
 
+        void newGameLoop()
+        {
+            while (true)
+            {
+                playTurn();
+            }
+        }
+
         public void AIAction(Board p){
             p.ai.playTurn(p);
         }
 
-        void newGameLoop()
+        void playTurn()
         {
-            while (true)
+            if (phase == 1)
+            {
+                //Place ships
+                if (turn == 1)
+                {
+
+                    //Place ships via GUI
+
+                    turn = 2;
+                }
+                else if (turn == 2)
+                {
+                    if (!p2.getIsHuman())
+                    {
+                        //AI place ships
+                    }
+                    else
+                    {
+                        //Place ships via GUI
+                    }
+
+                    turn = 1;
+                }
+            }
+            else if (phase == 2)
             {
                 if (turn == 1)
                 {
@@ -277,20 +279,20 @@ namespace Battleships
                         //Player 1 is Human
                         Console.WriteLine("Player 1");
                         action = chooseAction();
-                        if (action == 1)
+                        if (action == 1)    //fire 
                         {
-                            if (actionFire(p2))
+                            if (actionFire(p2)) //fire at p2
                                 turn = 2;
                         }
-                        else if (action == 2)
+                        else if (action == 2)   //remove this for GUI
                         {
                             p1.printBoard();
                             Console.WriteLine("------------------------------");
                             p2.printBoard();
                         }
-                        else if (action == 3)
+                        else if (action == 3)   //remove this aswell
                         {
-                            break;
+                            return;
                         }
                     }
                     else
@@ -321,7 +323,7 @@ namespace Battleships
                         }
                         else if (action == 3)
                         {
-                            break;
+                            return;
                         }
                     }
                     else
@@ -348,7 +350,7 @@ namespace Battleships
                 var p1NewList = p1.getShipList().ToList<Ship>(); //makes a copy of the list, since you cant remove elements from a list in a foreach-loop
                 var p2NewList = p2.getShipList().ToList<Ship>();
 
-
+                //Removes dead ships, ignore this =D
                 foreach (Ship s in p1NewList ?? Enumerable.Empty<Ship>())
                 {
                     if (s.getDead())
@@ -375,18 +377,19 @@ namespace Battleships
                         Console.WriteLine("No dead ships in p2 board");
                     }
                 }
+                //Removed the dead ships, stop ignoring here!
 
                 Console.WriteLine("Checking Win coniditions");
-                //check win-conditions
+                //check win(lost)-conditions
                 if (rulebook.lost(p1))
                 {
                     Console.WriteLine("Player 2 Wins! Shutting down");
-                    break;
+                    return;
                 }
                 else if (rulebook.lost(p2))
                 {
                     Console.WriteLine("Player 1 Wins! Shutting down");
-                    break;
+                    return;
 
                 }
             }
@@ -398,16 +401,7 @@ namespace Battleships
             Board p2 = new Board(false); //PLayer 2 is human
             GameEngine GE = new GameEngine(p1, p2);
             GameScreen gameScreen = new GameScreen(GE, p1, p2);
-            gameScreen.ShowDialog();
-            Console.WriteLine("Player 1, place your ships");
-            GE.placeShipsPhase(p1);
-            Console.WriteLine("Player 2, place your ships");
-            GE.placeShipsPhase(p2);
-            Console.WriteLine("Starting GameLoop");
-            GE.newGameLoop();
-            Console.WriteLine("Press ENTER to close window");
-            String stop = Console.ReadLine();
-            
+            gameScreen.ShowDialog();     
         }
 
 
@@ -501,15 +495,15 @@ namespace Battleships
                return false;
            }
        }
-       public bool fire(int x, int y, Board b)
+       public bool fire(int x, int y)
        {
-           if (rulebook.validFire(x, y, b))
+           if (rulebook.validFire(x, y, this))
            {
-               b.GameBoard.ElementAt(y).ElementAt(x).setHit();
+               this.GameBoard.ElementAt(y).ElementAt(x).setHit();
 
-               if (b.GameBoard[y][x].getShip() != null)
+               if (this.GameBoard[y][x].getShip() != null)
                {
-                   b.GameBoard[y][x].getShip().hit();
+                   this.GameBoard[y][x].getShip().hit();
                }
 
                Console.WriteLine(x + ", " + y + " is hit");
@@ -807,7 +801,7 @@ namespace Battleships
             do{
                 target = chooseFireCoords();
                 Console.WriteLine("AI-Target: " + target);
-            } while (!targetBoard.fire(target.Item1, target.Item2, targetBoard));
+            } while (!targetBoard.fire(target.Item1, target.Item2));
 
                 if (targetBoard.isShip(target.Item1, target.Item2))
                 {
