@@ -79,7 +79,7 @@ namespace Battleships
 
         bool actionPlaceShip(Board p, Ship s)
         {
-            if (p.getIsHuman() && false)
+            if (p.getIsHuman())
             {
                 int x1, y1, x2, y2;
                 Console.WriteLine("Enter coordinates to place a ship at, cant be longer or shorter than " + s.getSize());
@@ -417,7 +417,7 @@ namespace Battleships
 
         static void Main()
         {
-            Board p1 = new Board(false); //Player 1 is human
+            Board p1 = new Board(true); //Player 1 is human
             Board p2 = new Board(false); //PLayer 2 is AI
             GameEngine GE = new GameEngine(p1, p2);
 
@@ -639,6 +639,7 @@ namespace Battleships
         public void setShip(Ship s)
         {
             this.ship = s;
+            this.ship.setPlaced(true);
         }
 
         public Ship getShip()
@@ -733,6 +734,10 @@ namespace Battleships
         public bool getPlaced()
         {
             return this.placed;
+        }
+        public void setPlaced(bool b)
+        {
+            this.placed = b;
         }
        
     }
@@ -928,19 +933,22 @@ namespace Battleships
                     case 0:
                         this.knownBoard[y][x] = newValue;
                         Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
+                        printBoard();
                         break;
                     case 1:
-                        if (newValue == 4 || newValue == 5)
+                        if (newValue == 4)
                         {
                             this.knownBoard[y][x] = newValue;
                             Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
+                            printBoard();
                         }
                         break;
                     case 2:
-                        if (newValue == 4 || newValue == 5)
+                        if (newValue == 4)
                         {
                             this.knownBoard[y][x] = newValue;
                             Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
+                            printBoard();
                         }
                         break; 
                     case 3:
@@ -948,7 +956,11 @@ namespace Battleships
                         {
                             this.knownBoard[y][x] = newValue;
                             Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
+                            printBoard();
                         }
+                        break;
+                    case 4:
+                        Console.WriteLine("[AI.updateKnownBoard] Nothing updated");
                         break;
                     default:
                         Console.WriteLine("[AI.updateKnownBoard] Nothing updated");
@@ -1053,7 +1065,6 @@ namespace Battleships
                 }
 
             }
-            //printBoard();
             Console.WriteLine("[AI.updateKnownBoard] Board updated");
         }
 
@@ -1111,6 +1122,13 @@ namespace Battleships
 
             for (int y_ = 0; y_ < 10; ++y_)
             {
+                if (knownBoard[y_][x] == 0)
+                {
+                    hitShipFound = false;
+                    shipLengthCounter = 0;
+                    deadShipFound = false;
+                    hitFound = false;
+                }
                 if (knownBoard[y_][x] == 1)
                 {
                     Console.WriteLine("[AI.findDeadShips] hitFound!");
