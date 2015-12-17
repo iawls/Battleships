@@ -558,28 +558,21 @@ namespace Battleships
             }
         }
 
-        protected override void OnPaint(PaintEventArgs pe)
+        private void draw_frames(PaintEventArgs pe)
         {
-            base.OnPaint(pe);
             System.Drawing.Pen black = new System.Drawing.Pen(Color.Black, 2);
-            System.Drawing.Pen green = new System.Drawing.Pen(Color.LightGreen, 3);
-            System.Drawing.Pen red = new System.Drawing.Pen(Color.Red, 2);
-            System.Drawing.SolidBrush fillBlue = new System.Drawing.SolidBrush(System.Drawing.Color.LightSkyBlue);
+            pe.Graphics.DrawRectangle(black, 0, 0, listWindowWidth, boardWindowHeight);
+            pe.Graphics.DrawRectangle(black, listWindowWidth, 0, boardWindowWidth, boardWindowHeight);
+            pe.Graphics.DrawRectangle(black, listWindowWidth + boardWindowWidth, 0, boardWindowWidth - 18, boardWindowHeight);
+        }
+
+        private void draw_turn_button(PaintEventArgs pe)
+        {
+            System.Drawing.Pen black = new System.Drawing.Pen(Color.Black, 2);
             System.Drawing.SolidBrush fillGray = new System.Drawing.SolidBrush(System.Drawing.Color.LightGray);
             System.Drawing.SolidBrush fillBlack = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
 
-            //draw windows
-            pe.Graphics.DrawRectangle(black, 0, 0, listWindowWidth, boardWindowHeight);
-            pe.Graphics.DrawRectangle(black, listWindowWidth, 0, boardWindowWidth, boardWindowHeight);
-            pe.Graphics.DrawRectangle(black, listWindowWidth+boardWindowWidth, 0, boardWindowWidth-18, boardWindowHeight);
-
-            int leftBoardStartX = listWindowWidth + boardOffset;
-            int rightBoardStartX = listWindowWidth + boardWindowWidth + boardOffset;
-
-            draw_ship_list(pe);
-
-            //draw next turn button
-            int buttonSize = (int)((this.Height - boardWindowHeight)*0.5);
+            int buttonSize = (int)((this.Height - boardWindowHeight) * 0.5);
             RectangleF textRect = new RectangleF(this.Width - buttonSize - buttonSize / 2, boardWindowHeight + buttonSize / 2, buttonSize, buttonSize);
             Rectangle buttonRect = new Rectangle(this.Width - buttonSize - buttonSize / 2, boardWindowHeight + buttonSize / 2, buttonSize, buttonSize);
             pe.Graphics.DrawRectangle(black, buttonRect);
@@ -588,14 +581,28 @@ namespace Battleships
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
-            if(hidePlayerBoards == false)
+            if (hidePlayerBoards == false)
                 pe.Graphics.DrawString("Turn done", textFont, fillBlack, textRect, stringFormat);
             else
                 pe.Graphics.DrawString("Enter turn", textFont, fillBlack, textRect, stringFormat);
+        }
+
+        private void draw_boards(PaintEventArgs pe)
+        {
+            System.Drawing.Pen black = new System.Drawing.Pen(Color.Black, 2);
+            System.Drawing.Pen red = new System.Drawing.Pen(Color.Red, 2);
+            System.Drawing.SolidBrush fillBlack = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
+            System.Drawing.SolidBrush fillBlue = new System.Drawing.SolidBrush(System.Drawing.Color.LightSkyBlue);
+
+            int leftBoardStartX = listWindowWidth + boardOffset;
+            int rightBoardStartX = listWindowWidth + boardWindowWidth + boardOffset;
 
             //board to the left
-            textRect = new RectangleF(listWindowWidth, 0, boardWindowWidth, boardOffset);
-            textFont = new Font("Arial", 20);
+            RectangleF textRect = new RectangleF(listWindowWidth, 0, boardWindowWidth, boardOffset);
+            Font textFont = new Font("Arial", 20);
+            StringFormat stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
             try
             {
                 textFont = new Font("Arial", boardOffset / 2);
@@ -605,25 +612,25 @@ namespace Battleships
                 textFont = new Font("Arial", 20);
             }
             if (turn == 1)
-                if(hidePlayerBoards)
+                if (hidePlayerBoards)
                     pe.Graphics.DrawString("Player 2", textFont, fillBlack, textRect, stringFormat);
                 else
                     pe.Graphics.DrawString("Player 1", textFont, fillBlack, textRect, stringFormat);
             else
                 if (hidePlayerBoards)
-                    pe.Graphics.DrawString("Player 1", textFont, fillBlack, textRect, stringFormat);
-                else
-                    pe.Graphics.DrawString("Player 2", textFont, fillBlack, textRect, stringFormat);
+                pe.Graphics.DrawString("Player 1", textFont, fillBlack, textRect, stringFormat);
+            else
+                pe.Graphics.DrawString("Player 2", textFont, fillBlack, textRect, stringFormat);
 
-            pe.Graphics.FillRectangle(fillBlue, leftBoardStartX, boardOffset, cellWidth*10, cellWidth * 10);
+            pe.Graphics.FillRectangle(fillBlue, leftBoardStartX, boardOffset, cellWidth * 10, cellWidth * 10);
             for (int y = 0; y < boardSize; y++)
             {
                 for (int x = 0; x < boardSize; x++)
                 {
                     pe.Graphics.DrawRectangle(black, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), cellWidth, cellWidth);
-                    if(turn == 1 && hidePlayerBoards == false)
+                    if (turn == 1 && hidePlayerBoards == false)
                     {
-                        if(p1.isHit(x,y) == true && p1.isShip(x,y) == true)
+                        if (p1.isHit(x, y) == true && p1.isShip(x, y) == true)
                         {
                             pe.Graphics.DrawEllipse(red, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), cellWidth, cellWidth);
                         }
@@ -631,7 +638,8 @@ namespace Battleships
                         {
                             pe.Graphics.DrawLine(black, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), leftBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y) + cellWidth);
                             pe.Graphics.DrawLine(black, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y) + cellWidth, leftBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y));
-                        }else if (p1.isShip(x, y) == true)
+                        }
+                        else if (p1.isShip(x, y) == true)
                         {
                             pe.Graphics.DrawEllipse(black, leftBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), cellWidth, cellWidth);
                         }
@@ -656,10 +664,10 @@ namespace Battleships
             }
 
             //board to the right
-            textRect = new RectangleF(listWindowWidth+boardWindowWidth, 0, boardWindowWidth, boardOffset);
+            textRect = new RectangleF(listWindowWidth + boardWindowWidth, 0, boardWindowWidth, boardOffset);
             pe.Graphics.DrawString("Enemy", textFont, fillBlack, textRect, stringFormat);
 
-            pe.Graphics.FillRectangle(fillBlue, leftBoardStartX+boardWindowWidth, boardOffset, cellWidth * 10, cellWidth * 10);
+            pe.Graphics.FillRectangle(fillBlue, leftBoardStartX + boardWindowWidth, boardOffset, cellWidth * 10, cellWidth * 10);
             for (int y = 0; y < boardSize; y++)
             {
                 for (int x = 0; x < boardSize; x++)
@@ -691,11 +699,15 @@ namespace Battleships
                     }
                 }
             }
+        }
 
-            //draw crosshair
-            if(phase == 2)
+        private void draw_crosshair(PaintEventArgs pe)
+        {
+            System.Drawing.Pen green = new System.Drawing.Pen(Color.LightGreen, 3);
+
+            if (phase == 2)
             {
-                if (posX > listWindowWidth+boardWindowWidth && posX < listWindowWidth + boardWindowWidth*2 && posY > 0 && posY < boardWindowHeight)
+                if (posX > listWindowWidth + boardWindowWidth && posX < listWindowWidth + boardWindowWidth * 2 && posY > 0 && posY < boardWindowHeight)
                 {
                     if (cursorVisible)
                     {
@@ -704,7 +716,7 @@ namespace Battleships
                     }
 
                     pe.Graphics.DrawEllipse(green, posX - (cellWidth), posY - (cellWidth), cellWidth * 2, cellWidth * 2);
-                    pe.Graphics.DrawLine(green, listWindowWidth+boardWindowWidth, posY, listWindowWidth + boardWindowWidth*2, posY);
+                    pe.Graphics.DrawLine(green, listWindowWidth + boardWindowWidth, posY, listWindowWidth + boardWindowWidth * 2, posY);
                     pe.Graphics.DrawLine(green, posX, 0, posX, boardWindowHeight);
                 }
                 else
@@ -716,7 +728,17 @@ namespace Battleships
                     }
                 }
             }
-            else if(shipSelected != -1)
+        }
+
+        private void draw_selected_ship(PaintEventArgs pe)
+        {
+            System.Drawing.Pen black = new System.Drawing.Pen(Color.Black, 2);
+            System.Drawing.SolidBrush fillGray = new System.Drawing.SolidBrush(System.Drawing.Color.LightGray);
+
+            int leftBoardStartX = listWindowWidth + boardOffset;
+            int rightBoardStartX = listWindowWidth + boardWindowWidth + boardOffset;
+
+            if (shipSelected != -1)
             {
                 int shipSize;
                 if (turn == 1)
@@ -746,26 +768,86 @@ namespace Battleships
                             pe.Graphics.DrawRectangle(black, leftBoardStartX + (cellWidth * boardCol), boardOffset + (cellWidth * boardRow) + (cellWidth * x), cellWidth, cellWidth);
                             pe.Graphics.FillRectangle(fillGray, leftBoardStartX + (cellWidth * boardCol), boardOffset + (cellWidth * boardRow) + (cellWidth * x), cellWidth, cellWidth);
                         }
- 
+
                     }
                 }
                 else
                 {
                     for (int x = 0; x < shipSize; x++)
                     {
-                        if(shipRotation == 0)
+                        if (shipRotation == 0)
                         {
                             pe.Graphics.DrawRectangle(black, posX + cellWidth * x, posY, cellWidth, cellWidth);
                             pe.Graphics.FillRectangle(fillGray, posX + cellWidth * x, posY, cellWidth, cellWidth);
                         }
                         else
                         {
-                            pe.Graphics.DrawRectangle(black, posX, posY + cellWidth*x, cellWidth, cellWidth);
-                            pe.Graphics.FillRectangle(fillGray, posX, posY + cellWidth*x, cellWidth, cellWidth);
+                            pe.Graphics.DrawRectangle(black, posX, posY + cellWidth * x, cellWidth, cellWidth);
+                            pe.Graphics.FillRectangle(fillGray, posX, posY + cellWidth * x, cellWidth, cellWidth);
                         }
                     }
                 }
             }
+        }
+
+        private void draw_info_box(PaintEventArgs pe)
+        {
+            System.Drawing.SolidBrush fillGray = new System.Drawing.SolidBrush(System.Drawing.Color.LightGray);
+            System.Drawing.SolidBrush fillBlack = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
+
+            Rectangle rect = new Rectangle(5, boardWindowHeight + 5, listWindowWidth -5, (this.Height - boardWindowHeight)-50);
+            RectangleF textRect = new RectangleF(listWindowWidth / 20 + 5, boardWindowHeight + listWindowWidth / 8, listWindowWidth - listWindowWidth / 20 - 5, this.Height - boardWindowHeight);
+            pe.Graphics.FillRectangle(fillGray, rect);
+            Font textFont = new Font("Arial", 20);
+            StringFormat stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Near;
+            stringFormat.LineAlignment = StringAlignment.Near;
+            try
+            {
+                textFont = new Font("Arial", listWindowWidth / 20);
+            }
+            catch (ArgumentException e)
+            {
+                textFont = new Font("Arial", 20);
+            }
+
+            if (phase == 1)
+            {
+                if (!hidePlayerBoards)
+                    pe.Graphics.DrawString("Player " + turn + "'s turn:\r\n\r\nPlace your undeployed ships on your board.", textFont, fillBlack, textRect, stringFormat);
+                else
+                {
+                    if (turn == 1)
+                        pe.Graphics.DrawString("Player 2's turn:\r\n\r\nPlease enter your turn by clicking on the 'Enter turn' button.", textFont, fillBlack, textRect, stringFormat);
+                    else
+                        pe.Graphics.DrawString("Player 1's turn:\r\n\r\nPlease enter your turn by clicking on the 'Enter turn' button.", textFont, fillBlack, textRect, stringFormat);
+                }
+            }
+            else
+            {
+                if (!hidePlayerBoards)
+                    pe.Graphics.DrawString("Player " + turn + "'s turn:\r\n\r\nAttack enemy board. Let no ship survive!", textFont, fillBlack, textRect, stringFormat);
+                else
+                {
+                    if (turn == 1)
+                        pe.Graphics.DrawString("Player 2's turn:\r\n\r\nPlease enter your turn by clicking on the 'Enter turn' button.", textFont, fillBlack, textRect, stringFormat);
+                    else
+                        pe.Graphics.DrawString("Player 1's turn:\r\n\r\nPlease enter your turn by clicking on the 'Enter turn' button.", textFont, fillBlack, textRect, stringFormat);
+                }
+            }
+        }
+
+        protected override void OnPaint(PaintEventArgs pe)
+        {
+            base.OnPaint(pe);
+
+            draw_frames(pe);
+            draw_ship_list(pe);
+            draw_turn_button(pe);
+            draw_boards(pe);
+            draw_crosshair(pe);
+            draw_selected_ship(pe);
+            draw_info_box(pe);
 
         }
 
