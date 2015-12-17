@@ -878,7 +878,7 @@ namespace Battleships
                 {
                     tmpList.Add(0);
                 }
-                knownBoard.Add(tmpList);                    //add the inner List to the outer List
+                knownBoard.Add(tmpList);    //add the inner List to the outer List
             }
 
         }
@@ -1050,6 +1050,7 @@ namespace Battleships
                     shipLengthCounter = 0;
                     deadShipFound = false;
                     hitFound = false;
+                    deadShipCoords.Clear();
                 }
                 if (knownBoard[y][x_] == 1)
                 {
@@ -1088,6 +1089,7 @@ namespace Battleships
                     shipLengthCounter = 0;
                     deadShipFound = false;
                     hitFound = false;
+                    deadShipCoords.Clear();
                 }
                 if (knownBoard[y_][x] == 1)
                 {
@@ -1138,7 +1140,7 @@ namespace Battleships
                         targetList.Clear();
                         return target;
                     }
-                   /* else
+                   else
                     {
                         printBoard();
                         int randomX = random.Next(0, 10);
@@ -1146,7 +1148,7 @@ namespace Battleships
                         Tuple<int, int> target = new Tuple<int, int>(randomX, randomY);
                         targetList.Clear();
                         return target;
-                    }*/
+                    }
                 }
             } while (true);
         }
