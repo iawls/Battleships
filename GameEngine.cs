@@ -900,6 +900,44 @@ namespace Battleships
                 if (targetBoard.isShip(target.Item1, target.Item2))
                 {
                     updateKnownBoard(target.Item1, target.Item2, 2);    //Hit a ship
+
+                    if (target.Item1 < 9)
+                    {
+                        if (knownBoard[target.Item2][target.Item1 + 1] == 2)
+                        {
+                            Tuple<int, int> start = new Tuple<int, int>(target.Item1, target.Item2);
+                            Tuple<int, int> end = new Tuple<int, int>(target.Item1 + 1, target.Item2);
+                            damagedShipAt(start, end);
+                        }
+                    }
+                    if (target.Item1 > 0)
+                    {
+                        if (knownBoard[target.Item2][target.Item1 - 1] == 2)
+                        {
+                            Tuple<int, int> end = new Tuple<int, int>(target.Item1, target.Item2);
+                            Tuple<int, int> start = new Tuple<int, int>(target.Item1 - 1, target.Item2);
+                            damagedShipAt(start, end);
+                        }
+                    }
+                    if (target.Item2 < 9)
+                    {
+                        if (knownBoard[target.Item2 + 1][target.Item1] == 2)
+                        {
+                            Tuple<int, int> start = new Tuple<int, int>(target.Item1, target.Item2);
+                            Tuple<int, int> end = new Tuple<int, int>(target.Item1, target.Item2 + 1);
+                            damagedShipAt(start, end);
+
+                        }
+                    }
+                    if (target.Item2 > 0)
+                    {
+                        if (knownBoard[target.Item2 - 1][target.Item1] == 2)
+                        {
+                            Tuple<int, int> end = new Tuple<int, int>(target.Item1, target.Item2);
+                            Tuple<int, int> start = new Tuple<int, int>(target.Item1, target.Item2 - 1);
+                            damagedShipAt(start, end);
+                        }
+                    }
                     updateKnownBoard(target.Item1+1, target.Item2, 3);  //Update the surrounding nodes
                     updateKnownBoard(target.Item1-1, target.Item2, 3);  
                     updateKnownBoard(target.Item1, target.Item2+1, 3);
@@ -920,6 +958,41 @@ namespace Battleships
             
         }
 
+        private void damagedShipAt(Tuple<int, int> start, Tuple<int, int> end)
+        {
+            if (start.Item1 == end.Item1)
+            {
+                for (int i = start.Item2; i < 10; ++i)
+                {
+                    if (knownBoard[i][start.Item1] == 2)
+                    {
+                        updateKnownBoard(start.Item1 + 1, i, 5);
+                        updateKnownBoard(start.Item1 - 1, i, 5);
+                    }
+                    else if (knownBoard[i][start.Item1] == 0)
+                    {
+                        break;
+                    }
+                }
+            }
+            else if (start.Item2 == end.Item2)
+            {
+                for (int i = start.Item1; i < 10; ++i)
+                {
+                    if (knownBoard[start.Item2][i] == 2)
+                    {
+                        updateKnownBoard(i, start.Item2 + 1, 5);
+                        updateKnownBoard(start.Item1 ,start.Item2 - 1, 5);
+                    }
+                    else if (knownBoard[start.Item2][i] == 0)
+                    {
+                        break;
+                    }
+                }
+            }
+
+        }
+
         private void deadShipAt(Tuple<int, int> start, Tuple<int, int> end)
         {
             int xMin = Math.Min(start.Item1, end.Item1);
@@ -931,23 +1004,10 @@ namespace Battleships
                 for (int i = yMin; i <= yMax; ++i)
                 {
                     updateKnownBoard(xMin, i, 4);
-
-                    if (xMin < 9)
-                    {
-                        updateKnownBoard(xMin+1, i, 5);
-                    }
-                    if (xMin > 0)
-                    {
-                        updateKnownBoard(xMin-1, i, 5);
-                    }
-                    if (i < 9)
-                    {
-                        updateKnownBoard(xMin, i + 1, 5);
-                    }
-                    if (i > 0)
-                    {
-                        updateKnownBoard(xMin, i - 1, 5);
-                    }
+                    updateKnownBoard(xMin + 1, i, 5);
+                    updateKnownBoard(xMin - 1, i, 5);
+                    updateKnownBoard(xMin, i + 1, 5);
+                    updateKnownBoard(xMin, i - 1, 5);
 
                 }
             }
@@ -956,23 +1016,10 @@ namespace Battleships
                 for (int i = xMin; i <= xMax; ++i)
                 {
                     updateKnownBoard(i, yMin, 4);
-
-                    if (yMin < 9)
-                    {
-                        updateKnownBoard(i, yMin + 1, 5);
-                    }
-                    if (yMin > 0)
-                    {
-                        updateKnownBoard(i, yMin - 1, 5);
-                    }
-                    if (i < 9)
-                    {
-                        updateKnownBoard(i + 1, yMin, 5);
-                    }
-                    if (i > 0)
-                    {
-                        updateKnownBoard(i - 1, yMin, 5);
-                    }
+                    updateKnownBoard(i, yMin + 1, 5);
+                    updateKnownBoard(i, yMin - 1, 5);
+                    updateKnownBoard(i + 1, yMin, 5);
+                    updateKnownBoard(i - 1, yMin, 5);
                 }
             }
             
