@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Battleships
 {
-    class GameEngine
+    public class GameEngine
     {
         int turn= 1;
         int action = 0;
         int phase = 1;
-        bool win = false;
+        int win = 0;
 
         public Rules rulebook = new Rules();
 
@@ -40,6 +42,11 @@ namespace Battleships
         public int getAction()
         {
             return this.action;
+        }
+
+        public int getWin()
+        {
+            return this.win;
         }
 
         int chooseAction()
@@ -253,117 +260,83 @@ namespace Battleships
             }
         }
 
-        public void AIAction(Board p){
-            p.ai.playTurn(p);
-        }
-
         void newGameLoop()
         {
             while (true)
             {
-                if(!win)
-                    playTurn();
-                else
-                {
-                    Console.WriteLine("WE HAVE A WINNER");
-                    String stop = Console.ReadLine();
-                }
+                playTurn();
             }
+        }
+
+        public void AIAction(Board p){
+            p.ai.playTurn(p);
         }
 
         void playTurn()
         {
+
             if (phase == 1)
             {
-                //Place ships
                 if (turn == 1)
                 {
-                   
-                    //Place ships via GUI
-
                     turn = 2;
-                }
-                else if (turn == 2)
-                {
                     if (!p2.getIsHuman())
-                    {
-                        //AI place ships
-                    }
-                    else
-                    {
-                        //Place ships via GUI
-                    }
-
-                    turn = 1;
+                        ; ;
+                       /* if (!win)
+                            playTurn();
+                        else
+                        {
+                            Console.WriteLine("WE HAVE A WINNER");
+                            String stop = Console.ReadLine();
+                        }*/
                 }
             }
-            else if (phase == 2)
-            {
-                if (turn == 1)
+        }
+
+        public void nextTurn()
+        {
+                if (phase == 1)
                 {
-                    if (p1.getIsHuman())
+                    if (turn == 1)
                     {
-                        //Player 1 is Human
-                        Console.WriteLine("Player 1");
-                        action = chooseAction();
-                        if (action == 1)    //fire 
-                        {
-                            if (actionFire(p2)) //fire at p2
-                                turn = 2;
-                        }
-                        else if (action == 2)   //remove this for GUI
-                        {
-                            p1.printBoard();
-                            Console.WriteLine("------------------------------");
-                            p2.printBoard();
-                        }
-                        else if (action == 3)   //remove this aswell
-                        {
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        //Player 1 is AI
-                        AIAction(p2);
                         turn = 2;
+                        if (!p2.getIsHuman())
+                        {   
 
-                    }
-                }
-                else if (turn == 2)
-                {
-                    if (p2.getIsHuman())
-                    {
-                        //Player 2 is Human
-                        Console.WriteLine("Player 2");
-                        action = chooseAction();
-                        if (action == 1)
-                        {
-                            if (actionFire(p1))
-                                turn = 1;
-                        }
-                        else if (action == 2)
-                        {
-                            p1.printBoard();
-                            Console.WriteLine("------------------------------");
-                            p2.printBoard();
-                        }
-                        else if (action == 3)
-                        {
-                            return;
+                            List<Ship> newShipList = new List<Ship>(p2.getShipList());
+
+                            for (int i = 0; i < newShipList.Count; ++i)
+                            {
+                                if (!actionPlaceShip(p2, newShipList.ElementAt(i)))
+                                {
+                                    --i;
+                                }
+                            }
+                            phase = 2;
+                            turn = 1;
                         }
                     }
-                    else
+                    else if (turn == 2)
                     {
-                        //Player 2 is AI
-                        AIAction(p1);
                         turn = 1;
-
+                        phase = 2;
                     }
                 }
-                else
+                else if (phase == 2)
                 {
-                    Console.WriteLine("Something messed up with turn in the GameLoop");
+                    if (turn == 1)
+                    {
+                    turn = 2;
+                        if (!p2.getIsHuman())
+                        {
+                            p2.ai.playTurn(p1);
+                            turn = 1;
+                        }
+                    }
+                    else if (turn == 2)
+                    {
+                        turn = 1;
+                    }
                 }
 
                 //Remove the dead ships (if any) from the boards
@@ -401,42 +374,52 @@ namespace Battleships
                 //check win(lost)-conditions
                 if (rulebook.lost(p1))
                 {
+                    win = 2;
                     Console.WriteLine("Player 2 Wins! Shutting down");
-                    win = true;
-                    return;
-                }
-                else if (rulebook.lost(p2))
-                {
+                }else if (rulebook.lost(p2))
+            {
+                    win = 1;
                     Console.WriteLine("Player 1 Wins! Shutting down");
-                    win = true;
-                    return;
-
                 }
-            }
         }
 
         static void Main()
         {
-            Board p1 = new Board(true); //Player 1 is AI
-            Board p2 = new Board(false); //PLayer 2 is AI
-            GameEngine GE = new GameEngine(p1, p2);
+            Form splashScreen = new SplashScreen();
+            splashScreen.Show();
+            Thread.Sleep(1000);
+            splashScreen.Close();
 
-            //Remove this!
-            Console.WriteLine("Player 1, place your ships");
-            GE.placeShipsPhase(p1);     
-            Console.WriteLine("Player 2, place your ships");
-            GE.placeShipsPhase(p2);  
-            Console.WriteLine("Starting GameLoop");
-            GE.newGameLoop();
-            Console.WriteLine("Press ENTER to close window");
-            String stop = Console.ReadLine();
-            
+            Menu menu = new Menu();
+            menu.ShowDialog();
+            string menuChoice = menu.buttonEvent;
+
+            if (menuChoice != "EXIT")
+            {
+                GameEngine GE;
+                if (menuChoice == "PLAYER_VS_PLAYER")
+                {
+                    Board p1 = new Board(true); //Player 1 is human
+                    Board p2 = new Board(true); //PLayer 2 is human
+                    GE = new GameEngine(p1, p2);
+                    GameScreen gameScreen = new GameScreen(GE, p1, p2);
+                    gameScreen.ShowDialog();
+                }
+                else if (menuChoice == "PLAYER_VS_PC")
+                {
+                    Board p1 = new Board(true); //Player 1 is human
+                    Board p2 = new Board(false); //PLayer 2 is PC
+                    GE = new GameEngine(p1, p2);
+                    GameScreen gameScreen = new GameScreen(GE, p1, p2);
+                    gameScreen.ShowDialog();
+                }
+            }
         }
 
 
     }
 
-    class Board
+    public class Board
     {
         List<List<Node>> GameBoard = new List<List<Node>>();
         public Rules rulebook = new Rules();
@@ -514,6 +497,7 @@ namespace Battleships
                   for (int x = start.Item2; x <= end.Item2; x++)
                   {
                       GameBoard.ElementAt(x).ElementAt(y).setShip(s);
+                      s.setStartEnd(start, end);
                   }
                }
               printBoard();
@@ -595,7 +579,7 @@ namespace Battleships
            shipList.ElementAt(7).setSize(2);
            shipList.ElementAt(8).setSize(2);
            shipList.ElementAt(9).setSize(2);
-
+           //shipList.ElementAt(0).setSize(6);
 
            Console.WriteLine("Rules initiated");
 
@@ -630,7 +614,7 @@ namespace Battleships
 
     }
 
-    class Node
+    public class Node
     {
         bool hit;
         Ship ship;
@@ -669,13 +653,13 @@ namespace Battleships
 
 
     }
-    class Ship
+    public class Ship
     {
 
         Tuple<int, int> start;
         Tuple<int, int> end;
         bool dead = false;
-        bool placed;
+        bool placed = false;
         int size = 1;
         int hits = 0;
 
@@ -747,7 +731,7 @@ namespace Battleships
         }
        
     }
-    class Rules
+    public class Rules
     {
         public bool validFire(int x, int y, Board b)
         {
@@ -871,7 +855,7 @@ namespace Battleships
      * If there's a better option (3 in the known board), it will choose one of those at random
      * to avoid predictability. 
      * */
-    class AI
+    public class AI
     {
         List<List<int>> knownBoard = new List<List<int>>(); 
                                     /* Will have integers as identifiers.
