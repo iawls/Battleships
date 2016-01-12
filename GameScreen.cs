@@ -814,7 +814,7 @@ namespace Battleships
             if (phase == 1)
             {
                 if (!hidePlayerBoards)
-                    pe.Graphics.DrawString("Player " + turn + "'s turn:\r\n\r\nPlace your undeployed ships on your board.", textFont, fillBlack, textRect, stringFormat);
+                    pe.Graphics.DrawString("Player " + turn + "'s turn:\r\n\r\nPlace your undeployed ships on your board. Right click to rotate a ship.", textFont, fillBlack, textRect, stringFormat);
                 else
                 {
                     if (turn == 1)

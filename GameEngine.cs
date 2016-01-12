@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Battleships
 {
@@ -383,11 +385,35 @@ namespace Battleships
 
         static void Main()
         {
-            Board p1 = new Board(true); //Player 1 is human
-            Board p2 = new Board(false); //PLayer 2 is AI
-            GameEngine GE = new GameEngine(p1, p2);
-            GameScreen gameScreen = new GameScreen(GE, p1, p2);
-            gameScreen.ShowDialog();     
+            Form splashScreen = new SplashScreen();
+            splashScreen.Show();
+            Thread.Sleep(1000);
+            splashScreen.Close();
+
+            Menu menu = new Menu();
+            menu.ShowDialog();
+            string menuChoice = menu.buttonEvent;
+
+            if (menuChoice != "EXIT")
+            {
+                GameEngine GE;
+                if (menuChoice == "PLAYER_VS_PLAYER")
+                {
+                    Board p1 = new Board(true); //Player 1 is human
+                    Board p2 = new Board(true); //PLayer 2 is human
+                    GE = new GameEngine(p1, p2);
+                    GameScreen gameScreen = new GameScreen(GE, p1, p2);
+                    gameScreen.ShowDialog();
+                }
+                else if (menuChoice == "PLAYER_VS_PC")
+                {
+                    Board p1 = new Board(true); //Player 1 is human
+                    Board p2 = new Board(false); //PLayer 2 is PC
+                    GE = new GameEngine(p1, p2);
+                    GameScreen gameScreen = new GameScreen(GE, p1, p2);
+                    gameScreen.ShowDialog();
+                }
+            }
         }
 
 
