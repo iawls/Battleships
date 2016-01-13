@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--Huehuehue-->
+<root>
+  <States>
+    <Phase>0</Phase>
+    <Turn>1</Turn>
+    <PvP>yes</PvP>
+  </States>
+  <Player>
+    <Player1>
+      <Ships>
+        <Ship>
+          <startPos>
+            <X>8</X>
+            <Y>0</Y>
+          </startPos>
+          <endPos>
+            <X>8</X>
+            <Y>5</Y>
+          </endPos>
+        </Ship>
+      </Ships>
+    </Player1>
+    <Misses>
+      <Node>
+        <X>0</X>
+        <Y>0</Y>
+      </Node>
+    </Misses>
+  </Player>
+  <Player2>
+    <Ships>
+      <Ship>
+        <startPos>
+          <X>8</X>
+          <Y>0</Y>
+        </startPos>
+        <endPos>
+          <X>8</X>
+          <Y>5</Y>
+        </endPos>
+      </Ship>
+    </Ships>
+  </Player2>
+  <Misses>
+    <Node>
+      <X>0</X>
+      <Y>0</Y>
+    </Node>
+  </Misses>
+</root>

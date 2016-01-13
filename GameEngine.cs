@@ -385,6 +385,7 @@ namespace Battleships
 
         static void Main()
         {
+            Storage extStorage =  new Storage();
             Form splashScreen = new SplashScreen();
             splashScreen.Show();
             Thread.Sleep(1000);
