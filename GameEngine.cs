@@ -534,7 +534,7 @@ namespace Battleships
                    int posX = this.GameBoard[y][x].getShip().getStart().Item1;
                    int posY = this.GameBoard[y][x].getShip().getStart().Item2;
                    int hits = this.GameBoard[y][x].getShip().getHits();
-                    xmlStorage.alterShip(player, posX, posY, hits);
+                   xmlStorage.alterShip(player, posX, posY, hits);
                    xmlStorage.addHit(player, "hit", x, y);
                 }
                else

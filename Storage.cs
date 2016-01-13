@@ -31,7 +31,7 @@ namespace Battleships
                             new XElement("Ships"),
                             new XElement("Hits")
                         ),
-                    new XElement("Player2",
+                        new XElement("Player2",
                             new XElement("Ships"),
                             new XElement("Hits")
                         )
@@ -47,12 +47,13 @@ namespace Battleships
 
             Console.WriteLine("Saving to: " + path);
             database.Save(path);
-
+            //Testing to see if I can select ships by position
             IEnumerable<string> test = from huehue in XDocument.Load(path)
-                                                                 .Descendants("Ship")
+                                                               .Descendants("Ship")
                                        where (int)huehue.Element("startPos").Element("X") == 8
                                        select huehue.Element("endPos").Element("Y").Value;
 
+            //Will print the ships endY value that matches the "where"-statement above
             foreach (string s in test)
             {
                 Console.WriteLine(s);
@@ -77,14 +78,21 @@ namespace Battleships
 
         public void alterShip(string player, int startX, int startY, int hits)
         {
-            // .Where(x => (int)x.Element("startPos").Element("X").Value == startX && (int)x.Element("startPos").Element("Y").Value == startY).FirstOrDefault()
+            //Open document
+            XDocument db = XDocument.Load(path);
 
-            /*
-            XDocument database = XDocument.Load(path);
-            database.Element("root").Element("Player").Element(player).Elements("Ships")
-                .Where(x => x.Element("startPos").Element("X").Value == startX.ToString()).SingleOrDefault()
-                .SetElementValue("hits", hits);
-            */
+            //Find the ship with startX and startY on players board. 
+            var tmp = (from Player in db.Descendants("Player")
+                      where Player.Element(player).Element("Ships").Element("Ship").Element("startPos").Element("X").Value == startX.ToString()
+                         && Player.Element(player).Element("Ships").Element("Ship").Element("startPos").Element("Y").Value == startY.ToString()
+                      select Player).SingleOrDefault(); //select it
+
+            //set its "hits" element to hits
+            tmp.Element(player).Element("Ships").Element("Ship").SetElementValue("hits", hits);
+            
+            //save that mofo
+            db.Save(path);
+
         }
 
         public void addHit(string player, string hitOrMiss, int posX, int posY)
