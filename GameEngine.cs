@@ -385,7 +385,8 @@ namespace Battleships
 
         static void Main()
         {
-            Storage extStorage =  new Storage();
+            Storage xmlStorage =  new Storage();
+
             Form splashScreen = new SplashScreen();
             splashScreen.Show();
             Thread.Sleep(1000);
@@ -400,16 +401,16 @@ namespace Battleships
                 GameEngine GE;
                 if (menuChoice == "PLAYER_VS_PLAYER")
                 {
-                    Board p1 = new Board(true); //Player 1 is human
-                    Board p2 = new Board(true); //PLayer 2 is human
+                    Board p1 = new Board(true, "Player1", xmlStorage); //Player 1 is human
+                    Board p2 = new Board(true, "Player2", xmlStorage); //PLayer 2 is human
                     GE = new GameEngine(p1, p2);
                     GameScreen gameScreen = new GameScreen(GE, p1, p2);
                     gameScreen.ShowDialog();
                 }
                 else if (menuChoice == "PLAYER_VS_PC")
                 {
-                    Board p1 = new Board(true); //Player 1 is human
-                    Board p2 = new Board(false); //PLayer 2 is PC
+                    Board p1 = new Board(true, "Player1", xmlStorage); //Player 1 is human
+                    Board p2 = new Board(false, "Player2", xmlStorage); //PLayer 2 is PC
                     GE = new GameEngine(p1, p2);
                     GameScreen gameScreen = new GameScreen(GE, p1, p2);
                     gameScreen.ShowDialog();
@@ -425,14 +426,18 @@ namespace Battleships
         List<List<Node>> GameBoard = new List<List<Node>>();
         public Rules rulebook = new Rules();
         List<Ship> shipList = new List<Ship>();
+        Storage xmlStorage;
         int boardSize;
         bool isHuman;
+        string player;
         public AI ai = new AI();
         //default constructor, defaults to a boardsize of 10x10
-        public Board(bool human)
+        public Board(bool human, string player, Storage xmlStorage)
         {
             this.boardSize = 10;
             this.isHuman = human;
+            this.player = player;
+            this.xmlStorage = xmlStorage;
             init();
         }
         //Construct a board with a boardsize of size x size
@@ -501,7 +506,8 @@ namespace Battleships
                       s.setStartEnd(start, end);
                   }
                }
-              printBoard();
+                xmlStorage.addShip(player, start.Item1, start.Item2, end.Item1, end.Item2, s.getSize());
+                printBoard();
               return true;
            }
            else
@@ -525,6 +531,15 @@ namespace Battleships
                if (this.GameBoard[y][x].getShip() != null)
                {
                    this.GameBoard[y][x].getShip().hit();
+                   int posX = this.GameBoard[y][x].getShip().getStart().Item1;
+                   int posY = this.GameBoard[y][x].getShip().getStart().Item2;
+                   int hits = this.GameBoard[y][x].getShip().getHits();
+                    xmlStorage.alterShip(player, posX, posY, hits);
+                   xmlStorage.addHit(player, "hit", x, y);
+                }
+               else
+               {
+                    xmlStorage.addHit(player, "miss", x, y);
                }
 
                Console.WriteLine(x + ", " + y + " is hit");
@@ -567,7 +582,7 @@ namespace Battleships
            {
                Ship s = new Ship();
                shipList.Add(s);
-           }
+            }
 
            //Remove some ships if you want easier debug with the console
            shipList.ElementAt(0).setSize(6);
@@ -580,9 +595,9 @@ namespace Battleships
            shipList.ElementAt(7).setSize(2);
            shipList.ElementAt(8).setSize(2);
            shipList.ElementAt(9).setSize(2);
-           //shipList.ElementAt(0).setSize(6);
+            //shipList.ElementAt(0).setSize(6);
 
-           Console.WriteLine("Rules initiated");
+                Console.WriteLine("Rules initiated");
 
        }
 

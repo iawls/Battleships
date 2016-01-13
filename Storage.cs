@@ -10,14 +10,12 @@ using System.IO;
 
 namespace Battleships
 {
-    class Storage
+    public class Storage
     {
 
         public Storage()
         {
             //Create database
-            //Fill it with elements
-            path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
 
             XDocument database = new XDocument(
                 new XDeclaration("1.0", "utf-8", "yes"),
@@ -30,46 +28,14 @@ namespace Battleships
                          ),
                     new XElement("Player",
                         new XElement("Player1",
-                            new XElement("Ships",
-                                new XElement("Ship",
-                                    new XElement("startPos",
-                                        new XElement("X", "8"),
-                                        new XElement("Y", "0")
-                                    ),
-                                    new XElement("endPos",
-                                        new XElement("X", "8"),
-                                        new XElement("Y", "5")
-                                    )
-                                )
-                            )
+                            new XElement("Ships"),
+                            new XElement("Hits")
                         ),
-                        new XElement("Misses",
-                            new XElement("Node",
-                                new XElement("X", "0"),
-                                new XElement("Y", "0")
-                            )
-                        )
-                    ),
                     new XElement("Player2",
-                            new XElement("Ships",
-                                new XElement("Ship",
-                                    new XElement("startPos",
-                                        new XElement("X", "8"),
-                                        new XElement("Y", "0")
-                                    ),
-                                    new XElement("endPos",
-                                        new XElement("X", "8"),
-                                        new XElement("Y", "5")
-                                    )
-                                )
-                            )
-                        ),
-                        new XElement("Misses",
-                            new XElement("Node",
-                                new XElement("X", "0"),
-                                new XElement("Y", "0")
-                            )
+                            new XElement("Ships"),
+                            new XElement("Hits")
                         )
+                    )
                 )
             );
 
@@ -80,9 +46,9 @@ namespace Battleships
             */
 
             Console.WriteLine("Saving to: " + path);
-            database.Save(path + "\\data.xml");
+            database.Save(path);
 
-            IEnumerable<string> test = from huehue in XDocument.Load(path + "\\data.xml")
+            IEnumerable<string> test = from huehue in XDocument.Load(path)
                                                                  .Descendants("Ship")
                                        where (int)huehue.Element("startPos").Element("X") == 8
                                        select huehue.Element("endPos").Element("Y").Value;
@@ -91,6 +57,45 @@ namespace Battleships
             {
                 Console.WriteLine(s);
             }
+        }
+
+        public void addShip(string player, int startX, int startY, int endX, int endY, int size)
+        {
+            XDocument database = XDocument.Load(path);
+            database.Element("root").Element("Player").Element(player).Element("Ships").Add(
+                new XElement("Ship",
+                    new XElement("startPos",
+                        new XElement("X", startX),
+                        new XElement("Y", startY)),
+                    new XElement("endPos",
+                        new XElement("X", endX),
+                        new XElement("Y", endY)),
+                    new XElement("size", size),
+                    new XElement("hits", 0)));
+            database.Save(path);
+        }
+
+        public void alterShip(string player, int startX, int startY, int hits)
+        {
+            // .Where(x => (int)x.Element("startPos").Element("X").Value == startX && (int)x.Element("startPos").Element("Y").Value == startY).FirstOrDefault()
+
+            /*
+            XDocument database = XDocument.Load(path);
+            database.Element("root").Element("Player").Element(player).Elements("Ships")
+                .Where(x => x.Element("startPos").Element("X").Value == startX.ToString()).SingleOrDefault()
+                .SetElementValue("hits", hits);
+            */
+        }
+
+        public void addHit(string player, string hitOrMiss, int posX, int posY)
+        {
+            XDocument database = XDocument.Load(path);
+            database.Element("root").Element("Player").Element(player).Element("Hits").Add(
+                new XElement("Node",
+                        new XElement("type", hitOrMiss),
+                        new XElement("X", posX),
+                        new XElement("Y", posY)));
+            database.Save(path);
         }
 
         public bool addELement()
@@ -113,7 +118,7 @@ namespace Battleships
             return false;
         }
 
-        string path;
+        string path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\data.xml";
 
 
     }
