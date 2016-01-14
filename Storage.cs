@@ -42,6 +42,11 @@ namespace Battleships
             */
         }
 
+        public string getPath()
+        {
+            return path;
+        }
+
         public void clearData()
         {
             XDocument database = new XDocument(
