@@ -70,6 +70,11 @@ namespace Battleships
             database.Save(path);
         }
 
+        public void delete()
+        {
+            File.Delete(path);
+        }
+
         public void addShip(string player, int startX, int startY, int endX, int endY, int size)
         {
             XDocument database = XDocument.Load(path);
@@ -92,16 +97,20 @@ namespace Battleships
             XDocument db = XDocument.Load(path);
 
             //Find the ship with startX and startY on players board. 
-            var tmp = (from Player in db.Descendants("Player")
-                      where Player.Element(player).Element("Ships").Element("Ship").Element("startPos").Element("X").Value == startX.ToString()
-                         && Player.Element(player).Element("Ships").Element("Ship").Element("startPos").Element("Y").Value == startY.ToString()
-                      select Player).SingleOrDefault(); //select it
+            var tmp = (from ship in db.Root.Elements("Player").Elements(player).Elements("Ships").Elements("Ship")
+                      where ship.Element("startPos").Element("X").Value == startX.ToString()
+                         && ship.Element("startPos").Element("Y").Value == startY.ToString()
+                      select ship).SingleOrDefault(); //select it
 
+            Console.WriteLine(player + "´s ship is hit: startX " + startX + ", startY " + startY + ". The ship now has " + hits + " hits");
             //set its "hits" element to hits
-            tmp.Element(player).Element("Ships").Element("Ship").SetElementValue("hits", hits);
-            
+            if (tmp != null)
+                tmp.SetElementValue("hits", hits);
+            else
+                Console.WriteLine("Error: Can't alter ship!");
+
             //save that mofo
-            db.Save(path);
+           db.Save(path);
 
         }
 

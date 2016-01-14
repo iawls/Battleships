@@ -14,15 +14,17 @@ namespace Battleships
         int action = 0;
         int phase = 1;
         int win = 0;
+        Storage xmlStorage;
 
         public Rules rulebook = new Rules();
 
         Board p1, p2;
 
-        public GameEngine(Board p1, Board p2)
+        public GameEngine(Board p1, Board p2, Storage xmlStorage)
         {
             this.p1 = p1;
             this.p2 = p2;
+            this.xmlStorage = xmlStorage;
         }
         public int getTurn()
         {
@@ -374,10 +376,12 @@ namespace Battleships
                 //check win(lost)-conditions
                 if (rulebook.lost(p1))
                 {
+                    xmlStorage.delete();
                     win = 2;
                     Console.WriteLine("Player 2 Wins! Shutting down");
                 }else if (rulebook.lost(p2))
-            {
+                {
+                    xmlStorage.delete();
                     win = 1;
                     Console.WriteLine("Player 1 Wins! Shutting down");
                 }
@@ -385,7 +389,7 @@ namespace Battleships
 
         static void Main()
         {
-            Storage xmlStorage =  new Storage();
+            Storage xmlStorage = new Storage();
 
             Form splashScreen = new SplashScreen();
             splashScreen.Show();
@@ -404,7 +408,7 @@ namespace Battleships
                     xmlStorage.clearData();
                     Board p1 = new Board(true, "Player1", xmlStorage); //Player 1 is human
                     Board p2 = new Board(true, "Player2", xmlStorage); //PLayer 2 is human
-                    GE = new GameEngine(p1, p2);
+                    GE = new GameEngine(p1, p2, xmlStorage);
                     GameScreen gameScreen = new GameScreen(GE, p1, p2);
                     gameScreen.ShowDialog();
                 }
@@ -413,9 +417,13 @@ namespace Battleships
                     xmlStorage.clearData();
                     Board p1 = new Board(true, "Player1", xmlStorage); //Player 1 is human
                     Board p2 = new Board(false, "Player2", xmlStorage); //PLayer 2 is PC
-                    GE = new GameEngine(p1, p2);
+                    GE = new GameEngine(p1, p2, xmlStorage);
                     GameScreen gameScreen = new GameScreen(GE, p1, p2);
                     gameScreen.ShowDialog();
+                }
+                else if (menuChoice == "LOAD_SAVED_GAME")
+                {
+                    //Load from xmlStorage
                 }
             }
         }
