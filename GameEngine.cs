@@ -469,6 +469,18 @@ namespace Battleships
 
         }
 
+        //Load stored game
+        public Board(string player, Storage xmlStorage)
+        {
+            this.boardSize = 10;
+            this.isHuman = xmlStorage.isHuman(player);
+            this.player = player;
+            this.xmlStorage = xmlStorage;
+
+            //Todo: init from xmlStorage
+            init();
+        }
+
         public void printBoard(){
 
             for (int y = 0; y < 10; y++)

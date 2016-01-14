@@ -154,20 +154,35 @@ namespace Battleships
             database.Save(path);
         }
 
-        public bool addELement()
+        public int getPhase()
         {
-            return false;
+            XDocument db = XDocument.Load(path);
+            int phase;
+            Int32.TryParse(db.Root.Element("States").Element("Phase").Value, out phase);
+            return phase;
+        }
+
+        public int getTurn()
+        {
+            XDocument db = XDocument.Load(path);
+            int turn;
+            Int32.TryParse(db.Root.Element("States").Element("Turn").Value, out turn);
+            return turn;
+        }
+
+        public bool isHuman(string player)
+        {
+            XDocument db = XDocument.Load(path);
+            if (db.Root.Element("States").Element("PvP").Value == "Yes" && player == "Player2")
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool previousGame()
         {
             return savedGame;
-        }
-
-        public bool load()
-        {
-            //Load gamestate
-            return false;
         }
 
     }
