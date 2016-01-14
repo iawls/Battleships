@@ -392,7 +392,7 @@ namespace Battleships
             Thread.Sleep(1000);
             splashScreen.Close();
 
-            Menu menu = new Menu();
+            Menu menu = new Menu(xmlStorage.previousGame());
             menu.ShowDialog();
             string menuChoice = menu.buttonEvent;
 
@@ -401,6 +401,7 @@ namespace Battleships
                 GameEngine GE;
                 if (menuChoice == "PLAYER_VS_PLAYER")
                 {
+                    xmlStorage.clearData();
                     Board p1 = new Board(true, "Player1", xmlStorage); //Player 1 is human
                     Board p2 = new Board(true, "Player2", xmlStorage); //PLayer 2 is human
                     GE = new GameEngine(p1, p2);
@@ -409,6 +410,7 @@ namespace Battleships
                 }
                 else if (menuChoice == "PLAYER_VS_PC")
                 {
+                    xmlStorage.clearData();
                     Board p1 = new Board(true, "Player1", xmlStorage); //Player 1 is human
                     Board p2 = new Board(false, "Player2", xmlStorage); //PLayer 2 is PC
                     GE = new GameEngine(p1, p2);
@@ -527,6 +529,7 @@ namespace Battleships
            if (rulebook.validFire(x, y, this))
            {
                this.GameBoard.ElementAt(y).ElementAt(x).setHit();
+               xmlStorage.addHit(player, x, y);
 
                if (this.GameBoard[y][x].getShip() != null)
                {
@@ -535,12 +538,7 @@ namespace Battleships
                    int posY = this.GameBoard[y][x].getShip().getStart().Item2;
                    int hits = this.GameBoard[y][x].getShip().getHits();
                    xmlStorage.alterShip(player, posX, posY, hits);
-                   xmlStorage.addHit(player, "hit", x, y);
                 }
-               else
-               {
-                    xmlStorage.addHit(player, "miss", x, y);
-               }
 
                Console.WriteLine(x + ", " + y + " is hit");
                printBoard();

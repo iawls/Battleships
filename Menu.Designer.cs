@@ -95,7 +95,6 @@
             this.buttonLoadGame.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonLoadGame.Enabled = false;
             this.buttonLoadGame.Location = new System.Drawing.Point(99, 3);
             this.buttonLoadGame.Name = "buttonLoadGame";
             this.buttonLoadGame.Size = new System.Drawing.Size(186, 35);

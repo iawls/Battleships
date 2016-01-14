@@ -12,9 +12,14 @@ namespace Battleships
 {
     public partial class Menu : Form
     {
-        public Menu()
+        public Menu(bool savedData)
         {
             InitializeComponent();
+
+            if (savedData)
+                buttonLoadGame.Enabled = true;
+            else
+                buttonLoadGame.Enabled = false;
         }
 
         public string buttonEvent { get; set; }

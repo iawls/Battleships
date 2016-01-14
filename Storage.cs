@@ -12,42 +12,23 @@ namespace Battleships
 {
     public class Storage
     {
+        string path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\data.xml";
+        bool savedGame = false;
 
         public Storage()
         {
             //Create database
 
-            XDocument database = new XDocument(
-                new XDeclaration("1.0", "utf-8", "yes"),
-                new XComment("Huehuehue"),
-                new XElement("root",
-                    new XElement("States",
-                         new XElement("Phase", "0"),
-                         new XElement("Turn", "1"),
-                         new XElement("PvP", "yes")
-                         ),
-                    new XElement("Player",
-                        new XElement("Player1",
-                            new XElement("Ships"),
-                            new XElement("Hits")
-                        ),
-                        new XElement("Player2",
-                            new XElement("Ships"),
-                            new XElement("Hits")
-                        )
-                    )
-                )
-            );
-
-            /*
-            *ADD element manually
-            database.Element("root").Element("States").Add(
-                new XElement("test", "test"));
-            */
-
-            Console.WriteLine("Saving to: " + path);
-            database.Save(path);
+            if (File.Exists(path))
+            {
+                savedGame = true;
+            }
+            else
+            {
+                savedGame = false;
+            }
             //Testing to see if I can select ships by position
+            /*
             IEnumerable<string> test = from huehue in XDocument.Load(path)
                                                                .Descendants("Ship")
                                        where (int)huehue.Element("startPos").Element("X") == 8
@@ -58,6 +39,35 @@ namespace Battleships
             {
                 Console.WriteLine(s);
             }
+            */
+        }
+
+        public void clearData()
+        {
+            XDocument database = new XDocument(
+                   new XDeclaration("1.0", "utf-8", "yes"),
+                   new XComment("all your base are belong to us"),
+                   new XElement("root",
+                       new XElement("States",
+                            new XElement("Phase", "0"),
+                            new XElement("Turn", "1"),
+                            new XElement("PvP", "yes")
+                            ),
+                       new XElement("Player",
+                           new XElement("Player1",
+                               new XElement("Ships"),
+                               new XElement("Hits")
+                           ),
+                           new XElement("Player2",
+                               new XElement("Ships"),
+                               new XElement("Hits")
+                           )
+                       )
+                   )
+               );
+
+            Console.WriteLine("Saving to: " + path);
+            database.Save(path);
         }
 
         public void addShip(string player, int startX, int startY, int endX, int endY, int size)
@@ -95,12 +105,11 @@ namespace Battleships
 
         }
 
-        public void addHit(string player, string hitOrMiss, int posX, int posY)
+        public void addHit(string player, int posX, int posY)
         {
             XDocument database = XDocument.Load(path);
             database.Element("root").Element("Player").Element(player).Element("Hits").Add(
                 new XElement("Node",
-                        new XElement("type", hitOrMiss),
                         new XElement("X", posX),
                         new XElement("Y", posY)));
             database.Save(path);
@@ -111,13 +120,9 @@ namespace Battleships
             return false;
         }
 
-        public bool save()
+        public bool previousGame()
         {
-            //Check if modified since last write
-            //if modified, do nothing
-            //if not modified save gamestate
-
-            return false;
+            return savedGame;
         }
 
         public bool load()
@@ -125,9 +130,6 @@ namespace Battleships
             //Load gamestate
             return false;
         }
-
-        string path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\data.xml";
-
 
     }
 }
