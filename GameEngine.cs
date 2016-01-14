@@ -302,6 +302,7 @@ namespace Battleships
                     if (turn == 1)
                     {
                         turn = 2;
+                        xmlStorage.setTurn(turn);
                         if (!p2.getIsHuman())
                         {   
 
@@ -315,13 +316,17 @@ namespace Battleships
                                 }
                             }
                             phase = 2;
+                            xmlStorage.setPhase(phase);
                             turn = 1;
+                            xmlStorage.setTurn(turn);
                         }
                     }
                     else if (turn == 2)
                     {
                         turn = 1;
                         phase = 2;
+                        xmlStorage.setTurn(turn);
+                        xmlStorage.setPhase(phase);
                     }
                 }
                 else if (phase == 2)
@@ -329,15 +334,18 @@ namespace Battleships
                     if (turn == 1)
                     {
                     turn = 2;
+                    xmlStorage.setTurn(turn);
                         if (!p2.getIsHuman())
                         {
                             p2.ai.playTurn(p1);
                             turn = 1;
+                            xmlStorage.setTurn(turn);
                         }
                     }
                     else if (turn == 2)
                     {
                         turn = 1;
+                        xmlStorage.setTurn(turn);
                     }
                 }
 
@@ -406,6 +414,7 @@ namespace Battleships
                 if (menuChoice == "PLAYER_VS_PLAYER")
                 {
                     xmlStorage.clearData();
+                    xmlStorage.setPvP("Yes");
                     Board p1 = new Board(true, "Player1", xmlStorage); //Player 1 is human
                     Board p2 = new Board(true, "Player2", xmlStorage); //PLayer 2 is human
                     GE = new GameEngine(p1, p2, xmlStorage);
@@ -415,6 +424,7 @@ namespace Battleships
                 else if (menuChoice == "PLAYER_VS_PC")
                 {
                     xmlStorage.clearData();
+                    xmlStorage.setPvP("No");
                     Board p1 = new Board(true, "Player1", xmlStorage); //Player 1 is human
                     Board p2 = new Board(false, "Player2", xmlStorage); //PLayer 2 is PC
                     GE = new GameEngine(p1, p2, xmlStorage);

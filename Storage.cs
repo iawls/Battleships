@@ -49,7 +49,7 @@ namespace Battleships
                    new XComment("all your base are belong to us"),
                    new XElement("root",
                        new XElement("States",
-                            new XElement("Phase", "0"),
+                            new XElement("Phase", "1"),
                             new XElement("Turn", "1"),
                             new XElement("PvP", "yes")
                             ),
@@ -73,6 +73,36 @@ namespace Battleships
         public void delete()
         {
             File.Delete(path);
+        }
+
+        public void setPhase(int phase)
+        {
+            //Open document
+            XDocument db = XDocument.Load(path);
+
+            db.Root.Element("States").SetElementValue("Phase", phase);
+
+            db.Save(path);
+        }
+
+        public void setTurn(int turn)
+        {
+            //Open document
+            XDocument db = XDocument.Load(path);
+
+            db.Root.Element("States").SetElementValue("Turn", turn);
+
+            db.Save(path);
+        }
+
+        public void setPvP(string pvp)
+        {
+            //Open document
+            XDocument db = XDocument.Load(path);
+
+            db.Root.Element("States").SetElementValue("PvP", pvp);
+
+            db.Save(path);
         }
 
         public void addShip(string player, int startX, int startY, int endX, int endY, int size)
