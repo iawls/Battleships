@@ -135,7 +135,7 @@ namespace Battleships
             var tmp = (from ship in db.Root.Elements("Player").Elements(player).Elements("Ships").Elements("Ship")
                       where ship.Element("startPos").Element("X").Value == startX.ToString()
                          && ship.Element("startPos").Element("Y").Value == startY.ToString()
-                      select ship).SingleOrDefault(); //select it
+                      select ship).FirstOrDefault(); //select it
 
             Console.WriteLine(player + "´s ship is hit: startX " + startX + ", startY " + startY + ". The ship now has " + hits + " hits");
             //set its "hits" element to hits
@@ -178,7 +178,7 @@ namespace Battleships
         public bool isHuman(string player)
         {
             XDocument db = XDocument.Load(path);
-            if (db.Root.Element("States").Element("PvP").Value == "Yes" && player == "Player2")
+            if (db.Root.Element("States").Element("PvP").Value == "No" && player == "Player2")
             {
                 return false;
             }

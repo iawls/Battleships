@@ -435,8 +435,8 @@ namespace Battleships
                 else if (menuChoice == "LOAD_SAVED_GAME")
                 {
                     //Load from xmlStorage
-                    Board p1 = new Board("Player1", xmlStorage); //Player 1 is human
-                    Board p2 = new Board("Player2", xmlStorage); //PLayer 2 is PC
+                    Board p1 = new Board("Player1", xmlStorage); 
+                    Board p2 = new Board("Player2", xmlStorage); 
                     GE = new GameEngine(p1, p2, xmlStorage);
                     GameScreen gameScreen = new GameScreen(GE, p1, p2);
                     gameScreen.ShowDialog();
