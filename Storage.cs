@@ -21,7 +21,16 @@ namespace Battleships
 
             if (File.Exists(path))
             {
-                savedGame = true;
+                //Do not load previous game unless it has progressed beyond phase 1.
+                if (getPhase() != 1)
+                {
+                    savedGame = true;
+                }
+                else
+                {
+                    savedGame = false;
+                }
+                    
             }
             else
             {
