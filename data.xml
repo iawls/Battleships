@@ -3,8 +3,8 @@
 <root>
   <States>
     <Phase>2</Phase>
-    <Turn>1</Turn>
-    <PvP>No</PvP>
+    <Turn>2</Turn>
+    <PvP>Yes</PvP>
   </States>
   <Player>
     <Player1>
@@ -19,7 +19,19 @@
             <Y>1</Y>
           </endPos>
           <size>6</size>
-          <hits>6</hits>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>1</X>
+            <Y>2</Y>
+          </startPos>
+          <endPos>
+            <X>1</X>
+            <Y>5</Y>
+          </endPos>
+          <size>4</size>
+          <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
@@ -27,104 +39,92 @@
             <Y>6</Y>
           </startPos>
           <endPos>
-            <X>5</X>
-            <Y>6</Y>
-          </endPos>
-          <size>4</size>
-          <hits>4</hits>
-        </Ship>
-        <Ship>
-          <startPos>
             <X>2</X>
+            <Y>9</Y>
+          </endPos>
+          <size>4</size>
+          <hits>1</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>3</X>
+            <Y>3</Y>
+          </startPos>
+          <endPos>
+            <X>3</X>
+            <Y>5</Y>
+          </endPos>
+          <size>3</size>
+          <hits>1</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>4</X>
+            <Y>6</Y>
+          </startPos>
+          <endPos>
+            <X>4</X>
+            <Y>8</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>5</X>
             <Y>3</Y>
           </startPos>
           <endPos>
             <X>5</X>
-            <Y>3</Y>
-          </endPos>
-          <size>4</size>
-          <hits>0</hits>
-        </Ship>
-        <Ship>
-          <startPos>
-            <X>0</X>
-            <Y>3</Y>
-          </startPos>
-          <endPos>
-            <X>0</X>
             <Y>5</Y>
           </endPos>
           <size>3</size>
-          <hits>3</hits>
-        </Ship>
-        <Ship>
-          <startPos>
-            <X>0</X>
-            <Y>7</Y>
-          </startPos>
-          <endPos>
-            <X>0</X>
-            <Y>9</Y>
-          </endPos>
-          <size>3</size>
-          <hits>0</hits>
-        </Ship>
-        <Ship>
-          <startPos>
-            <X>9</X>
-            <Y>7</Y>
-          </startPos>
-          <endPos>
-            <X>9</X>
-            <Y>9</Y>
-          </endPos>
-          <size>3</size>
-          <hits>0</hits>
-        </Ship>
-        <Ship>
-          <startPos>
-            <X>9</X>
-            <Y>0</Y>
-          </startPos>
-          <endPos>
-            <X>9</X>
-            <Y>1</Y>
-          </endPos>
-          <size>2</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
             <X>6</X>
-            <Y>4</Y>
+            <Y>6</Y>
           </startPos>
           <endPos>
             <X>6</X>
-            <Y>5</Y>
+            <Y>7</Y>
           </endPos>
           <size>2</size>
           <hits>1</hits>
         </Ship>
         <Ship>
           <startPos>
+            <X>7</X>
+            <Y>4</Y>
+          </startPos>
+          <endPos>
+            <X>7</X>
+            <Y>5</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>8</X>
+            <Y>6</Y>
+          </startPos>
+          <endPos>
+            <X>8</X>
+            <Y>7</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
             <X>9</X>
             <Y>4</Y>
           </startPos>
           <endPos>
             <X>9</X>
             <Y>5</Y>
-          </endPos>
-          <size>2</size>
-          <hits>2</hits>
-        </Ship>
-        <Ship>
-          <startPos>
-            <X>6</X>
-            <Y>8</Y>
-          </startPos>
-          <endPos>
-            <X>6</X>
-            <Y>9</Y>
           </endPos>
           <size>2</size>
           <hits>0</hits>
@@ -143,12 +143,12 @@
         </Ship>
         <Ship>
           <startPos>
-            <X>2</X>
-            <Y>6</Y>
+            <X>1</X>
+            <Y>2</Y>
           </startPos>
           <endPos>
-            <X>5</X>
-            <Y>6</Y>
+            <X>1</X>
+            <Y>5</Y>
           </endPos>
           <size>4</size>
           <hits>0</hits>
@@ -156,22 +156,22 @@
         <Ship>
           <startPos>
             <X>2</X>
-            <Y>3</Y>
+            <Y>6</Y>
           </startPos>
           <endPos>
-            <X>5</X>
-            <Y>3</Y>
+            <X>2</X>
+            <Y>9</Y>
           </endPos>
           <size>4</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>0</X>
+            <X>3</X>
             <Y>3</Y>
           </startPos>
           <endPos>
-            <X>0</X>
+            <X>3</X>
             <Y>5</Y>
           </endPos>
           <size>3</size>
@@ -179,72 +179,192 @@
         </Ship>
         <Ship>
           <startPos>
-            <X>0</X>
-            <Y>7</Y>
+            <X>4</X>
+            <Y>6</Y>
           </startPos>
           <endPos>
-            <X>0</X>
-            <Y>9</Y>
+            <X>4</X>
+            <Y>8</Y>
           </endPos>
           <size>3</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>9</X>
-            <Y>7</Y>
+            <X>5</X>
+            <Y>3</Y>
           </startPos>
           <endPos>
-            <X>9</X>
-            <Y>9</Y>
+            <X>5</X>
+            <Y>5</Y>
           </endPos>
           <size>3</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
+            <X>6</X>
+            <Y>6</Y>
+          </startPos>
+          <endPos>
+            <X>6</X>
+            <Y>7</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>7</X>
+            <Y>4</Y>
+          </startPos>
+          <endPos>
+            <X>7</X>
+            <Y>5</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>8</X>
+            <Y>6</Y>
+          </startPos>
+          <endPos>
+            <X>8</X>
+            <Y>7</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
             <X>9</X>
-            <Y>0</Y>
+            <Y>4</Y>
           </startPos>
           <endPos>
             <X>9</X>
+            <Y>5</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>2</X>
+            <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>7</X>
             <Y>1</Y>
           </endPos>
-          <size>2</size>
+          <size>6</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>6</X>
-            <Y>4</Y>
+            <X>1</X>
+            <Y>2</Y>
           </startPos>
           <endPos>
-            <X>6</X>
+            <X>1</X>
             <Y>5</Y>
           </endPos>
-          <size>2</size>
+          <size>4</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>9</X>
-            <Y>4</Y>
+            <X>2</X>
+            <Y>6</Y>
           </startPos>
           <endPos>
-            <X>9</X>
-            <Y>5</Y>
-          </endPos>
-          <size>2</size>
-          <hits>0</hits>
-        </Ship>
-        <Ship>
-          <startPos>
-            <X>6</X>
-            <Y>8</Y>
-          </startPos>
-          <endPos>
-            <X>6</X>
+            <X>2</X>
             <Y>9</Y>
+          </endPos>
+          <size>4</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>3</X>
+            <Y>3</Y>
+          </startPos>
+          <endPos>
+            <X>3</X>
+            <Y>5</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>4</X>
+            <Y>6</Y>
+          </startPos>
+          <endPos>
+            <X>4</X>
+            <Y>8</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>5</X>
+            <Y>3</Y>
+          </startPos>
+          <endPos>
+            <X>5</X>
+            <Y>5</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>6</X>
+            <Y>6</Y>
+          </startPos>
+          <endPos>
+            <X>6</X>
+            <Y>7</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>7</X>
+            <Y>4</Y>
+          </startPos>
+          <endPos>
+            <X>7</X>
+            <Y>5</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>8</X>
+            <Y>6</Y>
+          </startPos>
+          <endPos>
+            <X>8</X>
+            <Y>7</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>9</X>
+            <Y>4</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>5</Y>
           </endPos>
           <size>2</size>
           <hits>0</hits>
@@ -252,116 +372,20 @@
       </Ships>
       <Hits>
         <Node>
-          <X>0</X>
-          <Y>4</Y>
+          <X>6</X>
+          <Y>6</Y>
         </Node>
         <Node>
-          <X>0</X>
+          <X>3</X>
+          <Y>5</Y>
+        </Node>
+        <Node>
+          <X>4</X>
           <Y>3</Y>
         </Node>
         <Node>
-          <X>0</X>
-          <Y>2</Y>
-        </Node>
-        <Node>
-          <X>0</X>
-          <Y>5</Y>
-        </Node>
-        <Node>
-          <X>5</X>
-          <Y>0</Y>
-        </Node>
-        <Node>
-          <X>9</X>
-          <Y>4</Y>
-        </Node>
-        <Node>
-          <X>8</X>
-          <Y>4</Y>
-        </Node>
-        <Node>
-          <X>9</X>
-          <Y>3</Y>
-        </Node>
-        <Node>
-          <X>9</X>
-          <Y>5</Y>
-        </Node>
-        <Node>
-          <X>5</X>
-          <Y>9</Y>
-        </Node>
-        <Node>
-          <X>4</X>
-          <Y>9</Y>
-        </Node>
-        <Node>
-          <X>6</X>
-          <Y>1</Y>
-        </Node>
-        <Node>
-          <X>5</X>
-          <Y>1</Y>
-        </Node>
-        <Node>
-          <X>6</X>
-          <Y>0</Y>
-        </Node>
-        <Node>
-          <X>4</X>
-          <Y>1</Y>
-        </Node>
-        <Node>
-          <X>3</X>
-          <Y>1</Y>
-        </Node>
-        <Node>
           <X>2</X>
-          <Y>1</Y>
-        </Node>
-        <Node>
-          <X>1</X>
-          <Y>1</Y>
-        </Node>
-        <Node>
-          <X>7</X>
-          <Y>1</Y>
-        </Node>
-        <Node>
-          <X>2</X>
-          <Y>6</Y>
-        </Node>
-        <Node>
-          <X>2</X>
-          <Y>5</Y>
-        </Node>
-        <Node>
-          <X>1</X>
-          <Y>6</Y>
-        </Node>
-        <Node>
-          <X>3</X>
-          <Y>6</Y>
-        </Node>
-        <Node>
-          <X>3</X>
-          <Y>5</Y>
-        </Node>
-        <Node>
-          <X>4</X>
-          <Y>6</Y>
-        </Node>
-        <Node>
-          <X>4</X>
-          <Y>5</Y>
-        </Node>
-        <Node>
-          <X>5</X>
-          <Y>6</Y>
-        </Node>
-        <Node>
-          <X>6</X>
-          <Y>4</Y>
+          <Y>8</Y>
         </Node>
       </Hits>
     </Player1>
@@ -369,107 +393,95 @@
       <Ships>
         <Ship>
           <startPos>
-            <X>2</X>
+            <X>0</X>
             <Y>0</Y>
           </startPos>
           <endPos>
-            <X>7</X>
-            <Y>0</Y>
+            <X>0</X>
+            <Y>5</Y>
           </endPos>
           <size>6</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>0</X>
-            <Y>4</Y>
+            <X>2</X>
+            <Y>1</Y>
           </startPos>
           <endPos>
-            <X>0</X>
-            <Y>7</Y>
+            <X>2</X>
+            <Y>4</Y>
           </endPos>
           <size>4</size>
           <hits>1</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>6</X>
-            <Y>2</Y>
+            <X>1</X>
+            <Y>6</Y>
           </startPos>
           <endPos>
-            <X>6</X>
-            <Y>5</Y>
+            <X>1</X>
+            <Y>9</Y>
           </endPos>
           <size>4</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>5</X>
+            <X>3</X>
             <Y>7</Y>
           </startPos>
           <endPos>
-            <X>5</X>
+            <X>3</X>
             <Y>9</Y>
           </endPos>
           <size>3</size>
-          <hits>0</hits>
+          <hits>1</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>7</X>
-            <Y>8</Y>
+            <X>5</X>
+            <Y>4</Y>
           </startPos>
           <endPos>
-            <X>9</X>
-            <Y>8</Y>
+            <X>5</X>
+            <Y>6</Y>
           </endPos>
           <size>3</size>
-          <hits>3</hits>
+          <hits>1</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>2</X>
-            <Y>5</Y>
+            <X>4</X>
+            <Y>1</Y>
           </startPos>
           <endPos>
             <X>4</X>
-            <Y>5</Y>
+            <Y>3</Y>
           </endPos>
           <size>3</size>
-          <hits>3</hits>
+          <hits>1</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>6</X>
+            <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>6</X>
+            <Y>2</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
             <X>8</X>
-            <Y>3</Y>
-          </startPos>
-          <endPos>
-            <X>9</X>
-            <Y>3</Y>
-          </endPos>
-          <size>2</size>
-          <hits>0</hits>
-        </Ship>
-        <Ship>
-          <startPos>
-            <X>0</X>
-            <Y>0</Y>
-          </startPos>
-          <endPos>
-            <X>0</X>
-            <Y>1</Y>
-          </endPos>
-          <size>2</size>
-          <hits>0</hits>
-        </Ship>
-        <Ship>
-          <startPos>
-            <X>9</X>
             <Y>5</Y>
           </startPos>
           <endPos>
-            <X>9</X>
+            <X>8</X>
             <Y>6</Y>
           </endPos>
           <size>2</size>
@@ -477,59 +489,71 @@
         </Ship>
         <Ship>
           <startPos>
-            <X>3</X>
-            <Y>2</Y>
+            <X>6</X>
+            <Y>8</Y>
           </startPos>
           <endPos>
-            <X>4</X>
-            <Y>2</Y>
+            <X>6</X>
+            <Y>9</Y>
           </endPos>
           <size>2</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>2</X>
+            <X>8</X>
+            <Y>8</Y>
+          </startPos>
+          <endPos>
+            <X>8</X>
+            <Y>9</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>0</X>
             <Y>0</Y>
           </startPos>
           <endPos>
-            <X>7</X>
-            <Y>0</Y>
+            <X>0</X>
+            <Y>5</Y>
           </endPos>
           <size>6</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>0</X>
+            <X>2</X>
+            <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>2</X>
             <Y>4</Y>
-          </startPos>
-          <endPos>
-            <X>0</X>
-            <Y>7</Y>
           </endPos>
           <size>4</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>6</X>
-            <Y>2</Y>
+            <X>1</X>
+            <Y>6</Y>
           </startPos>
           <endPos>
-            <X>6</X>
-            <Y>5</Y>
+            <X>1</X>
+            <Y>9</Y>
           </endPos>
           <size>4</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>5</X>
+            <X>3</X>
             <Y>7</Y>
           </startPos>
           <endPos>
-            <X>5</X>
+            <X>3</X>
             <Y>9</Y>
           </endPos>
           <size>3</size>
@@ -537,36 +561,72 @@
         </Ship>
         <Ship>
           <startPos>
-            <X>7</X>
-            <Y>8</Y>
+            <X>5</X>
+            <Y>4</Y>
           </startPos>
           <endPos>
-            <X>9</X>
-            <Y>8</Y>
+            <X>5</X>
+            <Y>6</Y>
           </endPos>
           <size>3</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>2</X>
-            <Y>5</Y>
+            <X>4</X>
+            <Y>1</Y>
           </startPos>
           <endPos>
             <X>4</X>
-            <Y>5</Y>
+            <Y>3</Y>
           </endPos>
           <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>6</X>
+            <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>6</X>
+            <Y>2</Y>
+          </endPos>
+          <size>2</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
             <X>8</X>
-            <Y>3</Y>
+            <Y>5</Y>
           </startPos>
           <endPos>
-            <X>9</X>
-            <Y>3</Y>
+            <X>8</X>
+            <Y>6</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>6</X>
+            <Y>8</Y>
+          </startPos>
+          <endPos>
+            <X>6</X>
+            <Y>9</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>8</X>
+            <Y>8</Y>
+          </startPos>
+          <endPos>
+            <X>8</X>
+            <Y>9</Y>
           </endPos>
           <size>2</size>
           <hits>0</hits>
@@ -578,18 +638,90 @@
           </startPos>
           <endPos>
             <X>0</X>
+            <Y>5</Y>
+          </endPos>
+          <size>6</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>2</X>
             <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>2</X>
+            <Y>4</Y>
+          </endPos>
+          <size>4</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>1</X>
+            <Y>6</Y>
+          </startPos>
+          <endPos>
+            <X>1</X>
+            <Y>9</Y>
+          </endPos>
+          <size>4</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>3</X>
+            <Y>7</Y>
+          </startPos>
+          <endPos>
+            <X>3</X>
+            <Y>9</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>5</X>
+            <Y>4</Y>
+          </startPos>
+          <endPos>
+            <X>5</X>
+            <Y>6</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>4</X>
+            <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>4</X>
+            <Y>3</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>6</X>
+            <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>6</X>
+            <Y>2</Y>
           </endPos>
           <size>2</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>9</X>
+            <X>8</X>
             <Y>5</Y>
           </startPos>
           <endPos>
-            <X>9</X>
+            <X>8</X>
             <Y>6</Y>
           </endPos>
           <size>2</size>
@@ -597,12 +729,24 @@
         </Ship>
         <Ship>
           <startPos>
-            <X>3</X>
-            <Y>2</Y>
+            <X>6</X>
+            <Y>8</Y>
           </startPos>
           <endPos>
-            <X>4</X>
-            <Y>2</Y>
+            <X>6</X>
+            <Y>9</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>8</X>
+            <Y>8</Y>
+          </startPos>
+          <endPos>
+            <X>8</X>
+            <Y>9</Y>
           </endPos>
           <size>2</size>
           <hits>0</hits>
@@ -610,395 +754,27 @@
       </Ships>
       <Hits>
         <Node>
-          <X>3</X>
-          <Y>3</Y>
-        </Node>
-        <Node>
-          <X>3</X>
-          <Y>5</Y>
-        </Node>
-        <Node>
-          <X>7</X>
-          <Y>3</Y>
-        </Node>
-        <Node>
-          <X>6</X>
-          <Y>6</Y>
-        </Node>
-        <Node>
-          <X>4</X>
-          <Y>7</Y>
-        </Node>
-        <Node>
           <X>2</X>
-          <Y>8</Y>
-        </Node>
-        <Node>
-          <X>2</X>
-          <Y>6</Y>
-        </Node>
-        <Node>
-          <X>1</X>
-          <Y>1</Y>
-        </Node>
-        <Node>
-          <X>5</X>
-          <Y>1</Y>
-        </Node>
-        <Node>
-          <X>7</X>
-          <Y>8</Y>
-        </Node>
-        <Node>
-          <X>7</X>
-          <Y>7</Y>
-        </Node>
-        <Node>
-          <X>7</X>
-          <Y>9</Y>
-        </Node>
-        <Node>
-          <X>6</X>
-          <Y>8</Y>
-        </Node>
-        <Node>
-          <X>8</X>
-          <Y>8</Y>
-        </Node>
-        <Node>
-          <X>9</X>
-          <Y>8</Y>
-        </Node>
-        <Node>
-          <X>4</X>
-          <Y>5</Y>
-        </Node>
-        <Node>
-          <X>2</X>
-          <Y>5</Y>
-        </Node>
-        <Node>
-          <X>1</X>
-          <Y>5</Y>
-        </Node>
-        <Node>
-          <X>5</X>
-          <Y>5</Y>
-        </Node>
-        <Node>
-          <X>1</X>
-          <Y>3</Y>
-        </Node>
-        <Node>
-          <X>8</X>
           <Y>2</Y>
         </Node>
         <Node>
-          <X>8</X>
+          <X>3</X>
           <Y>4</Y>
         </Node>
         <Node>
-          <X>8</X>
-          <Y>6</Y>
-        </Node>
-        <Node>
           <X>5</X>
-          <Y>3</Y>
+          <Y>4</Y>
         </Node>
         <Node>
           <X>3</X>
-          <Y>1</Y>
-        </Node>
-        <Node>
-          <X>7</X>
-          <Y>1</Y>
-        </Node>
-        <Node>
-          <X>0</X>
-          <Y>7</Y>
+          <Y>8</Y>
         </Node>
         <Node>
           <X>4</X>
-          <Y>8</Y>
+          <Y>1</Y>
         </Node>
       </Hits>
     </Player2>
   </Player>
-  <AI-Board>
-    <Node>
-      <X>0</X>
-      <Y>4</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>1</X>
-      <Y>4</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>0</X>
-      <Y>5</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>0</X>
-      <Y>3</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>1</X>
-      <Y>3</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>0</X>
-      <Y>2</Y>
-      <Value>1</Value>
-    </Node>
-    <Node>
-      <X>1</X>
-      <Y>5</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>0</X>
-      <Y>6</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>5</X>
-      <Y>0</Y>
-      <Value>1</Value>
-    </Node>
-    <Node>
-      <X>9</X>
-      <Y>4</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>8</X>
-      <Y>4</Y>
-      <Value>1</Value>
-    </Node>
-    <Node>
-      <X>9</X>
-      <Y>5</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>9</X>
-      <Y>3</Y>
-      <Value>1</Value>
-    </Node>
-    <Node>
-      <X>8</X>
-      <Y>5</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>9</X>
-      <Y>6</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>5</X>
-      <Y>9</Y>
-      <Value>1</Value>
-    </Node>
-    <Node>
-      <X>4</X>
-      <Y>9</Y>
-      <Value>1</Value>
-    </Node>
-    <Node>
-      <X>6</X>
-      <Y>1</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>7</X>
-      <Y>1</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>5</X>
-      <Y>1</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>6</X>
-      <Y>2</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>6</X>
-      <Y>0</Y>
-      <Value>1</Value>
-    </Node>
-    <Node>
-      <X>5</X>
-      <Y>2</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>4</X>
-      <Y>1</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>4</X>
-      <Y>2</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>4</X>
-      <Y>0</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>3</X>
-      <Y>1</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>3</X>
-      <Y>2</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>3</X>
-      <Y>0</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>2</X>
-      <Y>1</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>2</X>
-      <Y>2</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>2</X>
-      <Y>0</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>1</X>
-      <Y>1</Y>
-      <Value>1</Value>
-    </Node>
-    <Node>
-      <X>7</X>
-      <Y>2</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>8</X>
-      <Y>1</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>7</X>
-      <Y>0</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>2</X>
-      <Y>6</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>3</X>
-      <Y>6</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>1</X>
-      <Y>6</Y>
-      <Value>1</Value>
-    </Node>
-    <Node>
-      <X>2</X>
-      <Y>7</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>2</X>
-      <Y>5</Y>
-      <Value>1</Value>
-    </Node>
-    <Node>
-      <X>3</X>
-      <Y>7</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>4</X>
-      <Y>6</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>3</X>
-      <Y>5</Y>
-      <Value>1</Value>
-    </Node>
-    <Node>
-      <X>4</X>
-      <Y>7</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>5</X>
-      <Y>6</Y>
-      <Value>4</Value>
-    </Node>
-    <Node>
-      <X>4</X>
-      <Y>5</Y>
-      <Value>1</Value>
-    </Node>
-    <Node>
-      <X>5</X>
-      <Y>7</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>6</X>
-      <Y>6</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>5</X>
-      <Y>5</Y>
-      <Value>5</Value>
-    </Node>
-    <Node>
-      <X>6</X>
-      <Y>4</Y>
-      <Value>2</Value>
-    </Node>
-    <Node>
-      <X>7</X>
-      <Y>4</Y>
-      <Value>3</Value>
-    </Node>
-    <Node>
-      <X>5</X>
-      <Y>4</Y>
-      <Value>3</Value>
-    </Node>
-    <Node>
-      <X>6</X>
-      <Y>5</Y>
-      <Value>3</Value>
-    </Node>
-    <Node>
-      <X>6</X>
-      <Y>3</Y>
-      <Value>3</Value>
-    </Node>
-  </AI-Board>
+  <AI-Board />
 </root>
