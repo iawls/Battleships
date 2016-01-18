@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Battleships
 {
@@ -434,6 +435,12 @@ namespace Battleships
                 else if (menuChoice == "LOAD_SAVED_GAME")
                 {
                     //Load from xmlStorage
+                    Board p1 = new Board("Player1", xmlStorage); 
+                    Board p2 = new Board("Player2", xmlStorage); 
+                    GE = new GameEngine(p1, p2, xmlStorage);
+                    GameScreen gameScreen = new GameScreen(GE, p1, p2);
+                    gameScreen.ShowDialog();
+
                 }
             }
         }
@@ -478,8 +485,77 @@ namespace Battleships
             this.xmlStorage = xmlStorage;
 
             //Todo: init from xmlStorage
-            init();
+            initFromSave();
         }
+
+        void initFromSave(){
+
+            Console.WriteLine("Initiating from saved file");
+
+            this.shipList.Clear();
+
+            for (int y = 0; y < boardSize; ++y)
+            {
+                List<Node> tmpList = new List<Node>();
+                for (int x = 0; x < boardSize; ++x)
+                {
+                    Node n = new Node(false, null, x);        //create a node to insert in the inner List
+                    tmpList.Add(n);
+                }
+                GameBoard.Add(tmpList);                    //add the inner List to the outer List
+            }
+
+            XDocument db = XDocument.Load(xmlStorage.getPath());
+
+            var shipList = from ship in db.Root.Element("Player")
+                                               .Element(this.player)
+                                               .Element("Ships")
+                                               .Elements("Ship")
+                           select ship;
+
+            int startX, startY, endX, endY, size, hits;
+
+            foreach (XElement ship in shipList)
+            {
+
+                startX = Int32.Parse(ship.Element("startPos").Element("X").Value);
+                startY = Int32.Parse(ship.Element("startPos").Element("Y").Value);
+                endX = Int32.Parse(ship.Element("endPos").Element("X").Value);
+                endY = Int32.Parse(ship.Element("endPos").Element("Y").Value);
+                size = Int32.Parse(ship.Element("size").Value);
+                hits = Int32.Parse(ship.Element("hits").Value);
+
+                Tuple<int, int> startPos = new Tuple<int, int>(startX, startY);
+                Tuple<int, int> endPos = new Tuple<int, int>(endX, endY);
+                Ship s = new Ship();
+
+                placeShip(startPos, endPos, s);
+
+                s.setHits(hits);
+
+                this.shipList.Add(s);
+            }
+
+            var hitList = from node in db.Root.Element("Player")
+                                              .Element(this.player)
+                                              .Element("Hits")
+                                              .Elements("Node")
+                          select node;
+
+            int hitX, hitY;
+
+            foreach (XElement hit in hitList)
+            {
+                hitX = Int32.Parse(hit.Element("X").Value);
+                hitY = Int32.Parse(hit.Element("Y").Value);
+
+                this.GameBoard[hitY][hitX].setHit();
+            }
+            Console.WriteLine("Initiating complete");
+        
+                           
+        }
+
 
         public void printBoard(){
 
@@ -730,6 +806,15 @@ namespace Battleships
             {
                 Console.WriteLine("Killed a ship");
                 this.dead = true;
+            }
+        }
+
+        public void setHits(int hits)
+        {
+            this.hits = hits;
+            if (hits == size)
+            {
+                dead = true;
             }
         }
 
