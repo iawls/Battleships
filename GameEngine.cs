@@ -11,15 +11,15 @@ namespace Battleships
 {
     public class GameEngine
     {
-        int turn= 1;
-        int action = 0;
-        int phase = 1;
-        int win = 0;
-        Storage xmlStorage;
+        private int turn = 1;
+        private int action = 0;
+        private int phase = 1;
+        private int win = 0;
+        private Storage xmlStorage;
 
-        public Rules rulebook = new Rules();
+        private  Rules rulebook = new Rules();
 
-        Board p1, p2;
+        private Board p1, p2;
 
         public GameEngine(Board p1, Board p2, Storage xmlStorage)
         {
@@ -40,6 +40,11 @@ namespace Battleships
         public void setTurn(int turn)
         {
             this.turn = turn;
+        }
+
+        public void setPhase(int phase)
+        {
+            this.phase = phase;
         }
 
         public int getAction()
@@ -438,6 +443,8 @@ namespace Battleships
                     Board p1 = new Board("Player1", xmlStorage); 
                     Board p2 = new Board("Player2", xmlStorage); 
                     GE = new GameEngine(p1, p2, xmlStorage);
+                    GE.setTurn(xmlStorage.getTurn());
+                    GE.setPhase(xmlStorage.getPhase());
                     GameScreen gameScreen = new GameScreen(GE, p1, p2);
                     gameScreen.ShowDialog();
 

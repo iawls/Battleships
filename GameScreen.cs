@@ -47,6 +47,8 @@ namespace Battleships
             shipListTwo = p2.getShipList();
             turn = ge.getTurn();
             phase = ge.getPhase();
+
+            Console.WriteLine("Turn: " + turn + "  Phase: " + phase);
         }
 
         private int get_ship_size_from_click(int shipWidth)

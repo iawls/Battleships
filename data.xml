@@ -11,15 +11,38 @@
       <Ships>
         <Ship>
           <startPos>
+<<<<<<< HEAD
             <X>0</X>
             <Y>1</Y>
           </startPos>
           <endPos>
             <X>5</X>
+=======
+            <X>2</X>
+            <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>7</X>
+>>>>>>> refs/remotes/origin/state-fixes
             <Y>1</Y>
           </endPos>
           <size>6</size>
           <hits>6</hits>
+<<<<<<< HEAD
+=======
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>2</X>
+            <Y>5</Y>
+          </startPos>
+          <endPos>
+            <X>5</X>
+            <Y>5</Y>
+          </endPos>
+          <size>4</size>
+          <hits>0</hits>
+>>>>>>> refs/remotes/origin/state-fixes
         </Ship>
         <Ship>
           <startPos>
@@ -31,6 +54,7 @@
             <Y>3</Y>
           </endPos>
           <size>4</size>
+<<<<<<< HEAD
           <hits>1</hits>
         </Ship>
         <Ship>
@@ -43,15 +67,69 @@
             <Y>5</Y>
           </endPos>
           <size>4</size>
+=======
+          <hits>3</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>7</X>
+            <Y>3</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>3</Y>
+          </endPos>
+          <size>3</size>
+>>>>>>> refs/remotes/origin/state-fixes
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
+<<<<<<< HEAD
             <X>1</X>
             <Y>7</Y>
           </startPos>
           <endPos>
             <X>3</X>
+=======
+            <X>7</X>
+            <Y>6</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>6</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>7</X>
+            <Y>9</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>9</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>1</X>
+            <Y>9</Y>
+          </startPos>
+          <endPos>
+            <X>2</X>
+            <Y>9</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>1</X>
+>>>>>>> refs/remotes/origin/state-fixes
             <Y>7</Y>
           </endPos>
           <size>3</size>
@@ -63,6 +141,7 @@
             <Y>9</Y>
           </startPos>
           <endPos>
+<<<<<<< HEAD
             <X>7</X>
             <Y>9</Y>
           </endPos>
@@ -72,12 +151,16 @@
         <Ship>
           <startPos>
             <X>6</X>
+=======
+            <X>2</X>
+>>>>>>> refs/remotes/origin/state-fixes
             <Y>7</Y>
           </startPos>
           <endPos>
             <X>8</X>
             <Y>7</Y>
           </endPos>
+<<<<<<< HEAD
           <size>3</size>
           <hits>0</hits>
         </Ship>
@@ -102,11 +185,14 @@
             <X>8</X>
             <Y>4</Y>
           </endPos>
+=======
+>>>>>>> refs/remotes/origin/state-fixes
           <size>2</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
+<<<<<<< HEAD
             <X>0</X>
             <Y>9</Y>
           </startPos>
@@ -138,11 +224,45 @@
             <X>5</X>
             <Y>1</Y>
           </endPos>
+=======
+            <X>4</X>
+            <Y>8</Y>
+          </startPos>
+          <endPos>
+            <X>5</X>
+            <Y>8</Y>
+          </endPos>
+          <size>2</size>
+          <hits>2</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>8</X>
+            <Y>0</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>0</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>2</X>
+            <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>7</X>
+            <Y>1</Y>
+          </endPos>
+>>>>>>> refs/remotes/origin/state-fixes
           <size>6</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
+<<<<<<< HEAD
             <X>0</X>
             <Y>3</Y>
           </startPos>
@@ -156,6 +276,9 @@
         <Ship>
           <startPos>
             <X>1</X>
+=======
+            <X>2</X>
+>>>>>>> refs/remotes/origin/state-fixes
             <Y>5</Y>
           </startPos>
           <endPos>
@@ -168,6 +291,7 @@
         <Ship>
           <startPos>
             <X>1</X>
+<<<<<<< HEAD
             <Y>7</Y>
           </startPos>
           <endPos>
@@ -175,10 +299,20 @@
             <Y>7</Y>
           </endPos>
           <size>3</size>
+=======
+            <Y>3</Y>
+          </startPos>
+          <endPos>
+            <X>4</X>
+            <Y>3</Y>
+          </endPos>
+          <size>4</size>
+>>>>>>> refs/remotes/origin/state-fixes
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
+<<<<<<< HEAD
             <X>5</X>
             <Y>9</Y>
           </startPos>
@@ -197,6 +331,14 @@
           <endPos>
             <X>8</X>
             <Y>7</Y>
+=======
+            <X>7</X>
+            <Y>3</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>3</Y>
+>>>>>>> refs/remotes/origin/state-fixes
           </endPos>
           <size>3</size>
           <hits>0</hits>
@@ -204,6 +346,7 @@
         <Ship>
           <startPos>
             <X>7</X>
+<<<<<<< HEAD
             <Y>1</Y>
           </startPos>
           <endPos>
@@ -221,24 +364,32 @@
           <endPos>
             <X>8</X>
             <Y>4</Y>
+=======
+            <Y>6</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>6</Y>
+>>>>>>> refs/remotes/origin/state-fixes
           </endPos>
           <size>2</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
-            <X>0</X>
+            <X>7</X>
             <Y>9</Y>
           </startPos>
           <endPos>
-            <X>1</X>
+            <X>9</X>
             <Y>9</Y>
           </endPos>
-          <size>2</size>
+          <size>3</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
+<<<<<<< HEAD
             <X>5</X>
             <Y>3</Y>
           </startPos>
@@ -370,6 +521,9 @@
           </startPos>
           <endPos>
             <X>3</X>
+=======
+            <X>1</X>
+>>>>>>> refs/remotes/origin/state-fixes
             <Y>9</Y>
           </endPos>
           <size>3</size>
@@ -381,7 +535,7 @@
             <Y>8</Y>
           </startPos>
           <endPos>
-            <X>9</X>
+            <X>2</X>
             <Y>9</Y>
           </endPos>
           <size>2</size>
@@ -389,6 +543,7 @@
         </Ship>
         <Ship>
           <startPos>
+<<<<<<< HEAD
             <X>6</X>
             <Y>8</Y>
           </startPos>
@@ -405,6 +560,8 @@
             <Y>6</Y>
           </startPos>
           <endPos>
+=======
+>>>>>>> refs/remotes/origin/state-fixes
             <X>1</X>
             <Y>7</Y>
           </endPos>
@@ -417,14 +574,20 @@
             <Y>0</Y>
           </startPos>
           <endPos>
+<<<<<<< HEAD
             <X>9</X>
             <Y>0</Y>
+=======
+            <X>2</X>
+            <Y>7</Y>
+>>>>>>> refs/remotes/origin/state-fixes
           </endPos>
           <size>2</size>
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
+<<<<<<< HEAD
             <X>1</X>
             <Y>4</Y>
           </startPos>
@@ -445,10 +608,21 @@
             <Y>1</Y>
           </endPos>
           <size>4</size>
+=======
+            <X>4</X>
+            <Y>8</Y>
+          </startPos>
+          <endPos>
+            <X>5</X>
+            <Y>8</Y>
+          </endPos>
+          <size>2</size>
+>>>>>>> refs/remotes/origin/state-fixes
           <hits>0</hits>
         </Ship>
         <Ship>
           <startPos>
+<<<<<<< HEAD
             <X>4</X>
             <Y>6</Y>
           </startPos>
@@ -537,6 +711,136 @@
             <Y>0</Y>
           </startPos>
           <endPos>
+=======
+            <X>8</X>
+            <Y>0</Y>
+          </startPos>
+          <endPos>
+>>>>>>> refs/remotes/origin/state-fixes
+            <X>9</X>
+            <Y>0</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+<<<<<<< HEAD
+      </Ships>
+      <Hits />
+=======
+        <Ship>
+          <startPos>
+            <X>2</X>
+            <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>7</X>
+            <Y>1</Y>
+          </endPos>
+          <size>6</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>2</X>
+            <Y>5</Y>
+          </startPos>
+          <endPos>
+            <X>5</X>
+            <Y>5</Y>
+          </endPos>
+          <size>4</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>1</X>
+            <Y>3</Y>
+          </startPos>
+          <endPos>
+            <X>4</X>
+            <Y>3</Y>
+          </endPos>
+          <size>4</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>7</X>
+            <Y>3</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>3</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>7</X>
+            <Y>6</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>6</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>7</X>
+            <Y>9</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>9</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>1</X>
+            <Y>9</Y>
+          </startPos>
+          <endPos>
+            <X>2</X>
+            <Y>9</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>1</X>
+            <Y>7</Y>
+          </startPos>
+          <endPos>
+            <X>2</X>
+            <Y>7</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>4</X>
+            <Y>8</Y>
+          </startPos>
+          <endPos>
+            <X>5</X>
+            <Y>8</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>8</X>
+            <Y>0</Y>
+          </startPos>
+          <endPos>
             <X>9</X>
             <Y>0</Y>
           </endPos>
@@ -544,7 +848,575 @@
           <hits>0</hits>
         </Ship>
       </Ships>
-      <Hits />
+      <Hits>
+        <Node>
+          <X>9</X>
+          <Y>2</Y>
+        </Node>
+        <Node>
+          <X>5</X>
+          <Y>4</Y>
+        </Node>
+        <Node>
+          <X>2</X>
+          <Y>6</Y>
+        </Node>
+        <Node>
+          <X>6</X>
+          <Y>3</Y>
+        </Node>
+        <Node>
+          <X>6</X>
+          <Y>2</Y>
+        </Node>
+        <Node>
+          <X>4</X>
+          <Y>4</Y>
+        </Node>
+        <Node>
+          <X>2</X>
+          <Y>2</Y>
+        </Node>
+        <Node>
+          <X>6</X>
+          <Y>1</Y>
+        </Node>
+        <Node>
+          <X>6</X>
+          <Y>0</Y>
+        </Node>
+        <Node>
+          <X>5</X>
+          <Y>1</Y>
+        </Node>
+        <Node>
+          <X>4</X>
+          <Y>1</Y>
+        </Node>
+        <Node>
+          <X>3</X>
+          <Y>1</Y>
+        </Node>
+        <Node>
+          <X>2</X>
+          <Y>1</Y>
+        </Node>
+        <Node>
+          <X>1</X>
+          <Y>1</Y>
+        </Node>
+        <Node>
+          <X>7</X>
+          <Y>1</Y>
+        </Node>
+        <Node>
+          <X>0</X>
+          <Y>3</Y>
+        </Node>
+        <Node>
+          <X>0</X>
+          <Y>0</Y>
+        </Node>
+        <Node>
+          <X>7</X>
+          <Y>7</Y>
+        </Node>
+        <Node>
+          <X>6</X>
+          <Y>6</Y>
+        </Node>
+        <Node>
+          <X>5</X>
+          <Y>8</Y>
+        </Node>
+        <Node>
+          <X>4</X>
+          <Y>8</Y>
+        </Node>
+        <Node>
+          <X>2</X>
+          <Y>3</Y>
+        </Node>
+        <Node>
+          <X>3</X>
+          <Y>3</Y>
+        </Node>
+        <Node>
+          <X>3</X>
+          <Y>2</Y>
+        </Node>
+        <Node>
+          <X>1</X>
+          <Y>3</Y>
+        </Node>
+      </Hits>
+    </Player1>
+    <Player2>
+      <Ships>
+        <Ship>
+          <startPos>
+            <X>5</X>
+            <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>5</X>
+            <Y>6</Y>
+          </endPos>
+          <size>6</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>6</X>
+            <Y>7</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>7</Y>
+          </endPos>
+          <size>4</size>
+          <hits>4</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>0</X>
+            <Y>0</Y>
+          </startPos>
+          <endPos>
+            <X>3</X>
+            <Y>0</Y>
+          </endPos>
+          <size>4</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>1</X>
+            <Y>5</Y>
+          </startPos>
+          <endPos>
+            <X>1</X>
+            <Y>7</Y>
+          </endPos>
+          <size>3</size>
+          <hits>3</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>3</X>
+            <Y>7</Y>
+          </startPos>
+          <endPos>
+            <X>3</X>
+            <Y>9</Y>
+          </endPos>
+          <size>3</size>
+          <hits>3</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>7</X>
+            <Y>9</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>9</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>8</X>
+            <Y>4</Y>
+          </startPos>
+          <endPos>
+            <X>8</X>
+            <Y>5</Y>
+          </endPos>
+          <size>2</size>
+          <hits>2</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>3</X>
+            <Y>2</Y>
+          </startPos>
+          <endPos>
+            <X>3</X>
+            <Y>3</Y>
+          </endPos>
+          <size>2</size>
+          <hits>2</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>9</X>
+            <Y>0</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>1</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>0</X>
+            <Y>2</Y>
+          </startPos>
+          <endPos>
+            <X>1</X>
+            <Y>2</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>5</X>
+            <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>5</X>
+            <Y>6</Y>
+          </endPos>
+          <size>6</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>6</X>
+            <Y>7</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>7</Y>
+          </endPos>
+          <size>4</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>0</X>
+            <Y>0</Y>
+          </startPos>
+          <endPos>
+            <X>3</X>
+            <Y>0</Y>
+          </endPos>
+          <size>4</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>1</X>
+            <Y>5</Y>
+          </startPos>
+          <endPos>
+            <X>1</X>
+            <Y>7</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>3</X>
+            <Y>7</Y>
+          </startPos>
+          <endPos>
+            <X>3</X>
+            <Y>9</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>7</X>
+            <Y>9</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>9</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>8</X>
+            <Y>4</Y>
+          </startPos>
+          <endPos>
+            <X>8</X>
+            <Y>5</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>3</X>
+            <Y>2</Y>
+          </startPos>
+          <endPos>
+            <X>3</X>
+            <Y>3</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>9</X>
+            <Y>0</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>1</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>0</X>
+            <Y>2</Y>
+          </startPos>
+          <endPos>
+            <X>1</X>
+            <Y>2</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>5</X>
+            <Y>1</Y>
+          </startPos>
+          <endPos>
+            <X>5</X>
+            <Y>6</Y>
+          </endPos>
+          <size>6</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>6</X>
+            <Y>7</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>7</Y>
+          </endPos>
+          <size>4</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>0</X>
+            <Y>0</Y>
+          </startPos>
+          <endPos>
+            <X>3</X>
+            <Y>0</Y>
+          </endPos>
+          <size>4</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>1</X>
+            <Y>5</Y>
+          </startPos>
+          <endPos>
+            <X>1</X>
+            <Y>7</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>3</X>
+            <Y>7</Y>
+          </startPos>
+          <endPos>
+            <X>3</X>
+            <Y>9</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>7</X>
+            <Y>9</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>9</Y>
+          </endPos>
+          <size>3</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>8</X>
+            <Y>4</Y>
+          </startPos>
+          <endPos>
+            <X>8</X>
+            <Y>5</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>3</X>
+            <Y>2</Y>
+          </startPos>
+          <endPos>
+            <X>3</X>
+            <Y>3</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>9</X>
+            <Y>0</Y>
+          </startPos>
+          <endPos>
+            <X>9</X>
+            <Y>1</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+        <Ship>
+          <startPos>
+            <X>0</X>
+            <Y>2</Y>
+          </startPos>
+          <endPos>
+            <X>1</X>
+            <Y>2</Y>
+          </endPos>
+          <size>2</size>
+          <hits>0</hits>
+        </Ship>
+      </Ships>
+      <Hits>
+        <Node>
+          <X>3</X>
+          <Y>3</Y>
+        </Node>
+        <Node>
+          <X>4</X>
+          <Y>3</Y>
+        </Node>
+        <Node>
+          <X>2</X>
+          <Y>3</Y>
+        </Node>
+        <Node>
+          <X>3</X>
+          <Y>4</Y>
+        </Node>
+        <Node>
+          <X>3</X>
+          <Y>2</Y>
+        </Node>
+        <Node>
+          <X>1</X>
+          <Y>7</Y>
+        </Node>
+        <Node>
+          <X>1</X>
+          <Y>8</Y>
+        </Node>
+        <Node>
+          <X>1</X>
+          <Y>6</Y>
+        </Node>
+        <Node>
+          <X>1</X>
+          <Y>5</Y>
+        </Node>
+        <Node>
+          <X>5</X>
+          <Y>7</Y>
+        </Node>
+        <Node>
+          <X>7</X>
+          <Y>7</Y>
+        </Node>
+        <Node>
+          <X>7</X>
+          <Y>6</Y>
+        </Node>
+        <Node>
+          <X>8</X>
+          <Y>7</Y>
+        </Node>
+        <Node>
+          <X>6</X>
+          <Y>7</Y>
+        </Node>
+        <Node>
+          <X>9</X>
+          <Y>7</Y>
+        </Node>
+        <Node>
+          <X>7</X>
+          <Y>2</Y>
+        </Node>
+        <Node>
+          <X>1</X>
+          <Y>1</Y>
+        </Node>
+        <Node>
+          <X>3</X>
+          <Y>7</Y>
+        </Node>
+        <Node>
+          <X>3</X>
+          <Y>6</Y>
+        </Node>
+        <Node>
+          <X>3</X>
+          <Y>8</Y>
+        </Node>
+        <Node>
+          <X>3</X>
+          <Y>9</Y>
+        </Node>
+        <Node>
+          <X>5</X>
+          <Y>0</Y>
+        </Node>
+        <Node>
+          <X>8</X>
+          <Y>4</Y>
+        </Node>
+        <Node>
+          <X>8</X>
+          <Y>3</Y>
+        </Node>
+        <Node>
+          <X>8</X>
+          <Y>5</Y>
+        </Node>
+      </Hits>
+>>>>>>> refs/remotes/origin/state-fixes
     </Player2>
   </Player>
   <AI-Board>
