@@ -275,7 +275,8 @@ namespace Battleships
                 win = 1;
                 Console.WriteLine("Player 1 Wins! Shutting down");
             }
-            watcher.EnableRaisingEvents = true;
+            if(phase != 1)
+                watcher.EnableRaisingEvents = true;
 
         }
 
@@ -313,7 +314,6 @@ namespace Battleships
                     Board p2 = new Board(false, "Player2", xmlStorage); //PLayer 2 is PC
                     GE = new GameEngine(p1, p2, xmlStorage);
                     GameScreen gameScreen = new GameScreen(GE, p1, p2);
-
                     gameScreen.ShowDialog();
                 }
                 else if (menuChoice == "LOAD_SAVED_GAME")
@@ -351,6 +351,9 @@ namespace Battleships
         bool isHuman;
         string player;
         public AI ai = new AI();
+
+        public bool isLoading = false;
+
         //default constructor, defaults to a boardsize of 10x10
         public Board(bool human, string player, Storage xmlStorage)
         {
@@ -381,10 +384,12 @@ namespace Battleships
 
         void initFromSave()
         {
-
+            isLoading = true;
             Console.WriteLine("Initiating from saved file");
 
             this.shipList.Clear();
+
+            GameBoard.Clear();
 
             for (int y = 0; y < boardSize; ++y)
             {
@@ -447,7 +452,7 @@ namespace Battleships
             ai.loadKnownBoard();
 
             Console.WriteLine("Initiating complete");
-
+            isLoading = false;
 
         }
 
