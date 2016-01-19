@@ -738,7 +738,7 @@ namespace Battleships
                 for (int x = 0; x < boardSize; x++)
                 {
                     pe.Graphics.DrawRectangle(black, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), cellWidth, cellWidth);
-                    if (turn == 1 && hidePlayerBoards == false)
+                    if (turn == 1)
                     {
                         if (p2.isHit(x, y) == true && p2.isShip(x, y) == true)
                         {
@@ -756,7 +756,7 @@ namespace Battleships
                             pe.Graphics.DrawLine(green, rightBoardStartX + (cellWidth * markerPosX), boardOffset + (cellWidth * markerPosY) + cellWidth, rightBoardStartX + (cellWidth * markerPosX) + cellWidth, boardOffset + (cellWidth * markerPosY));
                         }
                     }
-                    else if (turn == 2 && hidePlayerBoards == false)
+                    else if (turn == 2)
                     {
                         if (p1.isHit(x, y) == true && p1.isShip(x, y) == true)
                         {
