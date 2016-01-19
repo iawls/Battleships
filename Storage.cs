@@ -30,7 +30,6 @@ namespace Battleships
                 {
                     savedGame = false;
                 }
-                    
             }
             else
             {
@@ -54,6 +53,12 @@ namespace Battleships
         public string getPath()
         {
             return path;
+        }
+
+        public string getDirectory()
+        {
+            return Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+;
         }
 
         public void clearData()
