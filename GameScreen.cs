@@ -31,6 +31,9 @@ namespace Battleships
         private List<Ship> shipListOne, shipListTwo;
         private GameEngine ge;
         private Board p1, p2;
+        private bool markerPlaced = false;
+        private int markerPosX;
+        private int markerPosY;
 
         public GameScreen(GameEngine ge, Board p1, Board p2)
         {
@@ -47,6 +50,8 @@ namespace Battleships
             shipListTwo = p2.getShipList();
             turn = ge.getTurn();
             phase = ge.getPhase();
+
+            Console.WriteLine("Turn: " + turn + "  Phase: " + phase);
         }
 
         private int get_ship_size_from_click(int shipWidth)
@@ -92,7 +97,7 @@ namespace Battleships
             * right board click
             * bottom window click
             */
-            if (posX < listWindowWidth && posY < boardWindowHeight)
+            if (posX < listWindowWidth && posY < boardWindowHeight) //ship list click
             {
                 if (phase == 1)
                 {
@@ -125,6 +130,7 @@ namespace Battleships
                     }
                 }
             }
+            //left board click
             else if (posX > (listWindowWidth + boardOffset) && posX < (listWindowWidth + boardOffset + cellWidth * boardSize) && posY > boardOffset && posY < (boardOffset + cellWidth * boardSize))
             {
                 if(shipSelected != -1)
@@ -178,19 +184,27 @@ namespace Battleships
                     }
                 }
             }
+            //right board click
             else if (posX > (listWindowWidth + boardWindowWidth + boardOffset) && posX < (listWindowWidth + boardWindowWidth + boardOffset + cellWidth * boardSize) && posY > boardOffset && posY < (boardOffset + cellWidth * boardSize))
             {
-                if (phase == 2)
+                if (phase == 2 && hidePlayerBoards == false)
                 {
                     int boardCol = (posX - (listWindowWidth + boardWindowWidth + boardOffset)) / cellWidth;
                     int boardRow = (posY - boardOffset) / cellWidth;
 
+                    markerPlaced = true;
+                    markerPosX = boardCol;
+                    markerPosY = boardRow;
+
+                    /*
                     if (turn == 1)
                         p2.fire(boardCol, boardRow);
                     else
                         p1.fire(boardCol, boardRow);
+                    */
                 }
             }
+            // bottom window click
             else if (posY > boardWindowHeight)
             {
                 int buttonSize = (int)((this.Height - boardWindowHeight) * 0.5);
@@ -198,14 +212,64 @@ namespace Battleships
                 {
                     if(hidePlayerBoards == false)
                     {
-                        ge.nextTurn();
-                        if(ge.getWin() != 0)
+                        if(markerPlaced && phase == 2)
                         {
-                            System.Windows.Forms.MessageBox.Show("Player " + ge.getWin() + " wins!");
-                            Close();
+                            markerPlaced = false;
+                            if (turn == 1)
+                            {
+                                if (p2.fire(markerPosX, markerPosY))
+                                {
+                                    ge.nextTurn();
+                                    if (ge.getWin() != 0)
+                                    {
+                                        System.Windows.Forms.MessageBox.Show("Player " + ge.getWin() + " wins!");
+                                        Close();
+                                    }
+                                    else
+                                    {
+                                        if (turn != ge.getTurn())
+                                            hidePlayerBoards = true;
+                                        else
+                                            phase = ge.getPhase();
+                                    }
+                                }
+                                else
+                                {
+                                    System.Windows.Forms.MessageBox.Show("Not a valid place to shoot!");
+                                }
+                            }
+                            else
+                            {
+                                if (p1.fire(markerPosX, markerPosY))
+                                {
+                                    ge.nextTurn();
+                                    if (ge.getWin() != 0)
+                                    {
+                                        System.Windows.Forms.MessageBox.Show("Player " + ge.getWin() + " wins!");
+                                        Close();
+                                    }
+                                    else
+                                    {
+                                        if (turn != ge.getTurn())
+                                            hidePlayerBoards = true;
+                                        else
+                                            phase = ge.getPhase();
+                                    }
+                                }
+                                else
+                                {
+                                    System.Windows.Forms.MessageBox.Show("Not a valid place to shoot!");
+                                }
+                            }
+                               
+                        }
+                        else if(phase == 2 && markerPlaced == false)
+                        {
+                            System.Windows.Forms.MessageBox.Show("You need to mark where you want to shoot!");
                         }
                         else
                         {
+                            ge.nextTurn();
                             if (turn != ge.getTurn())
                                 hidePlayerBoards = true;
                             else
@@ -590,6 +654,7 @@ namespace Battleships
         private void draw_boards(PaintEventArgs pe)
         {
             System.Drawing.Pen black = new System.Drawing.Pen(Color.Black, 2);
+            System.Drawing.Pen green = new System.Drawing.Pen(Color.Green, 2);
             System.Drawing.Pen red = new System.Drawing.Pen(Color.Red, 2);
             System.Drawing.SolidBrush fillBlack = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
             System.Drawing.SolidBrush fillBlue = new System.Drawing.SolidBrush(System.Drawing.Color.LightSkyBlue);
@@ -673,7 +738,7 @@ namespace Battleships
                 for (int x = 0; x < boardSize; x++)
                 {
                     pe.Graphics.DrawRectangle(black, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), cellWidth, cellWidth);
-                    if (turn == 1 && hidePlayerBoards == false)
+                    if (turn == 1)
                     {
                         if (p2.isHit(x, y) == true && p2.isShip(x, y) == true)
                         {
@@ -684,8 +749,14 @@ namespace Battleships
                             pe.Graphics.DrawLine(black, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), rightBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y) + cellWidth);
                             pe.Graphics.DrawLine(black, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y) + cellWidth, rightBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y));
                         }
+
+                        if (markerPlaced)
+                        {
+                            pe.Graphics.DrawLine(green, rightBoardStartX + (cellWidth * markerPosX), boardOffset + (cellWidth * markerPosY), rightBoardStartX + (cellWidth * markerPosX) + cellWidth, boardOffset + (cellWidth * markerPosY) + cellWidth);
+                            pe.Graphics.DrawLine(green, rightBoardStartX + (cellWidth * markerPosX), boardOffset + (cellWidth * markerPosY) + cellWidth, rightBoardStartX + (cellWidth * markerPosX) + cellWidth, boardOffset + (cellWidth * markerPosY));
+                        }
                     }
-                    else if (turn == 2 && hidePlayerBoards == false)
+                    else if (turn == 2)
                     {
                         if (p1.isHit(x, y) == true && p1.isShip(x, y) == true)
                         {
@@ -696,6 +767,12 @@ namespace Battleships
                             pe.Graphics.DrawLine(black, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y), rightBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y) + cellWidth);
                             pe.Graphics.DrawLine(black, rightBoardStartX + (cellWidth * x), boardOffset + (cellWidth * y) + cellWidth, rightBoardStartX + (cellWidth * x) + cellWidth, boardOffset + (cellWidth * y));
                         }
+        
+                        if (markerPlaced)
+                        {
+                            pe.Graphics.DrawLine(green, rightBoardStartX + (cellWidth * markerPosX), boardOffset + (cellWidth * markerPosY), rightBoardStartX + (cellWidth * markerPosX) + cellWidth, boardOffset + (cellWidth * markerPosY) + cellWidth);
+                            pe.Graphics.DrawLine(green, rightBoardStartX + (cellWidth * markerPosX), boardOffset + (cellWidth * markerPosY) + cellWidth, rightBoardStartX + (cellWidth * markerPosX) + cellWidth, boardOffset + (cellWidth * markerPosY));
+                        }
                     }
                 }
             }
@@ -705,7 +782,7 @@ namespace Battleships
         {
             System.Drawing.Pen green = new System.Drawing.Pen(Color.LightGreen, 3);
 
-            if (phase == 2)
+            if (phase == 2 && hidePlayerBoards == false)
             {
                 if (posX > listWindowWidth + boardWindowWidth && posX < listWindowWidth + boardWindowWidth * 2 && posY > 0 && posY < boardWindowHeight)
                 {

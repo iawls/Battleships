@@ -21,7 +21,16 @@ namespace Battleships
 
             if (File.Exists(path))
             {
-                savedGame = true;
+                //Do not load previous game unless it has progressed beyond phase 1.
+                if (getPhase() != 1)
+                {
+                    savedGame = true;
+                }
+                else
+                {
+                    savedGame = false;
+                }
+                    
             }
             else
             {
@@ -67,7 +76,8 @@ namespace Battleships
                                new XElement("Ships"),
                                new XElement("Hits")
                            )
-                       )
+                       ),
+                       new XElement("AI-Board")
                    )
                );
 
@@ -133,9 +143,9 @@ namespace Battleships
 
             //Find the ship with startX and startY on players board. 
             var tmp = (from ship in db.Root.Elements("Player").Elements(player).Elements("Ships").Elements("Ship")
-                      where ship.Element("startPos").Element("X").Value == startX.ToString()
-                         && ship.Element("startPos").Element("Y").Value == startY.ToString()
-                      select ship).FirstOrDefault(); //select it
+                       where ship.Element("startPos").Element("X").Value == startX.ToString()
+                          && ship.Element("startPos").Element("Y").Value == startY.ToString()
+                       select ship).FirstOrDefault(); //select it
 
             Console.WriteLine(player + "´s ship is hit: startX " + startX + ", startY " + startY + ". The ship now has " + hits + " hits");
             //set its "hits" element to hits
@@ -145,7 +155,7 @@ namespace Battleships
                 Console.WriteLine("Error: Can't alter ship!");
 
             //save that mofo
-           db.Save(path);
+            db.Save(path);
 
         }
 
@@ -157,6 +167,33 @@ namespace Battleships
                         new XElement("X", posX),
                         new XElement("Y", posY)));
             database.Save(path);
+        }
+
+        public void updateKnownNodes(int posX, int posY, int value)
+        {
+            XDocument db = XDocument.Load(path);
+
+            var tmp = (from node in db.Root.Element("AI-Board").Elements("Node")
+                      where node.Element("X").Value == posX.ToString() &&
+                            node.Element("Y").Value == posY.ToString()
+                      select node).FirstOrDefault();
+
+            if (tmp == null)
+            {
+                db.Element("root").Element("AI-Board").Add(
+                     new XElement("Node",
+                         new XElement("X", posX),
+                         new XElement("Y", posY),
+                         new XElement("Value", value)
+                     )
+                );
+                db.Save(path);
+            }
+            else
+            {
+                tmp.SetElementValue("Value", value);
+                db.Save(path);
+            }
         }
 
         public int getPhase()

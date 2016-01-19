@@ -11,15 +11,15 @@ namespace Battleships
 {
     public class GameEngine
     {
-        int turn= 1;
-        int action = 0;
-        int phase = 1;
-        int win = 0;
-        Storage xmlStorage;
+        private int turn = 1;
+        private int action = 0;
+        private int phase = 1;
+        private int win = 0;
+        private Storage xmlStorage;
 
-        public Rules rulebook = new Rules();
+        private  Rules rulebook = new Rules();
 
-        Board p1, p2;
+        private Board p1, p2;
 
         public GameEngine(Board p1, Board p2, Storage xmlStorage)
         {
@@ -40,6 +40,11 @@ namespace Battleships
         public void setTurn(int turn)
         {
             this.turn = turn;
+        }
+
+        public void setPhase(int phase)
+        {
+            this.phase = phase;
         }
 
         public int getAction()
@@ -438,6 +443,8 @@ namespace Battleships
                     Board p1 = new Board("Player1", xmlStorage); 
                     Board p2 = new Board("Player2", xmlStorage); 
                     GE = new GameEngine(p1, p2, xmlStorage);
+                    GE.setTurn(xmlStorage.getTurn());
+                    GE.setPhase(xmlStorage.getPhase());
                     GameScreen gameScreen = new GameScreen(GE, p1, p2);
                     gameScreen.ShowDialog();
 
@@ -466,14 +473,6 @@ namespace Battleships
             this.player = player;
             this.xmlStorage = xmlStorage;
             init();
-        }
-        //Construct a board with a boardsize of size x size
-        public Board(int size, bool human)
-        {
-            this.boardSize = size;
-            this.isHuman = human;
-            init();
-
         }
 
         //Load stored game
@@ -551,6 +550,9 @@ namespace Battleships
 
                 this.GameBoard[hitY][hitX].setHit();
             }
+
+            ai.loadKnownBoard();
+
             Console.WriteLine("Initiating complete");
         
                            
@@ -997,9 +999,30 @@ namespace Battleships
                                      * */
         List<Tuple<int, int>> targetList = new List<Tuple<int, int>>();
 
+        Storage xmlStorage = new Storage();
+
         public AI()
         {
             initKnownBoard();
+        }
+
+
+        public void loadKnownBoard(){
+
+            XDocument db = XDocument.Load(xmlStorage.getPath());
+
+            var tmp = from node in db.Root.Element("AI-Board").Elements("Node") select node;
+
+            int x, y, value;
+            
+            foreach(XElement node in tmp){
+                x = Int32.Parse(node.Element("X").Value);
+                y = Int32.Parse(node.Element("Y").Value);
+                value = Int32.Parse(node.Element("Value").Value);
+               
+                knownBoard[y][x] = value;
+            }
+            printBoard();
         }
 
         public void playTurn(Board targetBoard){
@@ -1155,6 +1178,7 @@ namespace Battleships
 
         void updateKnownBoard(int x, int y, int newValue)
         {
+
             //If hit, update the node to show hit ship, and update surrounding nodes to "next to ship"
             if (x < 10 && x >= 0 && y < 10 && y >= 0 && newValue <= 5 && newValue >= 0)
             {
@@ -1164,6 +1188,7 @@ namespace Battleships
                         this.knownBoard[y][x] = newValue;
                         Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
                         printBoard();
+                        xmlStorage.updateKnownNodes(x, y, newValue);
                         break;
                     case 2:
                         if (newValue == 4)
@@ -1171,6 +1196,7 @@ namespace Battleships
                             this.knownBoard[y][x] = newValue;
                             Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
                             printBoard();
+                            xmlStorage.updateKnownNodes(x, y, newValue);
                         }
                         break; 
                     case 3:
@@ -1179,6 +1205,7 @@ namespace Battleships
                             this.knownBoard[y][x] = newValue;
                             Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
                             printBoard();
+                            xmlStorage.updateKnownNodes(x, y, newValue);
                         }
                         break;
                     case 5:
@@ -1186,7 +1213,7 @@ namespace Battleships
                         {
                             this.knownBoard[y][x] = newValue;
                             Console.WriteLine("[AI.updateKnownBoard] Updating x: " + x + ", y: " + y + " to " + newValue);
-
+                            xmlStorage.updateKnownNodes(x, y, newValue);
                         }
                         break;
                     default:
