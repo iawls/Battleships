@@ -378,13 +378,14 @@ namespace Battleships
 
         public void loadGame()
         {
+            isLoading = true;
             System.Threading.Thread.Sleep(100);
             initFromSave();
+            isLoading = false;
         }
 
         void initFromSave()
         {
-            isLoading = true;
             Console.WriteLine("Initiating from saved file");
 
             this.shipList.Clear();
@@ -452,7 +453,6 @@ namespace Battleships
             ai.loadKnownBoard();
 
             Console.WriteLine("Initiating complete");
-            isLoading = false;
 
         }
 
