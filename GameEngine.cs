@@ -557,7 +557,17 @@ namespace Battleships
         }
         public bool isHit(int x, int y)
         {
-            return GameBoard.ElementAt(y).ElementAt(x).getHit();
+
+            try
+            {
+                return GameBoard.ElementAt(y).ElementAt(x).getHit();
+            }
+            catch (ArgumentOutOfRangeException outOfRange)
+            {
+
+                Console.WriteLine("Error: {0}", outOfRange.Message);
+            }
+            return false;
 
         }
         public int getSize()

@@ -545,7 +545,15 @@ namespace Battleships
                                     pe.Graphics.DrawString(copies + "x", textFont, fillBlack, textRect, stringFormat);
                                 }
 
-                                shipSize = shipListTwo.ElementAt(i).getSize();
+                                try
+                                {
+                                    shipSize = shipListTwo.ElementAt(i).getSize();
+                                }
+                                catch (ArgumentOutOfRangeException outOfRange)
+                                {
+
+                                    Console.WriteLine("Error: {0}", outOfRange.Message);
+                                }
 
                             }
                             shipModels = row + 1;
@@ -614,7 +622,16 @@ namespace Battleships
                                     pe.Graphics.DrawString(copies + "x", textFont, fillBlack, textRect, stringFormat);
                                 }
 
-                                shipSize = shipListOne.ElementAt(i).getSize();
+                                try
+                                {
+                                    shipSize = shipListTwo.ElementAt(i).getSize();
+                                }
+                                catch (ArgumentOutOfRangeException outOfRange)
+                                {
+
+                                    Console.WriteLine("Error: {0}", outOfRange.Message);
+                                }
+
                             }
                             shipModels = row + 1;
                         }
