@@ -35,19 +35,6 @@ namespace Battleships
             {
                 savedGame = false;
             }
-            //Testing to see if I can select ships by position
-            /*
-            IEnumerable<string> test = from huehue in XDocument.Load(path)
-                                                               .Descendants("Ship")
-                                       where (int)huehue.Element("startPos").Element("X") == 8
-                                       select huehue.Element("endPos").Element("Y").Value;
-
-            //Will print the ships endY value that matches the "where"-statement above
-            foreach (string s in test)
-            {
-                Console.WriteLine(s);
-            }
-            */
         }
 
         public string getPath()

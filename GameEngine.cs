@@ -23,7 +23,9 @@ namespace Battleships
 
         private Board p1, p2;
 
-        public FileSystemWatcher watcher;
+        public static FileSystemWatcher watcher;
+
+        DateTime lastReadTime = DateTime.MinValue;
 
         public GameEngine(Board p1, Board p2, Storage xmlStorage)
         {
@@ -35,8 +37,8 @@ namespace Battleships
             watcher.Path = xmlStorage.getDirectory();
             watcher.NotifyFilter = NotifyFilters.LastWrite;
             watcher.Filter = "*.xml";
-            watcher.Changed += (s, e) => tmp(p1, p2);
             watcher.EnableRaisingEvents = false;
+            watcher.Changed += (s, e) => OnChanged(p1, p2);
             
         }
         public int getTurn()
@@ -331,11 +333,24 @@ namespace Battleships
             }
         }
 
-        private static void tmp(Board p1, Board p2)
+        private void OnChanged(Board p1, Board p2)
         {
-            Console.WriteLine("###############################");
-            p1.loadGame();
-            p2.loadGame();
+            watcher.EnableRaisingEvents = false;
+            DateTime lastWriteTime = File.GetLastWriteTime(xmlStorage.getPath());
+
+            lastWriteTime = lastWriteTime.AddMilliseconds(-lastWriteTime.Millisecond);
+            lastReadTime = lastReadTime.AddMilliseconds(-lastReadTime.Millisecond);
+
+            if (lastWriteTime != lastReadTime)
+            {
+                Console.WriteLine("Watcher detected change in file, loading it now");
+                p1.loadGame();
+                p2.loadGame();
+
+                lastReadTime = lastWriteTime;
+            }
+
+            watcher.EnableRaisingEvents = true;
 
         }
 
@@ -411,6 +426,15 @@ namespace Battleships
                                                .Elements("Ship")
                            select ship;
 
+            var hitList = from node in db.Root.Element("Player")
+                                  .Element(this.player)
+                                  .Element("Hits")
+                                  .Elements("Node")
+                          select node;
+
+            ai.loadKnownBoard();
+
+            //xmlStorage.clearData();
             int startX, startY, endX, endY, size, hits;
 
             foreach (XElement ship in shipList)
@@ -434,12 +458,6 @@ namespace Battleships
                 this.shipList.Add(s);
             }
 
-            var hitList = from node in db.Root.Element("Player")
-                                              .Element(this.player)
-                                              .Element("Hits")
-                                              .Elements("Node")
-                          select node;
-
             int hitX, hitY;
 
             foreach (XElement hit in hitList)
@@ -450,7 +468,6 @@ namespace Battleships
                 this.GameBoard[hitY][hitX].setHit();
             }
 
-            ai.loadKnownBoard();
 
             Console.WriteLine("Initiating complete");
 
@@ -516,7 +533,8 @@ namespace Battleships
                         s.setStartEnd(start, end);
                     }
                 }
-                xmlStorage.addShip(player, start.Item1, start.Item2, end.Item1, end.Item2, s.getSize());
+                if(!this.isLoading)
+                    xmlStorage.addShip(player, start.Item1, start.Item2, end.Item1, end.Item2, s.getSize());
                 printBoard();
                 return true;
             }
