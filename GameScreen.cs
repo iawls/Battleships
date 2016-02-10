@@ -209,6 +209,7 @@ namespace Battleships
             else if (posY > boardWindowHeight)
             {
                 int buttonSize = (int)((this.Height - boardWindowHeight) * 0.5);
+                //Button click
                 if (posX > this.Width - buttonSize - buttonSize / 2 && posY > boardWindowHeight + buttonSize / 2)
                 {
                     if (hidePlayerBoards == false)
@@ -268,13 +269,35 @@ namespace Battleships
                         {
                             System.Windows.Forms.MessageBox.Show("You need to mark where you want to shoot!");
                         }
-                        else
+                        else if (phase == 1)
                         {
-                            ge.nextTurn();
-                            if (turn != ge.getTurn())
-                                hidePlayerBoards = true;
+                            if (turn == 1 && !p1.shipToBePlaced() || turn == 2 && !p2.shipToBePlaced())
+                            {
+                                ge.nextTurn();
+                                if (turn != ge.getTurn())
+                                    hidePlayerBoards = true;
+                                else
+                                    phase = ge.getPhase();
+                            }
                             else
-                                phase = ge.getPhase();
+                            {
+                                System.Windows.Forms.MessageBox.Show("All ships needs to be placed on the battlefield!");
+                            }
+
+                            /*
+                            if (turn == 2 && !p2.shipToBePlaced())
+                            {
+                                ge.nextTurn();
+                                if (turn != ge.getTurn())
+                                    hidePlayerBoards = true;
+                                else
+                                    phase = ge.getPhase();
+                            }
+                            else
+                            {
+                                System.Windows.Forms.MessageBox.Show("All ships need to be placed on the battlefield!");
+                            }
+                            */
                         }
                     }
                     else

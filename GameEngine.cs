@@ -630,6 +630,20 @@ namespace Battleships
             }
         }
 
+        //Check if there are any ships that are not placed yet
+        public bool shipToBePlaced()
+        {
+            foreach (Ship s in shipList ?? Enumerable.Empty<Ship>())
+            {
+
+                if (!s.getPlaced())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
 
     }
