@@ -142,19 +142,20 @@ namespace Battleships
 
         public void nextTurn()
         {
-            watcher.EnableRaisingEvents = false;
+            watcher.EnableRaisingEvents = false; //turn off the watcher to avoid infinite loading loops
 
-            if (phase == 1)
+            if (phase == 1) //the place ship phase
             {
-                if (turn == 1)
+                if (turn == 1) //player 1
                 {
-                    turn = 2;
-                    xmlStorage.setTurn(turn);
-                    if (!p2.getIsHuman())
+                    turn = 2; //set to player 2
+                    xmlStorage.setTurn(turn); 
+                    if (!p2.getIsHuman()) //Player 2 is AI
                     {
 
                         List<Ship> newShipList = new List<Ship>(p2.getShipList());
 
+                        //Place all the AIs ships
                         for (int i = 0; i < newShipList.Count; ++i)
                         {
                             if (!actionPlaceShip(p2, newShipList.ElementAt(i)))
@@ -176,7 +177,7 @@ namespace Battleships
                     xmlStorage.setPhase(phase);
                 }
             }
-            else if (phase == 2)
+            else if (phase == 2) //battle phase
             {
 
                 if (turn == 1)
@@ -185,7 +186,7 @@ namespace Battleships
                     xmlStorage.setTurn(turn);
                     if (!p2.getIsHuman())
                     {
-                        p2.ai.playTurn(p1);
+                        p2.ai.playTurn(p1); //make ai play its turn
                         turn = 1;
                         xmlStorage.setTurn(turn);
                     }
@@ -402,10 +403,11 @@ namespace Battleships
                                       .Elements("Node")
                               select node;
 
-                ai.loadKnownBoard();
+                ai.loadKnownBoard(); //load the internal AI board
 
                 int startX, startY, endX, endY, size, hits;
 
+                //Place all the loaded ships onto the board, and set hits on hit ships
                 foreach (XElement ship in shipList)
                 {
 
@@ -429,6 +431,8 @@ namespace Battleships
 
                 int hitX, hitY;
 
+
+                //Place hit markers
                 foreach (XElement hit in hitList)
                 {
                     hitX = Int32.Parse(hit.Element("X").Value);
@@ -494,7 +498,7 @@ namespace Battleships
         {
             if (rulebook.validPlacement(start, end, this))
             {
-
+                //Mark the nodes affected as ships o the board
                 for (int y = start.Item1; y <= end.Item1; y++)
                 {
                     for (int x = start.Item2; x <= end.Item2; x++)
@@ -533,7 +537,7 @@ namespace Battleships
                     int posX = this.GameBoard[y][x].getShip().getStart().Item1;
                     int posY = this.GameBoard[y][x].getShip().getStart().Item2;
                     int hits = this.GameBoard[y][x].getShip().getHits();
-                    xmlStorage.alterShip(player, posX, posY, hits);
+                    xmlStorage.alterShip(player, posX, posY, hits); //update the affected ship in the storage
                 }
 
                 Console.WriteLine(x + ", " + y + " is hit");
@@ -605,7 +609,6 @@ namespace Battleships
 
         }
 
-        //c# doesn't seem to support passing by reference, so it's passed by value. 
         public List<Ship> getShipList()
         {
             return this.shipList;
@@ -630,10 +633,26 @@ namespace Battleships
             }
         }
 
+        //Check if there are any ships that are not placed yet
+        public bool shipToBePlaced()
+        {
+            foreach (Ship s in shipList ?? Enumerable.Empty<Ship>())
+            {
+
+                if (!s.getPlaced())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
 
     }
 
+
+    //A node is a tile on the board, used to make it easier to link together ships, hits, misses etc on the board. 
     public class Node
     {
         bool hit;
@@ -1227,7 +1246,7 @@ namespace Battleships
             Random random = new Random();
             do
             {
-                if (searchForTarget(3))
+                if (searchForTarget(3)) //search for a  "3" in the known board, since they're a prio
                 {
                     int randomNumber = random.Next(0, targetList.Count - 1);
                     Tuple<int, int> target = new Tuple<int, int>(targetList.ElementAt(randomNumber).Item1, targetList.ElementAt(randomNumber).Item2);
@@ -1236,7 +1255,7 @@ namespace Battleships
                 }
                 else
                 {
-                    if (searchForTarget(0))
+                    if (searchForTarget(0)) //take a random tile not yet fired upon
                     {
                         int randomNumber = random.Next(0, targetList.Count - 1);
                         Tuple<int, int> target = new Tuple<int, int>(targetList.ElementAt(randomNumber).Item1, targetList.ElementAt(randomNumber).Item2);
@@ -1263,7 +1282,7 @@ namespace Battleships
 
         }
 
-        bool searchForTarget(int value)
+        bool searchForTarget(int value) //search for value in the known board by looping through it
         {
             bool foundTargets = false;
 

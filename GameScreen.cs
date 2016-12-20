@@ -23,7 +23,7 @@ namespace Battleships
         private bool cursorVisible = true;
         private int turn;
         private int phase;
-        private bool hidePlayerBoards = false;
+        private bool hidePlayerBoards = false; //needed when human vs human
         private int shipSelected = -1; //no ship selected
         private int shipRotation = 0; //Horizontal = 0, Vertical = 1
         private int[] shipSizes = new int[10];
@@ -56,11 +56,11 @@ namespace Battleships
 
         private int get_ship_size_from_click(int shipWidth)
         {
-            if (posY > boardOffset && posY < (boardOffset + shipWidth))
+            if (posY > boardOffset && posY < (boardOffset + shipWidth)) //check if click is on first ship type
             {
                 return shipSizes[0];
             }
-            else if (posY > (boardOffset + shipWidth * 2) && posY < (boardOffset + shipWidth * 3))
+            else if (posY > (boardOffset + shipWidth * 2) && posY < (boardOffset + shipWidth * 3)) //check if click is on second ship type
             {
                 return shipSizes[1];
             }
@@ -91,7 +91,7 @@ namespace Battleships
         private void left_click()
         {
             int shipListOffset = listWindowWidth / 10;
-            int shipWidth = (listWindowWidth - shipListOffset * 2) / 6;
+            int shipWidth = (listWindowWidth - shipListOffset * 2) / 6; //tile width on ship
             /*
             * ship list click
             * left board click
@@ -142,13 +142,16 @@ namespace Battleships
                     else
                         shipSize = shipListTwo.ElementAt(shipSelected).getSize();
 
+                    //calculate startPos for ship corresponding to mouse pos.
                     int boardCol = (posX - (listWindowWidth + boardOffset)) / cellWidth;
                     int boardRow = (posY - boardOffset) / cellWidth;
 
+                    //if necessary calculate startPos to place ship inside the board
                     if (boardCol + shipSize > boardSize && shipRotation == 0)
                         boardCol = boardCol + boardSize - (boardCol + shipSize);
                     else if (boardRow + shipSize > boardSize && shipRotation == 1)
                         boardRow = boardRow + boardSize - (boardRow + shipSize);
+
 
                     Tuple<int, int> startPos = new Tuple<int, int>(boardCol, boardRow);
                     Tuple<int, int> endPos;
@@ -161,13 +164,13 @@ namespace Battleships
                     {
                         if (p1.placeShip(startPos, endPos, shipListOne.ElementAt(shipSelected)))
                         {
-                            if (shipSelected < shipListOne.Count - 1)
+                            if (shipSelected < shipListOne.Count - 1) //check if we should select another ship
                                 if (shipListOne.ElementAt(shipSelected).getSize() == shipListOne.ElementAt(shipSelected + 1).getSize())
-                                    shipSelected++;
+                                    shipSelected++; //Select new ship
                                 else
                                     shipSelected = -1;
                             else
-                                shipSelected = -1;
+                                shipSelected = -1; //no ship selected
                         }
                     }
                     else
@@ -209,6 +212,7 @@ namespace Battleships
             else if (posY > boardWindowHeight)
             {
                 int buttonSize = (int)((this.Height - boardWindowHeight) * 0.5);
+                //Turn button click
                 if (posX > this.Width - buttonSize - buttonSize / 2 && posY > boardWindowHeight + buttonSize / 2)
                 {
                     if (hidePlayerBoards == false)
@@ -218,7 +222,7 @@ namespace Battleships
                             markerPlaced = false;
                             if (turn == 1)
                             {
-                                if (p2.fire(markerPosX, markerPosY))
+                                if (p2.fire(markerPosX, markerPosY)) //check if fire is possible
                                 {
                                     ge.nextTurn();
                                     if (ge.getWin() != 0)
@@ -268,13 +272,35 @@ namespace Battleships
                         {
                             System.Windows.Forms.MessageBox.Show("You need to mark where you want to shoot!");
                         }
-                        else
+                        else if (phase == 1)
                         {
-                            ge.nextTurn();
-                            if (turn != ge.getTurn())
-                                hidePlayerBoards = true;
+                            if (turn == 1 && !p1.shipToBePlaced() || turn == 2 && !p2.shipToBePlaced())
+                            {
+                                ge.nextTurn();
+                                if (turn != ge.getTurn())
+                                    hidePlayerBoards = true;
+                                else
+                                    phase = ge.getPhase();
+                            }
                             else
-                                phase = ge.getPhase();
+                            {
+                                System.Windows.Forms.MessageBox.Show("All ships needs to be placed on the battlefield!");
+                            }
+
+                            /*
+                            if (turn == 2 && !p2.shipToBePlaced())
+                            {
+                                ge.nextTurn();
+                                if (turn != ge.getTurn())
+                                    hidePlayerBoards = true;
+                                else
+                                    phase = ge.getPhase();
+                            }
+                            else
+                            {
+                                System.Windows.Forms.MessageBox.Show("All ships need to be placed on the battlefield!");
+                            }
+                            */
                         }
                     }
                     else
@@ -313,7 +339,7 @@ namespace Battleships
                 int row = 0;
                 int copies = 0;
                 int shipListOffset = listWindowWidth / 10;
-                int shipWidth = (listWindowWidth - shipListOffset * 2) / 6;
+                int shipWidth = (listWindowWidth - shipListOffset * 2) / 6; //tile width on ship
                 bool last = true;
 
 
