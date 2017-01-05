@@ -1,0 +1,11 @@
+\\obelix.helix.ida.liu.se\users-7\rasfa749\Desktop\Battleships-final\bin\Debug\Battleships.exe.config
+\\obelix.helix.ida.liu.se\users-7\rasfa749\Desktop\Battleships-final\bin\Debug\Battleships.exe
+\\obelix.helix.ida.liu.se\users-7\rasfa749\Desktop\Battleships-final\bin\Debug\Battleships.pdb
+\\obelix.helix.ida.liu.se\users-7\rasfa749\Desktop\Battleships-final\obj\Debug\Battleships.csprojResolveAssemblyReference.cache
+\\obelix.helix.ida.liu.se\users-7\rasfa749\Desktop\Battleships-final\obj\Debug\Battleships.GameScreen.resources
+\\obelix.helix.ida.liu.se\users-7\rasfa749\Desktop\Battleships-final\obj\Debug\Battleships.Menu.resources
+\\obelix.helix.ida.liu.se\users-7\rasfa749\Desktop\Battleships-final\obj\Debug\Battleships.Properties.Resources.resources
+\\obelix.helix.ida.liu.se\users-7\rasfa749\Desktop\Battleships-final\obj\Debug\Battleships.SplashScreen.resources
+\\obelix.helix.ida.liu.se\users-7\rasfa749\Desktop\Battleships-final\obj\Debug\Battleships.csproj.GenerateResource.Cache
+\\obelix.helix.ida.liu.se\users-7\rasfa749\Desktop\Battleships-final\obj\Debug\Battleships.exe
+\\obelix.helix.ida.liu.se\users-7\rasfa749\Desktop\Battleships-final\obj\Debug\Battleships.pdb
